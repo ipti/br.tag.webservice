@@ -1,13 +1,13 @@
 # API TAG
 
-> Essa API é para retorno de informações que estão cadastrados no [TAG](https://github.com/ipti/tag), que são:
+Essa API é para retorno de informações que estão cadastrados no [TAG](https://github.com/ipti/tag), que são:
 
   - Estudantes
   - Escolas
   - Turmas 
   - Professores
 
-> Essa API é composta por 8 métodos:
+Essa API é composta por 8 métodos:
 
 - getStudents();
 - getStudents(inep_id);
