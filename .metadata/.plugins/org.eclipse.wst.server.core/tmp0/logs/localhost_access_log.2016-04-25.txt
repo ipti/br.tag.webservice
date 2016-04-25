@@ -1,0 +1,2 @@
+127.0.0.1 - - [25/Apr/2016:10:46:15 -0300] "GET / HTTP/1.1" 404 951
+0:0:0:0:0:0:0:1 - - [25/Apr/2016:10:47:15 -0300] "GET /Restful-API-TAG/api/TagService/getSchools HTTP/1.1" 200 49337

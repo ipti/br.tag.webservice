@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Restful-API-TAG">
+        <property name="context-root" value="Restful-API-TAG"/>
+        <property name="java-output-path" value="/Restful-API-TAG/build/classes"/>
+    </wb-module>
+</project-modules>
