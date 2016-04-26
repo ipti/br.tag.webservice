@@ -1,0 +1,12 @@
+127.0.0.1 - - [26/Apr/2016:09:35:52 -0300] "GET / HTTP/1.1" 404 951
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:35:56 -0300] "GET /Restful-API-TAG/ HTTP/1.1" 404 983
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:35:57 -0300] "GET /favicon.ico HTTP/1.1" 404 973
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:36:04 -0300] "GET /Restful-API-TAG/api/TagService/getSchools HTTP/1.1" 200 49337
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:36:15 -0300] "GET /Restful-API-TAG/api/TagService/getSchools/28022041 HTTP/1.1" 200 1923
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:36:29 -0300] "GET /Restful-API-TAG/api/TagService/getSchools HTTP/1.1" 200 49337
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:37:08 -0300] "GET /Restful-API-TAG/api/TagService/getStudents HTTP/1.1" 200 8702229
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:41:10 -0300] "GET /Restful-API-TAG/api/TagService/getStudents/121612083900 HTTP/1.1" 200 1957
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:41:36 -0300] "GET /Restful-API-TAG/api/TagService/getClassrooms HTTP/1.1" 200 807633
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:41:39 -0300] "GET /Restful-API-TAG/api/TagService/getClassrooms/2723230 HTTP/1.1" 200 3065
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:41:56 -0300] "GET /Restful-API-TAG/api/TagService/getInstructors HTTP/1.1" 200 199604
+0:0:0:0:0:0:0:1 - - [26/Apr/2016:09:42:00 -0300] "GET /Restful-API-TAG/api/TagService/getInstructors/115037034603 HTTP/1.1" 200 983
