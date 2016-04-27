@@ -1,0 +1,15 @@
+@CHARSET "ISO-8859-1";
+
+#mainDiv {
+    /* Just to center the form on the page */
+    margin: 0 auto;
+    width: 500px;
+    /* To see the outline of the form */
+    padding: 1em;
+    border: 1px solid #CCC;
+    border-radius: 1em;
+}
+
+h3 {
+	margin: -5px;
+}

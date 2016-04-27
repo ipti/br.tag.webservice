@@ -1,0 +1,29 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" href="styles.css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>API TAG</title>
+</head>
+<body>
+
+	<div id="mainDiv">
+		<h3>Escolha uma das opções abaixo:</h3>
+
+		<div id="btnStudents">
+			<input type="submit" id="students" value="Estudantes" action="students.jsp"/>
+		</div>
+		<div id="btnSchools">
+			<input type="submit" id="schools" value="Escolas" />
+		</div>
+		<div id="btnInstructors">
+			<input type="submit" id="instructors" value="Professores" />
+		</div>
+		<div id="btnClassrooms">
+			<input type="submit" id="classrooms" value="Turmas" />
+		</div>
+	</div>
+</body>
+</html>

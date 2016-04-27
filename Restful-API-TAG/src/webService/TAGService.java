@@ -2,7 +2,9 @@ package webService;
 
 import java.util.ArrayList;
 
+import javax.annotation.ManagedBean;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -11,14 +13,13 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 
-import com.google.gson.Gson;
-
 import dto.Classroom;
 import dto.Instructor;
 import dto.School;
 import dto.Student;
 import model.TAGManager;
 
+@ManagedBean
 @Path("/TagService")
 public class TAGService {
 
@@ -47,7 +48,7 @@ public class TAGService {
 		return objectMapper.writeValueAsString(arrayStudent);
 	}
 
-	@GET
+	@POST
 	@Path("/getInstructors")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	public String getInstructors() throws Exception {
@@ -65,7 +66,7 @@ public class TAGService {
 		return objectMapper.writeValueAsString(arrayInstructor);
 	}
 
-	@GET
+	@POST
 	@Path("/getClassrooms")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	public String getClassrooms() throws Exception {
@@ -83,7 +84,7 @@ public class TAGService {
 		return objectMapper.writeValueAsString(arrayClassroom);
 	}
 
-	@GET
+	@POST
 	@Path("/getSchools")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	public String getSchools() throws Exception {
