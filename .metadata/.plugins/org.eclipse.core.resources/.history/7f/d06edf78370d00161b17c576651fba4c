@@ -47,7 +47,7 @@ public class TAGService {
 		return objectMapper.writeValueAsString(arrayStudent);
 	}
 
-	@GET
+	@POST
 	@Path("/getInstructors")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	public String getInstructors() throws Exception {
@@ -65,7 +65,7 @@ public class TAGService {
 		return objectMapper.writeValueAsString(arrayInstructor);
 	}
 
-	@GET
+	@POST
 	@Path("/getClassrooms")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	public String getClassrooms() throws Exception {
@@ -83,7 +83,7 @@ public class TAGService {
 		return objectMapper.writeValueAsString(arrayClassroom);
 	}
 
-	@GET
+	@POST
 	@Path("/getSchools")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	public String getSchools() throws Exception {

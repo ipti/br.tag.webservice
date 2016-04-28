@@ -462,3 +462,7 @@
 0:0:0:0:0:0:0:1 - - [27/Apr/2016:11:28:15 -0300] "GET /Restful-API-TAG/ HTTP/1.1" 200 953
 0:0:0:0:0:0:0:1 - - [27/Apr/2016:11:28:15 -0300] "GET /Restful-API-TAG/css/bootstrap.min.css HTTP/1.1" 304 -
 0:0:0:0:0:0:0:1 - - [27/Apr/2016:11:28:15 -0300] "GET /Restful-API-TAG/css/styles.css HTTP/1.1" 200 706
+192.168.25.197 - - [27/Apr/2016:11:34:18 -0300] "GET /favicon.ico HTTP/1.1" 404 973
+192.168.25.197 - - [27/Apr/2016:11:35:47 -0300] "GET /Restful-API-TAG/students.jsp HTTP/1.1" 200 1107
+192.168.25.197 - - [27/Apr/2016:11:35:47 -0300] "GET /Restful-API-TAG/css/styles.css HTTP/1.1" 200 706
+192.168.25.197 - - [27/Apr/2016:11:35:58 -0300] "GET /Restful-API-TAG/api/TagService/getStudents HTTP/1.1" 200 8702229
