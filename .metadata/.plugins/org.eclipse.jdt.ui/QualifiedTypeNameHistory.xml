@@ -2,4 +2,8 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="javax.annotation.ManagedBean"/>
 <fullyQualifiedTypeName name="javax.ws.rs.POST"/>
+<fullyQualifiedTypeName name="org.codehaus.jackson.annotate.JsonMethod"/>
+<fullyQualifiedTypeName name="org.codehaus.jackson.annotate.JsonAutoDetect.Visibility"/>
+<fullyQualifiedTypeName name="org.codehaus.jackson.annotate.JsonAutoDetect"/>
+<fullyQualifiedTypeName name="org.codehaus.jackson.annotate.JsonProperty"/>
 </qualifiedTypeNameHistroy>

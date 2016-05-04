@@ -1,0 +1,111 @@
+package webService;
+
+import java.util.ArrayList;
+
+import javax.annotation.ManagedBean;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
+
+import dto.Classroom;
+import dto.Instructor;
+import dto.School;
+import dto.Student;
+import model.TAGManager;
+
+@Path("/TagService")
+public class TAGService {
+
+	ObjectMapper objectMapper = new ObjectMapper();
+	ArrayList<Student> arrayStudent = new ArrayList<>();
+	ArrayList<Instructor> arrayInstructor = new ArrayList<>();
+	ArrayList<Classroom> arrayClassroom = new ArrayList<>();
+	ArrayList<School> arraySchool = new ArrayList<>();
+	TAGManager tagManager = new TAGManager();
+
+	@GET
+	@Path("/getStudents")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	public String getStudents() throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayStudent = tagManager.getStudents();
+		return objectMapper.writeValueAsString(arrayStudent);
+	}
+
+	@GET
+	@Path("/getStudents/{inep_id}")
+	@Produces({MediaType.TEXT_PLAIN + "; charset=utf-8", MediaType.APPLICATION_JSON + "; charset=utf-8"})
+	public String getStudents(@PathParam("inep_id") String inep_id) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayStudent = tagManager.getStudents(inep_id);
+		
+		String error = "Não existe aluno com esse inep id"; 
+		
+		if (tagManager.getStudents(inep_id).contains(inep_id)) {
+			return "Não existe aluno com esse inep id";
+		} else {
+			return objectMapper.writeValueAsString(arrayStudent);
+		}
+		
+	}
+
+	@GET
+	@Path("/getInstructors")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	public String getInstructors() throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayInstructor = tagManager.getInstructors();
+		return objectMapper.writeValueAsString(arrayInstructor);
+	}
+
+	@GET
+	@Path("/getInstructors/{inep_id}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	public String getInstructors(@PathParam("inep_id") String inep_id) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayInstructor = tagManager.getInstructors(inep_id);
+		return objectMapper.writeValueAsString(arrayInstructor);
+	}
+
+	@GET
+	@Path("/getClassrooms")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	public String getClassrooms() throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayClassroom = tagManager.getClassrooms();
+		return objectMapper.writeValueAsString(arrayClassroom);
+	}
+
+	@GET
+	@Path("/getClassrooms/{inep_id}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	public String getClassrooms(@PathParam("inep_id") String inep_id) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayClassroom = tagManager.getClassrooms(inep_id);
+		return objectMapper.writeValueAsString(arrayClassroom);
+	}
+
+	@GET
+	@Path("/getSchools")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	public String getSchools() throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arraySchool = tagManager.getSchools();
+		return objectMapper.writeValueAsString(arraySchool);
+	}
+
+	@GET
+	@Path("/getSchools/{inep_id}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	public String getSchools(@PathParam("inep_id") String inep_id) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arraySchool = tagManager.getSchools(inep_id);
+		return objectMapper.writeValueAsString(arraySchool);
+	}
+}

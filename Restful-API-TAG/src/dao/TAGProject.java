@@ -678,9 +678,9 @@ public class TAGProject {
 				} else if (rs.getString("nationality").equals("3")) {
 					instructor.setNationality("Estrangeira");
 				}
-				instructor.setEdcenso_nation_fk(rs.getInt("edcenso_nation_fk"));
-				instructor.setEdcenso_uf_fk(rs.getInt("edcenso_uf_fk"));
-				instructor.setEdcenso_city_fk(rs.getInt("edcenso_city_fk"));
+				instructor.setEdcenso_nation_fk(rs.getString("edcenso_nation_fk"));
+				instructor.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
+				instructor.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
 				if (rs.getString("deficiency").equals("0")) {
 					instructor.setDeficiency("Não");
 				} else {
@@ -814,9 +814,9 @@ public class TAGProject {
 				} else if (rs.getString("nationality").equals("3")) {
 					instructor.setNationality("Estrangeira");
 				}
-				instructor.setEdcenso_nation_fk(rs.getInt("edcenso_nation_fk"));
-				instructor.setEdcenso_uf_fk(rs.getInt("edcenso_uf_fk"));
-				instructor.setEdcenso_city_fk(rs.getInt("edcenso_city_fk"));
+				instructor.setEdcenso_nation_fk(rs.getString("edcenso_nation_fk"));
+				instructor.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
+				instructor.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
 				if (rs.getString("deficiency").equals("0")) {
 					instructor.setDeficiency("Não");
 				} else {
@@ -1756,9 +1756,9 @@ public class TAGProject {
 				} else {
 					school.setAddress_neighborhood(rs.getString("address_neighborhood"));
 				}
-				school.setEdcenso_uf_fk(rs.getInt("edcenso_uf_fk"));
-				school.setEdcenso_city_fk(rs.getInt("edcenso_city_fk"));
-				school.setEdcenso_district_fk(rs.getInt("edcenso_district_fk"));
+				school.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
+				school.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
+				school.setEdcenso_district_fk(rs.getString("edcenso_district_fk"));
 				if (rs.getString("ddd") == null || rs.getString("ddd").equals("")) {
 					school.setDdd("Não foi informado");
 				} else {
@@ -2012,9 +2012,9 @@ public class TAGProject {
 				} else {
 					school.setAddress_neighborhood(rs.getString("address_neighborhood"));
 				}
-				school.setEdcenso_uf_fk(rs.getInt("edcenso_uf_fk"));
-				school.setEdcenso_city_fk(rs.getInt("edcenso_city_fk"));
-				school.setEdcenso_district_fk(rs.getInt("edcenso_district_fk"));
+				school.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
+				school.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
+				school.setEdcenso_district_fk(rs.getString("edcenso_district_fk"));
 				if (rs.getString("ddd") == null || rs.getString("ddd").equals("")) {
 					school.setDdd("Não foi informado");
 				} else {
