@@ -225,9 +225,9 @@ public class School {
 		this.logo_file_type = logo_file_type;
 	}
 
-	/*public void setLogo_file_content(String logo_file_content) {
+	public void setLogo_file_content(String logo_file_content) {
 		this.logo_file_content = logo_file_content;
-	}*/
+	}
 
 	public void setAct_of_acknowledgement(String act_of_acknowledgement) {
 		this.act_of_acknowledgement = act_of_acknowledgement;

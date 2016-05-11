@@ -1274,11 +1274,6 @@ public class TAGProject {
 				} else {
 					classroom.setFkid(rs.getString("fkid"));
 				}
-				if (rs.getString("calendar_fk") != null) {
-					classroom.setCalendar_fk(rs.getString("calendar_fk"));
-				} else {
-					classroom.setCalendar_fk("Não foi informado");
-				}
 				arrayClassroom.add(classroom);
 			}
 			return arrayClassroom;
@@ -1679,11 +1674,6 @@ public class TAGProject {
 				} else {
 					classroom.setFkid(rs.getString("fkid"));
 				}
-				if (rs.getString("calendar_fk") != null) {
-					classroom.setCalendar_fk(rs.getString("calendar_fk"));
-				} else {
-					classroom.setCalendar_fk("Não foi informado");
-				}
 				arrayClassroom.add(classroom);
 			}
 			return arrayClassroom;
@@ -1922,7 +1912,7 @@ public class TAGProject {
 					school.setIes_code("Não foi informado");
 				} else {
 					school.setIes_code(rs.getString("ies_code"));
-				}
+				}				
 				if (rs.getString("logo_file_name") == null) {
 					school.setLogo_file_name("Não foi informado");
 				} else {
@@ -1933,7 +1923,7 @@ public class TAGProject {
 				} else {
 					school.setLogo_file_type(rs.getString("logo_file_type"));
 				}
-				// school.setLogo_file_content(rs.getString("logo_file_content"));
+				//school.setLogo_file_content(rs.getString("logo_file_content"));
 				if (rs.getString("act_of_acknowledgement") == null
 						|| rs.getString("act_of_acknowledgement").equals("")) {
 					school.setAct_of_acknowledgement("Não foi informado");
@@ -2179,7 +2169,7 @@ public class TAGProject {
 					school.setIes_code("Não foi informado");
 				} else {
 					school.setIes_code(rs.getString("ies_code"));
-				}
+				}				
 				if (rs.getString("logo_file_name") == null) {
 					school.setLogo_file_name("Não foi informado");
 				} else {
@@ -2190,7 +2180,7 @@ public class TAGProject {
 				} else {
 					school.setLogo_file_type(rs.getString("logo_file_type"));
 				}
-				// school.setLogo_file_content(rs.getString("logo_file_content"));
+				//school.setLogo_file_content(rs.getString("logo_file_content"));
 				if (rs.getString("act_of_acknowledgement") == null
 						|| rs.getString("act_of_acknowledgement").equals("")) {
 					school.setAct_of_acknowledgement("Não foi informado");

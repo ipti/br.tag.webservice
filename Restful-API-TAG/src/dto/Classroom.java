@@ -70,6 +70,7 @@ public class Classroom {
 	private String turn;
 	private String create_date;
 	private String fkid;
+	private String calendar_fk;
 
 	public void setRegister_type(String register_type) {
 		this.register_type = register_type;
@@ -345,6 +346,8 @@ public class Classroom {
 	public void setFkid(String fkid) {
 		this.fkid = fkid;
 	}
-
 	
+	public void setCalendar_fk(String calendar_fk) {
+		this.calendar_fk = calendar_fk;
+	}	
 }
