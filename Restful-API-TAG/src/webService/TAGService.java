@@ -2,9 +2,7 @@ package webService;
 
 import java.util.ArrayList;
 
-import javax.annotation.ManagedBean;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -50,6 +48,17 @@ public class TAGService {
 	public String getStudents(@PathParam("inep_id") String inep_id) throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
 		arrayStudent = tagManager.getStudents(inep_id);
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayStudent);
+	}
+	
+	@GET
+	@Path("/getStudentsByName/{name}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getStudentsByName(@PathParam("name") String name) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayStudent = tagManager.getStudentsByName(name);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayStudent);
 	}

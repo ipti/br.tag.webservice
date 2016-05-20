@@ -47,6 +47,16 @@ public class TAGManager {
 		}
 		return arrayStudent;
 	}
+	
+	public ArrayList<Student> getStudentsByName(String name) throws Exception {
+		try {
+			connection = database.getConnection();
+			arrayStudent = tagProject.getStudentsByName(connection, name);
+		} catch (Exception e) {
+			throw e;
+		}
+		return arrayStudent;
+	}
 
 	public ArrayList<Instructor> getInstructors() throws Exception {
 		try {

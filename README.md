@@ -11,6 +11,7 @@ Essa API é composta por 8 métodos:
 
 - getStudents();
 - getStudents(inep_id);
+- getStudentsByName(name);
 - getInstructors();
 - getInstructors(inep_id);
 - getClassrooms();
@@ -27,6 +28,8 @@ Essa classe será responsavel por fazer a query SELECT com o banco e o preenchim
 - getStudents(inep_id): Metódo para retorno de um estudante específico cadastrado na base do TAG: Nesse método é criado um PreparedStatement, onde ele irá receber, através da variável "connection", uma query SELECT que irá trazer as informações do estudante através do seu "INEP_ID" passado no parâmetro do método. Depois é criado um ResultSet, que executará a query e fará a pesquisa dentro do Banco do TAG. Também será criado um objeto da classe "Student", que, enquanto o ResultSet executa a query, também ficará a cargo de ir setando os valores nas variaveis do objeto "Student" e no fim de tudo, esse objeto será adicionado dentro de um array.
 
 - getStudents(): Metódo para retorno de todos os estudantes cadastrados na base do TAG: Nesse método é criado um PreparedStatement, onde ele irá receber, através da variável "connection", uma query SELECT que irá trazer as informações de todos os estudantes. Depois é criado um ResultSet, que executará a query e fará a pesquisa dentro do Banco do TAG. Também será criado um objeto da classe "Student", que, enquanto o ResultSet executa a query, também ficará a cargo de ir setando os valores nas variaveis do objeto "Student" e no fim de tudo, esse objeto será adicionado dentro de um array.
+
+- getStudentsByName(name): Metódo para retorno de um estudante cadastrado na base do TAG: Nesse método é criado um PreparedStatement, onde ele irá receber, através da variável "connection", uma query SELECT que irá trazer as informações de um estudante através do seu "NOME". Depois é criado um ResultSet, que executará a query e fará a pesquisa dentro do Banco do TAG. Também será criado um objeto da classe "Student", que, enquanto o ResultSet executa a query, também ficará a cargo de ir setando os valores nas variaveis do objeto "Student" e no fim de tudo, esse objeto será adicionado dentro de um array.
 
 ### getInstructors
 
@@ -55,6 +58,8 @@ Essa classe será responsavel por fazer os métodos que a classe TAGService irá
 - getStudents(): Com a variavel do tipo Connection já criada, dentro do método, ela ira receber o método da classe Database, chamado "getConnection", após isso, com um array criado, esse array irá receber o método da classe TAGProject chamado getStudents().
 
 - getStudents(inep_id): Com a variavel do tipo Connection já criada, dentro do método, ela ira receber o método da classe Database, chamado "getConnection", após isso, com um array criado, esse array irá receber o método da classe TAGProject chamado getStudents(inep_id).
+
+- getStudentsByName(name): Com a variavel do tipo Connection já criada, dentro do método, ela ira receber o método da classe Database, chamado "getConnection", após isso, com um array criado, esse array irá receber o método da classe TAGProject chamado getStudentsByName(name).
 
 ### getInstructors
 

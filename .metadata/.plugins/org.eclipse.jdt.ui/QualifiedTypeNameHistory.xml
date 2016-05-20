@@ -6,4 +6,5 @@
 <fullyQualifiedTypeName name="org.codehaus.jackson.annotate.JsonAutoDetect.Visibility"/>
 <fullyQualifiedTypeName name="org.codehaus.jackson.annotate.JsonAutoDetect"/>
 <fullyQualifiedTypeName name="org.codehaus.jackson.annotate.JsonProperty"/>
+<fullyQualifiedTypeName name="com.sun.jersey.spi.resource.PerRequest"/>
 </qualifiedTypeNameHistroy>
