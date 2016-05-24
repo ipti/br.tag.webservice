@@ -7,7 +7,7 @@ Essa API é para retorno de informações que estão cadastrados no [TAG](https:
   - Turmas 
   - Professores
 
-Essa API é composta por 8 métodos:
+Essa API é composta por 9 métodos:
 
 - getStudents();
 - getStudents(inep_id);
