@@ -8,9 +8,10 @@ public class Database {
 
 	public Connection getConnection() throws Exception {
 		try {
+			String driver = "org.gjt.mm.mysql.Driver";
 			String connectionURL = "jdbc:mysql://localhost:3306/br.org.ipti.tag";
 			Connection connection = null;
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Class.forName(driver).newInstance();
 			connection = DriverManager.getConnection(connectionURL, "root", "");
 			return connection;
 		} catch (SQLException e) {

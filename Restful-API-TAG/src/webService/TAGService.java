@@ -15,6 +15,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 
 import dto.Classroom;
+import dto.Credentials;
 import dto.Instructor;
 import dto.School;
 import dto.Student;
@@ -28,7 +29,30 @@ public class TAGService {
 	ArrayList<Instructor> arrayInstructor = new ArrayList<>();
 	ArrayList<Classroom> arrayClassroom = new ArrayList<>();
 	ArrayList<School> arraySchool = new ArrayList<>();
+	ArrayList<Credentials> arrayCredentials = new ArrayList<>();
 	TAGManager tagManager = new TAGManager();
+
+	@GET
+	@Path("/getCredentials")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getCredentials() throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayCredentials = tagManager.getCredentials();
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayCredentials);
+	}
+	
+	@GET
+	@Path("/getCredentials/{username}/{password}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getCredentials(@PathParam("username") String username, @PathParam("password") String password) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayCredentials = tagManager.getCredentials(username, password);
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayCredentials);
+	}
 
 	@GET
 	@Path("/getStudents")
@@ -51,7 +75,7 @@ public class TAGService {
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayStudent);
 	}
-	
+
 	@GET
 	@Path("/getStudentsByName/{name}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")

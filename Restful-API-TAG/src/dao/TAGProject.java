@@ -1,11 +1,15 @@
 package dao;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import dto.Classroom;
+import dto.Credentials;
 import dto.Instructor;
 import dto.School;
 import dto.Student;
@@ -16,7 +20,64 @@ public class TAGProject {
 	ArrayList<Instructor> arrayIntructor = new ArrayList<Instructor>();
 	ArrayList<Classroom> arrayClassroom = new ArrayList<Classroom>();
 	ArrayList<School> arraySchool = new ArrayList<School>();
-	
+	ArrayList<Credentials> arrayCredentials = new ArrayList<Credentials>();
+
+	// Usando MD5 para criptografar
+	public static String getPasswordEncrypted(String input) {
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] messageDigest = md.digest(input.getBytes());
+			BigInteger number = new BigInteger(1, messageDigest);
+			String hashText = number.toString(16);
+			while (hashText.length() < 32) {
+				hashText = "0" + hashText;
+			}
+			return hashText;
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public ArrayList<Credentials> getCredentials(Connection connection, String username, String password)
+			throws Exception {
+		try {
+			String passwordEncrypted = getPasswordEncrypted(password);
+			PreparedStatement ps = connection.prepareStatement("SELECT username, password FROM users "
+					+ "WHERE username = '" + username + "' AND password = '" + passwordEncrypted + "';");
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Credentials credentials = new Credentials();
+				credentials.setUsername(rs.getString("username"));
+				credentials.setPassword(rs.getString("password"));
+
+				arrayCredentials.add(credentials);
+			}
+			return arrayCredentials;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public ArrayList<Credentials> getCredentials(Connection connection) throws Exception {
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT username, password FROM users;");
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Credentials credentials = new Credentials();
+				credentials.setUsername(rs.getString("username"));
+				credentials.setPassword(rs.getString("password"));
+
+				arrayCredentials.add(credentials);
+			}
+
+			return arrayCredentials;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 	/*
 	 * Metódo para retorno de um estudante específico cadastrado na base do TAG:
 	 * Ele ira fazer uma query do banco, através da clausula SELECT. Nesse
@@ -25,7 +86,7 @@ public class TAGProject {
 	public ArrayList<Student> getStudentsByName(Connection connection, String name) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT * FROM student_identification WHERE NAME = '" + name + "'");
+					.prepareStatement("SELECT * FROM student_identification WHERE NAME LIKE '%" + name + "%'");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Student student = new Student();
@@ -325,6 +386,7 @@ public class TAGProject {
 			PreparedStatement ps = connection
 					.prepareStatement("SELECT * FROM student_identification WHERE INEP_ID = '" + inep_id + "'");
 			ResultSet rs = ps.executeQuery();
+
 			while (rs.next()) {
 				Student student = new Student();
 				student.setRegister_type(rs.getString("register_type"));
@@ -620,8 +682,9 @@ public class TAGProject {
 	 */
 	public ArrayList<Student> getStudents(Connection connection) throws Exception {
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT * FROM student_identification");
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM student_identification;");
 			ResultSet rs = ps.executeQuery();
+
 			while (rs.next()) {
 				Student student = new Student();
 				student.setRegister_type(rs.getString("register_type"));
@@ -681,7 +744,6 @@ public class TAGProject {
 				} else {
 					student.setDeficiency("Sim");
 				}
-
 				if (rs.getString("deficiency_type_blindness") == null
 						|| rs.getString("deficiency_type_blindness").equals("0")) {
 					student.setDeficiency_type_blindness("Não");
@@ -976,9 +1038,17 @@ public class TAGProject {
 				} else if (rs.getString("nationality").equals("3")) {
 					instructor.setNationality("Estrangeira");
 				}
-				instructor.setEdcenso_nation_fk(rs.getString("edcenso_nation_fk"));
-				instructor.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
-				instructor.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
+				/*
+				 * String fkNation = getEdcensoNames(connection,
+				 * rs.getString("edcenso_nation_fk"), null, null);
+				 * instructor.setEdcenso_nation_fk(fkNation); /*String fkUF =
+				 * getEdcensoNames(connection, null, null,
+				 * rs.getString("edcenso_uf_fk"));
+				 * instructor.setEdcenso_uf_fk(fkUF); String fkDistrict =
+				 * getEdcensoNames(connection, null,
+				 * rs.getString("edcenso_city_fk"), null);
+				 * instructor.setEdcenso_city_fk(fkDistrict);
+				 */
 				if (rs.getString("deficiency").equals("0")) {
 					instructor.setDeficiency("Não");
 				} else {

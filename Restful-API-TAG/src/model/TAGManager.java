@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import dao.Database;
 import dao.TAGProject;
 import dto.Classroom;
+import dto.Credentials;
 import dto.Instructor;
 import dto.School;
 import dto.Student;
@@ -20,6 +21,8 @@ public class TAGManager {
 	private ArrayList<Instructor> arrayInstructor = new ArrayList<>();
 	private ArrayList<Classroom> arrayClassroom = new ArrayList<>();
 	private ArrayList<School> arraySchool = new ArrayList<>();
+	private ArrayList<Credentials> arrayCredentials = new ArrayList<>();
+
 	/*
 	 * Criando o banco da classe criada Database para ter conexão com o banco do
 	 * tag
@@ -27,6 +30,26 @@ public class TAGManager {
 	private Database database = new Database();
 	private Connection connection;
 	TAGProject tagProject = new TAGProject();
+
+	public ArrayList<Credentials> getCredentials() throws Exception {
+		try {
+			connection = database.getConnection();
+			arrayCredentials = tagProject.getCredentials(connection);
+		} catch (Exception e) {
+			throw e;
+		}
+		return arrayCredentials;
+	}
+	
+	public ArrayList<Credentials> getCredentials(String username, String password) throws Exception {
+		try {
+			connection = database.getConnection();
+			arrayCredentials = tagProject.getCredentials(connection, username, password);
+		} catch (Exception e) {
+			throw e;
+		}
+		return arrayCredentials;
+	} 
 
 	public ArrayList<Student> getStudents() throws Exception {
 		try {
@@ -47,7 +70,7 @@ public class TAGManager {
 		}
 		return arrayStudent;
 	}
-	
+
 	public ArrayList<Student> getStudentsByName(String name) throws Exception {
 		try {
 			connection = database.getConnection();
