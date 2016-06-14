@@ -110,16 +110,6 @@ public class TAGManager {
 		}
 		return arrayClassroom;
 	}
-	
-	public ArrayList<Classroom> getClassroomsBySchoolInep(String school_inep_fk) throws Exception {
-		try {
-			connection = database.getConnection();
-			arrayClassroom = tagProject.getClassroomsBySchoolInep(connection, school_inep_fk);
-		} catch (Exception e) {
-			throw e;
-		}
-		return arrayClassroom;
-	}
 
 	public ArrayList<Classroom> getClassrooms(String inep_id) throws Exception {
 		try {

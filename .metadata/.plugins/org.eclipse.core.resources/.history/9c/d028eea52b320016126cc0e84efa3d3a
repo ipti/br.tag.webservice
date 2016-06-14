@@ -132,7 +132,7 @@ public class TAGService {
 	}
 	
 	@GET
-	@Path("/getClassroomsBySchoolInep/{school_inep_fk}")
+	@Path("/getClassroomsBySchoolInep/{inep_id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getClassroomsBySchoolInep(@PathParam("school_inep_fk") String school_inep_fk) throws Exception {
