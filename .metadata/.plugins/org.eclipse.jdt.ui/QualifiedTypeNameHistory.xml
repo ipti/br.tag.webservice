@@ -19,5 +19,8 @@
 <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 <fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
+<fullyQualifiedTypeName name="org.codehaus.jackson.JsonGenerator"/>
+<fullyQualifiedTypeName name="org.codehaus.jackson.JsonGenerator.Feature"/>
+<fullyQualifiedTypeName name="org.codehaus.jackson.JsonEncoding"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

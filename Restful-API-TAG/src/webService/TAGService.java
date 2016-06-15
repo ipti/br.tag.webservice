@@ -8,6 +8,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.JsonEncoding;
+import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonMethod;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -75,6 +77,17 @@ public class TAGService {
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayStudent);
 	}
+	
+	@GET
+	@Path("/getStudentsPerClassroom/{classroom_id}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getStudentsPerClassroom(@PathParam("classroom_id") String classroom_id) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayStudent = tagManager.getStudentsPerClassroom(classroom_id);
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayStudent);
+	}
 
 	@GET
 	@Path("/getStudentsByName/{name}")
@@ -132,8 +145,19 @@ public class TAGService {
 	}
 	
 	@GET
-	@Path("/getClassroomsBySchoolInep/{school_inep_fk}")
+	@Path("/getDisciplinesByClassID/{id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getDisciplinesByClassID(@PathParam("id") String id) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayClassroom = tagManager.getDisciplinesByClassID(id);
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayClassroom);
+	}
+	
+	@GET
+	@Path("/getClassroomsBySchoolInep/{school_inep_fk}")
+	@Produces(MediaType.APPLICATION_JSON + ";**charset=utf-8**")
 	@JsonProperty
 	public String getClassroomsBySchoolInep(@PathParam("school_inep_fk") String school_inep_fk) throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);

@@ -40,7 +40,7 @@ public class TAGManager {
 		}
 		return arrayCredentials;
 	}
-	
+
 	public ArrayList<Credentials> getCredentials(String username, String password) throws Exception {
 		try {
 			connection = database.getConnection();
@@ -49,7 +49,7 @@ public class TAGManager {
 			throw e;
 		}
 		return arrayCredentials;
-	} 
+	}
 
 	public ArrayList<Student> getStudents() throws Exception {
 		try {
@@ -65,6 +65,16 @@ public class TAGManager {
 		try {
 			connection = database.getConnection();
 			arrayStudent = tagProject.getStudents(connection, inep_id);
+		} catch (Exception e) {
+			throw e;
+		}
+		return arrayStudent;
+	}
+
+	public ArrayList<Student> getStudentsPerClassroom(String classroom_id) throws Exception {
+		try {
+			connection = database.getConnection();
+			arrayStudent = tagProject.getStudentsPerClassroom(connection, classroom_id);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -110,11 +120,21 @@ public class TAGManager {
 		}
 		return arrayClassroom;
 	}
-	
+
 	public ArrayList<Classroom> getClassroomsBySchoolInep(String school_inep_fk) throws Exception {
 		try {
 			connection = database.getConnection();
 			arrayClassroom = tagProject.getClassroomsBySchoolInep(connection, school_inep_fk);
+		} catch (Exception e) {
+			throw e;
+		}
+		return arrayClassroom;
+	}
+
+	public ArrayList<Classroom> getDisciplinesByClassID(String id) throws Exception {
+		try {
+			connection = database.getConnection();
+			arrayClassroom = tagProject.getDisciplinesByClassID(connection, id);
 		} catch (Exception e) {
 			throw e;
 		}
