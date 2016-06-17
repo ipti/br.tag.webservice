@@ -5,6 +5,7 @@ public class Student {
 	private String register_type;
 	private String school_inep_id_fk;
 	private String inep_id;
+	private String id;
 	private String name;
 	private String birthday;
 	private String sex;
@@ -63,6 +64,10 @@ public class Student {
 
 	public void setInep_id(String inep_id) {
 		this.inep_id = inep_id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public void setName(String name) {

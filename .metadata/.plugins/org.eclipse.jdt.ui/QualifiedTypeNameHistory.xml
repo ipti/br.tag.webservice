@@ -23,4 +23,5 @@
 <fullyQualifiedTypeName name="org.codehaus.jackson.JsonGenerator.Feature"/>
 <fullyQualifiedTypeName name="org.codehaus.jackson.JsonEncoding"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="dto.DisciplinesByClass"/>
 </qualifiedTypeNameHistroy>

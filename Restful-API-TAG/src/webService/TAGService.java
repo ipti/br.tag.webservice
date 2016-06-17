@@ -18,6 +18,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 
 import dto.Classroom;
 import dto.Credentials;
+import dto.DisciplinesByClass;
 import dto.Instructor;
 import dto.School;
 import dto.Student;
@@ -32,6 +33,8 @@ public class TAGService {
 	ArrayList<Classroom> arrayClassroom = new ArrayList<>();
 	ArrayList<School> arraySchool = new ArrayList<>();
 	ArrayList<Credentials> arrayCredentials = new ArrayList<>();
+	ArrayList<DisciplinesByClass> arrayDisciplinesByClass = new ArrayList<DisciplinesByClass>();
+
 	TAGManager tagManager = new TAGManager();
 
 	@GET
@@ -150,9 +153,9 @@ public class TAGService {
 	@JsonProperty
 	public String getDisciplinesByClassID(@PathParam("id") String id) throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-		arrayClassroom = tagManager.getDisciplinesByClassID(id);
+		arrayDisciplinesByClass = tagManager.getDisciplinesByClassID(id);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
-		return objectMapper.writeValueAsString(arrayClassroom);
+		return objectMapper.writeValueAsString(arrayDisciplinesByClass);
 	}
 	
 	@GET

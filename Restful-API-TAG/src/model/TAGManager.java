@@ -7,6 +7,7 @@ import dao.Database;
 import dao.TAGProject;
 import dto.Classroom;
 import dto.Credentials;
+import dto.DisciplinesByClass;
 import dto.Instructor;
 import dto.School;
 import dto.Student;
@@ -20,6 +21,7 @@ public class TAGManager {
 	private ArrayList<Student> arrayStudent = new ArrayList<>();
 	private ArrayList<Instructor> arrayInstructor = new ArrayList<>();
 	private ArrayList<Classroom> arrayClassroom = new ArrayList<>();
+	private ArrayList<DisciplinesByClass> arrayDisciplinesByClass = new ArrayList<DisciplinesByClass>();
 	private ArrayList<School> arraySchool = new ArrayList<>();
 	private ArrayList<Credentials> arrayCredentials = new ArrayList<>();
 
@@ -131,14 +133,14 @@ public class TAGManager {
 		return arrayClassroom;
 	}
 
-	public ArrayList<Classroom> getDisciplinesByClassID(String id) throws Exception {
+	public ArrayList<DisciplinesByClass> getDisciplinesByClassID(String id) throws Exception {
 		try {
 			connection = database.getConnection();
-			arrayClassroom = tagProject.getDisciplinesByClassID(connection, id);
+			arrayDisciplinesByClass = tagProject.getDisciplinesByClassID(connection, id);
 		} catch (Exception e) {
 			throw e;
 		}
-		return arrayClassroom;
+		return arrayDisciplinesByClass;
 	}
 
 	public ArrayList<Classroom> getClassrooms(String inep_id) throws Exception {
