@@ -83,7 +83,7 @@ public class TAGProject {
 	public ArrayList<Student> getStudentsPerClassroom(Connection connection, String classroom_id) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT student_identification.* FROM student_enrollment, student_identification "
+					.prepareStatement("SELECT * FROM student_enrollment, student_identification "
 										+ "WHERE student_inep_id = inep_id AND classroom_fk = '" + classroom_id + "';");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -977,8 +977,8 @@ public class TAGProject {
 	public ArrayList<Student> getStudentsByID(Connection connection, String classroom_id, String id) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT student_identification.* FROM student_enrollment, student_identification "
-							+ "WHERE student_identification.id = '" + id + "' AND classroom_fk = '" + classroom_id + "' LIMIT 1;");
+					.prepareStatement("SELECT * FROM student_enrollment, student_identification "
+							+ "WHERE id = '" + id + "' AND classroom_fk = '" + classroom_id + "';");
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {

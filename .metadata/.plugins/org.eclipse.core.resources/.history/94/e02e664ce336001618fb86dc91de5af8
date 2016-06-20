@@ -93,16 +93,6 @@ public class TAGManager {
 		return arrayStudent;
 	}
 
-	public ArrayList<Student> getStudentsByID(String classroom_id, String id) throws Exception {
-		try {
-			connection = database.getConnection();
-			arrayStudent = tagProject.getStudentsByID(connection, classroom_id, id);
-		} catch (Exception e) {
-			throw e;
-		}
-		return arrayStudent;
-	}
-
 	public ArrayList<Instructor> getInstructors() throws Exception {
 		try {
 			connection = database.getConnection();

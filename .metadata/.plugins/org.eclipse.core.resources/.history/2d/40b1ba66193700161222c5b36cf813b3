@@ -978,7 +978,7 @@ public class TAGProject {
 		try {
 			PreparedStatement ps = connection
 					.prepareStatement("SELECT student_identification.* FROM student_enrollment, student_identification "
-							+ "WHERE student_identification.id = '" + id + "' AND classroom_fk = '" + classroom_id + "' LIMIT 1;");
+							+ "WHERE student_identification.id = '" + id + "' AND classroom_fk = '" + classroom_id + "';");
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {

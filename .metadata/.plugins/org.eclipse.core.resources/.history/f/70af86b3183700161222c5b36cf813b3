@@ -109,9 +109,9 @@ public class TAGService {
 	@JsonProperty
 	public String getStudentsByID(@PathParam("classroom_id") String classroom_id, @PathParam("id") String id) throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-		arrayStudent = tagManager.getStudentsByID(classroom_id, id);
+		Student student = tagManager.getStudentsByID(classroom_id, id);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
-		return objectMapper.writeValueAsString(arrayStudent);
+		return objectMapper.writeValueAsString(student);
 	}
 
 	@GET

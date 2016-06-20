@@ -8,6 +8,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.JsonEncoding;
+import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonMethod;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -16,12 +18,13 @@ import org.codehaus.jackson.map.SerializationConfig;
 
 import dto.Classroom;
 import dto.Credentials;
+import dto.DisciplinesByClass;
 import dto.Instructor;
 import dto.School;
 import dto.Student;
 import model.TAGManager;
 
-@Path("/TagService")
+@Path("/")
 public class TAGService {
 
 	ObjectMapper objectMapper = new ObjectMapper();
@@ -30,6 +33,8 @@ public class TAGService {
 	ArrayList<Classroom> arrayClassroom = new ArrayList<>();
 	ArrayList<School> arraySchool = new ArrayList<>();
 	ArrayList<Credentials> arrayCredentials = new ArrayList<>();
+	ArrayList<DisciplinesByClass> arrayDisciplinesByClass = new ArrayList<DisciplinesByClass>();
+
 	TAGManager tagManager = new TAGManager();
 
 	@GET
@@ -75,6 +80,17 @@ public class TAGService {
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayStudent);
 	}
+	
+	@GET
+	@Path("/getStudentsPerClassroom/{classroom_id}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getStudentsPerClassroom(@PathParam("classroom_id") String classroom_id) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayStudent = tagManager.getStudentsPerClassroom(classroom_id);
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayStudent);
+	}
 
 	@GET
 	@Path("/getStudentsByName/{name}")
@@ -83,6 +99,17 @@ public class TAGService {
 	public String getStudentsByName(@PathParam("name") String name) throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
 		arrayStudent = tagManager.getStudentsByName(name);
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayStudent);
+	}
+	
+	@GET
+	@Path("/getStudentsByID/{classroom_id}/{id}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getStudentsByID(@PathParam("classroom_id") String classroom_id, @PathParam("id") String id) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayStudent = tagManager.getStudentsByID(classroom_id, id);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayStudent);
 	}
@@ -127,6 +154,28 @@ public class TAGService {
 	public String getClassrooms(@PathParam("inep_id") String inep_id) throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
 		arrayClassroom = tagManager.getClassrooms(inep_id);
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayClassroom);
+	}
+	
+	@GET
+	@Path("/getDisciplinesByClassID/{id}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getDisciplinesByClassID(@PathParam("id") String id) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayDisciplinesByClass = tagManager.getDisciplinesByClassID(id);
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayDisciplinesByClass);
+	}
+	
+	@GET
+	@Path("/getClassroomsBySchoolInep/{school_inep_fk}")
+	@Produces(MediaType.APPLICATION_JSON + ";**charset=utf-8**")
+	@JsonProperty
+	public String getClassroomsBySchoolInep(@PathParam("school_inep_fk") String school_inep_fk) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayClassroom = tagManager.getClassroomsBySchoolInep(school_inep_fk);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayClassroom);
 	}
