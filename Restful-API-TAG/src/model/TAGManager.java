@@ -9,6 +9,7 @@ import dto.Classroom;
 import dto.Credentials;
 import dto.DisciplinesByClass;
 import dto.Instructor;
+import dto.InstructorTeachingData;
 import dto.School;
 import dto.Student;
 
@@ -20,6 +21,7 @@ public class TAGManager {
 	 */
 	private ArrayList<Student> arrayStudent = new ArrayList<>();
 	private ArrayList<Instructor> arrayInstructor = new ArrayList<>();
+	private ArrayList<InstructorTeachingData> arrayInstructorTeachingData = new ArrayList<>();
 	private ArrayList<Classroom> arrayClassroom = new ArrayList<>();
 	private ArrayList<DisciplinesByClass> arrayDisciplinesByClass = new ArrayList<DisciplinesByClass>();
 	private ArrayList<School> arraySchool = new ArrayList<>();
@@ -122,11 +124,31 @@ public class TAGManager {
 		}
 		return arrayInstructor;
 	}
+	
+	public ArrayList<InstructorTeachingData> getInstructorsByClassroom(String instructor_inep_id) throws Exception {
+		try {
+			connection = database.getConnection();
+			arrayInstructorTeachingData = tagProject.getInstructorsByClassroom(connection, instructor_inep_id);
+		} catch (Exception e) {
+			throw e;
+		}
+		return arrayInstructorTeachingData;
+	}
 
 	public ArrayList<Classroom> getClassrooms() throws Exception {
 		try {
 			connection = database.getConnection();
 			arrayClassroom = tagProject.getClassrooms(connection);
+		} catch (Exception e) {
+			throw e;
+		}
+		return arrayClassroom;
+	}
+	
+	public ArrayList<Classroom> getClassroomsOfInstructor(String instructor_inep_id) throws Exception {
+		try {
+			connection = database.getConnection();
+			arrayClassroom = tagProject.getClassroomsOfInstructor(connection, instructor_inep_id);
 		} catch (Exception e) {
 			throw e;
 		}
