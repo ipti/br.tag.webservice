@@ -85,9 +85,17 @@ public class TAGProject {
 	public ArrayList<Student> getStudentsPerClassroom(Connection connection, String classroom_id) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT student_identification.* FROM student_enrollment, student_identification "
-										+ "WHERE student_inep_id = inep_id AND classroom_fk = '" + classroom_id + "';");
+					.prepareStatement("SELECT student_identification.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*"
+							+ " FROM student_enrollment, student_identification, edcenso_city, edcenso_uf, edcenso_nation"
+							+ " WHERE student_enrollment.student_inep_id = student_identification.inep_id"
+							+ " AND student_enrollment.classroom_fk = '" + classroom_id + "'"
+							+ " AND student_identification.edcenso_nation_fk = edcenso_nation.id"
+							+ " AND student_identification.edcenso_uf_fk = edcenso_uf.id"
+							+ " AND student_identification.edcenso_city_fk = edcenso_city.id"
+							+ " ORDER BY student_identification.id;");
+
 			ResultSet rs = ps.executeQuery();
+
 			while (rs.next()) {
 				Student student = new Student();
 				student.setRegister_type(rs.getString("register_type"));
@@ -140,15 +148,20 @@ public class TAGProject {
 				} else if (rs.getString("nationality").equals("3")) {
 					student.setNationality("Estrangeira");
 				}
-				student.setEdcenso_nation_fk(rs.getString("edcenso_nation_fk"));
-				student.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
-				student.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
+				if (rs.getString("edcenso_nation_fk").equals(rs.getString("edcenso_nation.id"))) {
+					student.setEdcenso_nation_fk(rs.getString("edcenso_nation.name"));
+				}
+				if (rs.getString("edcenso_uf_fk").equals(rs.getString("edcenso_uf.id"))) {
+					student.setEdcenso_uf_fk(rs.getString("edcenso_uf.name"));
+				}
+				if (rs.getString("edcenso_city_fk").equals(rs.getString("edcenso_city.id"))) {
+					student.setEdcenso_city_fk(rs.getString("edcenso_city.name"));
+				}
 				if (rs.getString("deficiency") == null || rs.getString("deficiency").equals("0")) {
 					student.setDeficiency("Não");
 				} else {
 					student.setDeficiency("Sim");
 				}
-
 				if (rs.getString("deficiency_type_blindness") == null
 						|| rs.getString("deficiency_type_blindness").equals("0")) {
 					student.setDeficiency_type_blindness("Não");
@@ -375,8 +388,9 @@ public class TAGProject {
 		} catch (Exception err) {
 			throw err;
 		}
+
 	}
-	
+
 	/*
 	 * Metódo para retorno de um estudante específico cadastrado na base do TAG:
 	 * Ele ira fazer uma query do banco, através da clausula SELECT. Nesse
@@ -385,8 +399,15 @@ public class TAGProject {
 	public ArrayList<Student> getStudentsByName(Connection connection, String name) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT * FROM student_identification WHERE NAME LIKE '%" + name + "%'");
+					.prepareStatement("SELECT * FROM student_identification, edcenso_city, edcenso_uf, edcenso_nation"
+							+ " WHERE student_identification.name LIKE '%" + name + "%'"
+							+ " AND student_identification.edcenso_nation_fk = edcenso_nation.id"
+							+ " AND student_identification.edcenso_uf_fk = edcenso_uf.id"
+							+ " AND student_identification.edcenso_city_fk = edcenso_city.id"
+							+ " ORDER BY student_identification.id;");
+
 			ResultSet rs = ps.executeQuery();
+
 			while (rs.next()) {
 				Student student = new Student();
 				student.setRegister_type(rs.getString("register_type"));
@@ -439,15 +460,20 @@ public class TAGProject {
 				} else if (rs.getString("nationality").equals("3")) {
 					student.setNationality("Estrangeira");
 				}
-				student.setEdcenso_nation_fk(rs.getString("edcenso_nation_fk"));
-				student.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
-				student.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
+				if (rs.getString("edcenso_nation_fk").equals(rs.getString("edcenso_nation.id"))) {
+					student.setEdcenso_nation_fk(rs.getString("edcenso_nation.name"));
+				}
+				if (rs.getString("edcenso_uf_fk").equals(rs.getString("edcenso_uf.id"))) {
+					student.setEdcenso_uf_fk(rs.getString("edcenso_uf.name"));
+				}
+				if (rs.getString("edcenso_city_fk").equals(rs.getString("edcenso_city.id"))) {
+					student.setEdcenso_city_fk(rs.getString("edcenso_city.name"));
+				}
 				if (rs.getString("deficiency") == null || rs.getString("deficiency").equals("0")) {
 					student.setDeficiency("Não");
 				} else {
 					student.setDeficiency("Sim");
 				}
-
 				if (rs.getString("deficiency_type_blindness") == null
 						|| rs.getString("deficiency_type_blindness").equals("0")) {
 					student.setDeficiency_type_blindness("Não");
@@ -684,7 +710,12 @@ public class TAGProject {
 	public ArrayList<Student> getStudents(Connection connection, String inep_id) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT * FROM student_identification WHERE INEP_ID = '" + inep_id + "'");
+					.prepareStatement("SELECT * FROM student_identification, edcenso_city, edcenso_uf, edcenso_nation"
+							+ " WHERE student_identification.inep_id = '" + inep_id + "'"
+							+ " AND student_identification.edcenso_nation_fk = edcenso_nation.id"
+							+ " AND student_identification.edcenso_uf_fk = edcenso_uf.id"
+							+ " AND student_identification.edcenso_city_fk = edcenso_city.id"
+							+ " ORDER BY student_identification.id;");
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -739,15 +770,20 @@ public class TAGProject {
 				} else if (rs.getString("nationality").equals("3")) {
 					student.setNationality("Estrangeira");
 				}
-				student.setEdcenso_nation_fk(rs.getString("edcenso_nation_fk"));
-				student.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
-				student.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
+				if (rs.getString("edcenso_nation_fk").equals(rs.getString("edcenso_nation.id"))) {
+					student.setEdcenso_nation_fk(rs.getString("edcenso_nation.name"));
+				}
+				if (rs.getString("edcenso_uf_fk").equals(rs.getString("edcenso_uf.id"))) {
+					student.setEdcenso_uf_fk(rs.getString("edcenso_uf.name"));
+				}
+				if (rs.getString("edcenso_city_fk").equals(rs.getString("edcenso_city.id"))) {
+					student.setEdcenso_city_fk(rs.getString("edcenso_city.name"));
+				}
 				if (rs.getString("deficiency") == null || rs.getString("deficiency").equals("0")) {
 					student.setDeficiency("Não");
 				} else {
 					student.setDeficiency("Sim");
 				}
-
 				if (rs.getString("deficiency_type_blindness") == null
 						|| rs.getString("deficiency_type_blindness").equals("0")) {
 					student.setDeficiency_type_blindness("Não");
@@ -979,8 +1015,14 @@ public class TAGProject {
 	public ArrayList<Student> getStudentsByID(Connection connection, String classroom_id, String id) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT student_identification.* FROM student_enrollment, student_identification "
-							+ "WHERE student_identification.id = '" + id + "' AND classroom_fk = '" + classroom_id + "' LIMIT 1;");
+					.prepareStatement("SELECT student_identification.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*"
+							+ " FROM student_enrollment, student_identification, edcenso_city, edcenso_uf, edcenso_nation"
+							+ " WHERE student_identification.edcenso_nation_fk = edcenso_nation.id"
+							+ " AND student_identification.edcenso_uf_fk = edcenso_uf.id"
+							+ " AND student_identification.edcenso_city_fk = edcenso_city.id"
+							+ " AND student_enrollment.classroom_fk = '" + classroom_id + "'"
+							+ " AND student_identification.id = '" + id + "'" + " LIMIT 1;");
+
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -1035,15 +1077,20 @@ public class TAGProject {
 				} else if (rs.getString("nationality").equals("3")) {
 					student.setNationality("Estrangeira");
 				}
-				student.setEdcenso_nation_fk(rs.getString("edcenso_nation_fk"));
-				student.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
-				student.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
+				if (rs.getString("edcenso_nation_fk").equals(rs.getString("edcenso_nation.id"))) {
+					student.setEdcenso_nation_fk(rs.getString("edcenso_nation.name"));
+				}
+				if (rs.getString("edcenso_uf_fk").equals(rs.getString("edcenso_uf.id"))) {
+					student.setEdcenso_uf_fk(rs.getString("edcenso_uf.name"));
+				}
+				if (rs.getString("edcenso_city_fk").equals(rs.getString("edcenso_city.id"))) {
+					student.setEdcenso_city_fk(rs.getString("edcenso_city.name"));
+				}
 				if (rs.getString("deficiency") == null || rs.getString("deficiency").equals("0")) {
 					student.setDeficiency("Não");
 				} else {
 					student.setDeficiency("Sim");
 				}
-
 				if (rs.getString("deficiency_type_blindness") == null
 						|| rs.getString("deficiency_type_blindness").equals("0")) {
 					student.setDeficiency_type_blindness("Não");
@@ -1270,8 +1317,9 @@ public class TAGProject {
 		} catch (Exception err) {
 			throw err;
 		}
-	}	
-	
+
+	}
+
 	/*
 	 * Metódo para retorno de todos os estudantes cadastrados no TAG: Ele ira
 	 * fazer uma query do banco, através da clausula SELECT. Nesse metódo irá
@@ -1279,7 +1327,12 @@ public class TAGProject {
 	 */
 	public ArrayList<Student> getStudents(Connection connection) throws Exception {
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT * FROM student_identification;");
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT * FROM student_identification, edcenso_city, edcenso_uf, edcenso_nation"
+							+ " WHERE student_identification.edcenso_nation_fk = edcenso_nation.id"
+							+ " AND student_identification.edcenso_uf_fk = edcenso_uf.id"
+							+ " AND student_identification.edcenso_city_fk = edcenso_city.id"
+							+ " ORDER BY student_identification.id;");
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -1334,9 +1387,15 @@ public class TAGProject {
 				} else if (rs.getString("nationality").equals("3")) {
 					student.setNationality("Estrangeira");
 				}
-				student.setEdcenso_nation_fk(rs.getString("edcenso_nation_fk"));
-				student.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
-				student.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
+				if (rs.getString("edcenso_nation_fk").equals(rs.getString("edcenso_nation.id"))) {
+					student.setEdcenso_nation_fk(rs.getString("edcenso_nation.name"));
+				}
+				if (rs.getString("edcenso_uf_fk").equals(rs.getString("edcenso_uf.id"))) {
+					student.setEdcenso_uf_fk(rs.getString("edcenso_uf.name"));
+				}
+				if (rs.getString("edcenso_city_fk").equals(rs.getString("edcenso_city.id"))) {
+					student.setEdcenso_city_fk(rs.getString("edcenso_city.name"));
+				}
 				if (rs.getString("deficiency") == null || rs.getString("deficiency").equals("0")) {
 					student.setDeficiency("Não");
 				} else {
@@ -1577,8 +1636,14 @@ public class TAGProject {
 	 */
 	public ArrayList<Instructor> getInstructors(Connection connection) throws Exception {
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT * FROM instructor_identification");
+			PreparedStatement ps = connection.prepareStatement(
+					"SELECT * FROM instructor_identification, edcenso_city, edcenso_uf, edcenso_nation"
+							+ "	WHERE instructor_identification.edcenso_nation_fk = edcenso_nation.id"
+							+ "	AND instructor_identification.edcenso_uf_fk = edcenso_uf.id"
+							+ " AND instructor_identification.edcenso_city_fk = edcenso_city.id;");
+
 			ResultSet rs = ps.executeQuery();
+
 			while (rs.next()) {
 				Instructor instructor = new Instructor();
 				instructor.setRegister_type(rs.getString("register_type"));
@@ -1636,17 +1701,15 @@ public class TAGProject {
 				} else if (rs.getString("nationality").equals("3")) {
 					instructor.setNationality("Estrangeira");
 				}
-				/*
-				 * String fkNation = getEdcensoNames(connection,
-				 * rs.getString("edcenso_nation_fk"), null, null);
-				 * instructor.setEdcenso_nation_fk(fkNation); /*String fkUF =
-				 * getEdcensoNames(connection, null, null,
-				 * rs.getString("edcenso_uf_fk"));
-				 * instructor.setEdcenso_uf_fk(fkUF); String fkDistrict =
-				 * getEdcensoNames(connection, null,
-				 * rs.getString("edcenso_city_fk"), null);
-				 * instructor.setEdcenso_city_fk(fkDistrict);
-				 */
+				if (rs.getString("edcenso_nation_fk").equals(rs.getString("edcenso_nation.id"))) {
+					instructor.setEdcenso_nation_fk(rs.getString("edcenso_nation.name"));
+				}
+				if (rs.getString("edcenso_uf_fk").equals(rs.getString("edcenso_uf.id"))) {
+					instructor.setEdcenso_uf_fk(rs.getString("edcenso_uf.name"));
+				}
+				if (rs.getString("edcenso_city_fk").equals(rs.getString("edcenso_city.id"))) {
+					instructor.setEdcenso_city_fk(rs.getString("edcenso_city.name"));
+				}
 				if (rs.getString("deficiency").equals("0")) {
 					instructor.setDeficiency("Não");
 				} else {
@@ -1720,9 +1783,15 @@ public class TAGProject {
 	 */
 	public ArrayList<Instructor> getInstructors(Connection connection, String inep_id) throws Exception {
 		try {
-			PreparedStatement ps = connection
-					.prepareStatement("SELECT * FROM instructor_identification WHERE INEP_ID = '" + inep_id + "'");
+			PreparedStatement ps = connection.prepareStatement(
+					"SELECT * FROM instructor_identification, edcenso_city, edcenso_uf, edcenso_nation"
+							+ "	WHERE instructor_identification.inep_id = '" + inep_id + "'"
+							+ " AND instructor_identification.edcenso_nation_fk = edcenso_nation.id"
+							+ "	AND instructor_identification.edcenso_uf_fk = edcenso_uf.id"
+							+ " AND instructor_identification.edcenso_city_fk = edcenso_city.id;");
+
 			ResultSet rs = ps.executeQuery();
+
 			while (rs.next()) {
 				Instructor instructor = new Instructor();
 				instructor.setRegister_type(rs.getString("register_type"));
@@ -1780,9 +1849,15 @@ public class TAGProject {
 				} else if (rs.getString("nationality").equals("3")) {
 					instructor.setNationality("Estrangeira");
 				}
-				instructor.setEdcenso_nation_fk(rs.getString("edcenso_nation_fk"));
-				instructor.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
-				instructor.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
+				if (rs.getString("edcenso_nation_fk").equals(rs.getString("edcenso_nation.id"))) {
+					instructor.setEdcenso_nation_fk(rs.getString("edcenso_nation.name"));
+				}
+				if (rs.getString("edcenso_uf_fk").equals(rs.getString("edcenso_uf.id"))) {
+					instructor.setEdcenso_uf_fk(rs.getString("edcenso_uf.name"));
+				}
+				if (rs.getString("edcenso_city_fk").equals(rs.getString("edcenso_city.id"))) {
+					instructor.setEdcenso_city_fk(rs.getString("edcenso_city.name"));
+				}
 				if (rs.getString("deficiency").equals("0")) {
 					instructor.setDeficiency("Não");
 				} else {
@@ -1848,13 +1923,12 @@ public class TAGProject {
 			throw e;
 		}
 	}
-	
-	
-	public ArrayList<InstructorTeachingData> getInstructorsByClassroom(Connection connection, String instructor_inep_id) throws Exception {
+
+	public ArrayList<InstructorTeachingData> getInstructorsByClassroom(Connection connection, String instructor_inep_id)
+			throws Exception {
 		try {
-			PreparedStatement ps = connection
-					.prepareStatement("SELECT * FROM instructor_teaching_data "
-							+ "WHERE instructor_inep_id = '" + instructor_inep_id + "';");
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM instructor_teaching_data "
+					+ "WHERE instructor_inep_id = '" + instructor_inep_id + "';");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				InstructorTeachingData instructorTeachingData = new InstructorTeachingData();
@@ -1880,7 +1954,7 @@ public class TAGProject {
 					instructorTeachingData.setClassroom_inep_id(rs.getString("classroom_inep_id"));
 				}
 				if (rs.getString("classroom_id_fk") == null) {
-					instructorTeachingData.setClassroom_id_fk("Não foi informado");	
+					instructorTeachingData.setClassroom_id_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setClassroom_id_fk(rs.getString("classroom_id_fk"));
 				}
@@ -1891,70 +1965,70 @@ public class TAGProject {
 					instructorTeachingData.setContract_type(rs.getString("contract_type"));
 				}
 				if (rs.getString("discipline_1_fk") == null) {
-					instructorTeachingData.setDiscipline_1_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_1_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_1_fk(rs.getString("discipline_1_fk"));
 				}
 				if (rs.getString("discipline_2_fk") == null) {
-					instructorTeachingData.setDiscipline_2_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_2_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_2_fk(rs.getString("discipline_2_fk"));
 				}
 				if (rs.getString("discipline_3_fk") == null) {
-					instructorTeachingData.setDiscipline_3_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_3_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_3_fk(rs.getString("discipline_3_fk"));
 				}
 				if (rs.getString("discipline_4_fk") == null) {
-					instructorTeachingData.setDiscipline_4_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_4_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_4_fk(rs.getString("discipline_4_fk"));
 				}
 				if (rs.getString("discipline_5_fk") == null) {
-					instructorTeachingData.setDiscipline_5_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_5_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_5_fk(rs.getString("discipline_5_fk"));
 				}
 				if (rs.getString("discipline_6_fk") == null) {
-					instructorTeachingData.setDiscipline_6_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_6_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_6_fk(rs.getString("discipline_6_fk"));
 				}
 				if (rs.getString("discipline_7_fk") == null) {
-					instructorTeachingData.setDiscipline_7_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_7_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_7_fk(rs.getString("discipline_7_fk"));
 				}
 				if (rs.getString("discipline_8_fk") == null) {
-					instructorTeachingData.setDiscipline_8_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_8_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_8_fk(rs.getString("discipline_8_fk"));
 				}
 				if (rs.getString("discipline_9_fk") == null) {
-					instructorTeachingData.setDiscipline_9_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_9_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_9_fk(rs.getString("discipline_9_fk"));
 				}
 				if (rs.getString("discipline_10_fk") == null) {
-					instructorTeachingData.setDiscipline_10_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_10_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_10_fk(rs.getString("discipline_10_fk"));
 				}
 				if (rs.getString("discipline_11_fk") == null) {
-					instructorTeachingData.setDiscipline_11_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_11_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_11_fk(rs.getString("discipline_11_fk"));
 				}
 				if (rs.getString("discipline_12_fk") == null) {
-					instructorTeachingData.setDiscipline_12_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_12_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_12_fk(rs.getString("discipline_12_fk"));
 				}
 				if (rs.getString("discipline_13_fk") == null) {
-					instructorTeachingData.setDiscipline_13_fk("Não foi informado");	
+					instructorTeachingData.setDiscipline_13_fk("Não foi informado");
 				} else {
 					instructorTeachingData.setDiscipline_13_fk(rs.getString("discipline_13_fk"));
-				}				
+				}
 				instructorTeachingData.setId(rs.getString("id"));
 				if (rs.getString("fkid") == null) {
 					instructorTeachingData.setFkid("Não foi informado");
@@ -1968,13 +2042,13 @@ public class TAGProject {
 			throw e;
 		}
 	}
-	
+
 	/*
 	 * Metódo para retorno de todas as classes cadastradas no TAG: Ele ira fazer
 	 * uma query do banco, através da clausula SELECT. Nesse metódo irá retornar
 	 * todas as classes que estão no TAG
 	 */
-	
+
 	public ArrayList<Classroom> getClassrooms(Connection connection) throws Exception {
 		try {
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM classroom");
@@ -2374,12 +2448,13 @@ public class TAGProject {
 			throw e;
 		}
 	}
-	
-	public ArrayList<Classroom> getClassroomsOfInstructor(Connection connection, String instructor_inep_id) throws Exception {
+
+	public ArrayList<Classroom> getClassroomsOfInstructor(Connection connection, String instructor_fk)
+			throws Exception {
 		try {
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM instructor_teaching_data, classroom "
-					+ "WHERE instructor_teaching_data.instructor_inep_id = '" + instructor_inep_id + "' "
-							+ "AND instructor_teaching_data.classroom_id_fk = classroom.id;");
+					+ "WHERE instructor_teaching_data.instructor_fk = '" + instructor_fk + "' "
+					+ "AND instructor_teaching_data.classroom_id_fk = classroom.id AND classroom.school_year = '2016';");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Classroom classroom = new Classroom();
@@ -2777,10 +2852,11 @@ public class TAGProject {
 		}
 	}
 
-	
-	public ArrayList<Classroom> getClassroomsBySchoolInep(Connection connection, String school_inep_fk) throws Exception {
+	public ArrayList<Classroom> getClassroomsBySchoolInep(Connection connection, String school_inep_fk)
+			throws Exception {
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT * FROM classroom WHERE school_inep_fk = '" + school_inep_fk + "'");
+			PreparedStatement ps = connection
+					.prepareStatement("SELECT * FROM classroom WHERE school_inep_fk = '" + school_inep_fk + "'");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Classroom classroom = new Classroom();
@@ -3721,7 +3797,8 @@ public class TAGProject {
 						|| rs.getString("discipline_special_education_and_inclusive_practices").equals("0")) {
 					classroom.setDiscipline_special_education_and_inclusive_practices("");
 				} else {
-					classroom.setDiscipline_special_education_and_inclusive_practices("DISCIPLINAS VOLTADAS AO ATENDIMENTO EDUCACIONAIS");
+					classroom.setDiscipline_special_education_and_inclusive_practices(
+							"DISCIPLINAS VOLTADAS AO ATENDIMENTO EDUCACIONAIS");
 				}
 				if (rs.getString("discipline_sociocultural_diversity") == null
 						|| rs.getString("discipline_sociocultural_diversity").equals("")

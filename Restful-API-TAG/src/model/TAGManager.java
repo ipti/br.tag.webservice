@@ -145,10 +145,10 @@ public class TAGManager {
 		return arrayClassroom;
 	}
 	
-	public ArrayList<Classroom> getClassroomsOfInstructor(String instructor_inep_id) throws Exception {
+	public ArrayList<Classroom> getClassroomsOfInstructor(String instructor_fk) throws Exception {
 		try {
 			connection = database.getConnection();
-			arrayClassroom = tagProject.getClassroomsOfInstructor(connection, instructor_inep_id);
+			arrayClassroom = tagProject.getClassroomsOfInstructor(connection, instructor_fk);
 		} catch (Exception e) {
 			throw e;
 		}

@@ -170,12 +170,12 @@ public class TAGService {
 	}
 	
 	@GET
-	@Path("/getClassroomsOfInstructor/{instructor_inep_id}")
+	@Path("/getClassroomsOfInstructor/{instructor_fk}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getClassroomsOfInstructor(@PathParam("instructor_inep_id") String instructor_inep_id) throws Exception {
+	public String getClassroomsOfInstructor(@PathParam("instructor_fk") String instructor_fk) throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-		arrayClassroom = tagManager.getClassroomsOfInstructor(instructor_inep_id);
+		arrayClassroom = tagManager.getClassroomsOfInstructor(instructor_fk);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayClassroom);
 	}
