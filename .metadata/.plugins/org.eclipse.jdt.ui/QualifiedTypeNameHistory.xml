@@ -15,7 +15,6 @@
 <fullyQualifiedTypeName name="java.sql.DriverManager"/>
 <fullyQualifiedTypeName name="dto.Credentials"/>
 <fullyQualifiedTypeName name="org.codehaus.jackson.annotate.JsonProperty"/>
-<fullyQualifiedTypeName name="javax.ws.rs.PathParam"/>
 <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 <fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
@@ -25,4 +24,5 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="dto.DisciplinesByClass"/>
 <fullyQualifiedTypeName name="dto.InstructorTeachingData"/>
+<fullyQualifiedTypeName name="javax.ws.rs.PathParam"/>
 </qualifiedTypeNameHistroy>

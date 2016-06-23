@@ -204,14 +204,4 @@ public class TAGManager {
 		}
 		return arraySchool;
 	}
-	
-	public ArrayList<School> getSchoolsByUserID(String user_fk) throws Exception {
-		try {
-			connection = database.getConnection();
-			arraySchool = tagProject.getSchoolsByUserID(connection, user_fk);
-		} catch (Exception e) {
-			throw e;
-		}
-		return arraySchool;
-	}
 }

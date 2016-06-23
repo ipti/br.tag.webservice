@@ -46,12 +46,13 @@ public class TAGProject {
 			throws Exception {
 		try {
 			String passwordEncrypted = getPasswordEncrypted(password);
-			PreparedStatement ps = connection.prepareStatement("SELECT username, password FROM users "
+			PreparedStatement ps = connection.prepareStatement("SELECT id, username, password FROM users "
 					+ "WHERE username = '" + username + "' AND password = '" + passwordEncrypted + "';");
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 				Credentials credentials = new Credentials();
+				credentials.setId(rs.getString("id"));
 				credentials.setUsername(rs.getString("username"));
 				credentials.setPassword(rs.getString("password"));
 
@@ -2449,12 +2450,12 @@ public class TAGProject {
 		}
 	}
 
-	public ArrayList<Classroom> getClassroomsOfInstructor(Connection connection, String instructor_fk)
+	public ArrayList<Classroom> getClassroomsOfInstructor(Connection connection, String instructor_fk, String year)
 			throws Exception {
 		try {
 			PreparedStatement ps = connection.prepareStatement("SELECT * FROM instructor_teaching_data, classroom "
 					+ "WHERE instructor_teaching_data.instructor_fk = '" + instructor_fk + "' "
-					+ "AND instructor_teaching_data.classroom_id_fk = classroom.id AND classroom.school_year = '2016';");
+					+ "AND instructor_teaching_data.classroom_id_fk = classroom.id AND classroom.school_year = '" + year + "';");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Classroom classroom = new Classroom();
@@ -4358,4 +4359,257 @@ public class TAGProject {
 			throw e;
 		}
 	}
+
+	public ArrayList<School> getSchoolsByUserID(Connection connection, String user_fk) throws Exception {
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT school_identification.* FROM school_identification, users_school "
+					+ "WHERE users_school.user_fk = '" + user_fk + "' AND school_identification.inep_id = users_school.school_fk;");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				School school = new School();
+				school.setRegister_type(rs.getString("register_type"));
+				school.setInep_id(rs.getString("inep_id"));
+				school.setManager_cpf(rs.getString("manager_cpf"));
+				school.setManager_name(rs.getString("manager_name"));
+				if (rs.getString("manager_role").equals("1")) {
+					school.setManager_role("Diretor");
+				} else if (rs.getString("manager_role").equals("2")) {
+					school.setManager_role("Outro Cargo");
+				} else {
+					school.setManager_role("Não foi informado");
+				}
+				if (rs.getString("manager_email").equals("")) {
+					school.setManager_email("Não foi informado");
+				} else {
+					school.setManager_email(rs.getString("manager_email"));
+				}
+				if (rs.getString("situation").equals("1")) {
+					school.setSituation("Em Atividade");
+				} else if (rs.getString("situation").equals("2")) {
+					school.setSituation("Paralisada");
+				} else if (rs.getString("situation").equals("3")) {
+					school.setSituation("Extinta");
+				} else {
+					school.setSituation("Não foi informado");
+				}
+				if (rs.getString("initial_date") == null) {
+					school.setInitial_date("Não foi informado");
+				} else {
+					school.setInitial_date(rs.getString("initial_date"));
+				}
+				if (rs.getString("final_date") == null) {
+					school.setFinal_date("Não foi informado");
+				} else {
+					school.setFinal_date(rs.getString("final_date"));
+				}
+				school.setName(rs.getString("name"));
+				if (rs.getString("latitude") == null) {
+					school.setLatitude("Não foi informado");
+				} else {
+					school.setLatitude(rs.getString("latitude"));
+				}
+				if (rs.getString("longitude") == null) {
+					school.setLongitude("Não foi informado");
+				} else {
+					school.setLongitude(rs.getString("longitude"));
+				}
+				school.setCep(rs.getString("cep"));
+				school.setAddress(rs.getString("address"));
+				if (rs.getString("address_number") == null) {
+					school.setAddress_number("Não foi informado");
+				} else {
+					school.setAddress_number(rs.getString("address_number"));
+				}
+				if (rs.getString("address_complement") == null || rs.getString("address_complement").equals("")) {
+					school.setAddress_complement("Não foi informado");
+				} else {
+					school.setAddress_complement(rs.getString("address_complement"));
+				}
+				if (rs.getString("address_neighborhood") == null || rs.getString("address_neighborhood").equals("")) {
+					school.setAddress_neighborhood("Não foi informado");
+				} else {
+					school.setAddress_neighborhood(rs.getString("address_neighborhood"));
+				}
+				school.setEdcenso_uf_fk(rs.getString("edcenso_uf_fk"));
+				school.setEdcenso_city_fk(rs.getString("edcenso_city_fk"));
+				school.setEdcenso_district_fk(rs.getString("edcenso_district_fk"));
+				if (rs.getString("ddd") == null || rs.getString("ddd").equals("")) {
+					school.setDdd("Não foi informado");
+				} else {
+					school.setDdd(rs.getString("ddd"));
+				}
+				if (rs.getString("phone_number") == null || rs.getString("phone_number").equals("")) {
+					school.setPhone_number("Não foi informado");
+				} else {
+					school.setPhone_number(rs.getString("phone_number"));
+				}
+				if (rs.getString("public_phone_number") == null || rs.getString("public_phone_number").equals("")) {
+					school.setPublic_phone_number("Não foi informado");
+				} else {
+					school.setPublic_phone_number(rs.getString("public_phone_number"));
+				}
+				if (rs.getString("other_phone_number") == null || rs.getString("other_phone_number").equals("")) {
+					school.setOther_phone_number("Não foi informado");
+				} else {
+					school.setOther_phone_number(rs.getString("other_phone_number"));
+				}
+				if (rs.getString("fax_number") == null || rs.getString("fax_number").equals("")) {
+					school.setFax_number("Não foi informado");
+				} else {
+					school.setFax_number(rs.getString("fax_number"));
+				}
+				if (rs.getString("email") == null || rs.getString("email").equals("")) {
+					school.setEmail("Não foi informado");
+				} else {
+					school.setEmail(rs.getString("email"));
+				}
+				if (rs.getString("edcenso_regional_education_organ_fk") == null) {
+					school.setEdcenso_regional_education_organ_fk("Não foi informado");
+				} else {
+					school.setEdcenso_regional_education_organ_fk(rs.getString("edcenso_regional_education_organ_fk"));
+				}
+				if (rs.getString("administrative_dependence").equals("1")) {
+					school.setAdministrative_dependence("Federal");
+				} else if (rs.getString("administrative_dependence").equals("2")) {
+					school.setAdministrative_dependence("Estadual");
+				} else if (rs.getString("administrative_dependence").equals("3")) {
+					school.setAdministrative_dependence("Municipal");
+				} else {
+					school.setAdministrative_dependence("Privada");
+				}
+				if (rs.getString("location").equals("1")) {
+					school.setLocation("Urbano");
+				} else if (rs.getString("location").equals("2")) {
+					school.setLocation("Rural");
+				}
+				if (rs.getString("private_school_category") == null
+						|| rs.getString("private_school_category").equals("")) {
+					school.setPrivate_school_category("Não foi informado");
+				} else if (rs.getString("private_school_category").equals("1")) {
+					school.setPrivate_school_category("Particular");
+				} else if (rs.getString("private_school_category").equals("2")) {
+					school.setPrivate_school_category("Comunitária");
+				} else if (rs.getString("private_school_category").equals("3")) {
+					school.setPrivate_school_category("Confessional");
+				} else if (rs.getString("private_school_category").equals("4")) {
+					school.setPrivate_school_category("Filantrópica");
+				}
+				if (rs.getString("public_contract") == null || rs.getString("public_contract").equals("")) {
+					school.setPublic_contract("Não foi informado");
+				} else if (rs.getString("public_contract").equals("1")) {
+					school.setPublic_contract("Estadual");
+				} else if (rs.getString("public_contract").equals("2")) {
+					school.setPublic_contract("Municipal");
+				} else if (rs.getString("public_contract").equals("3")) {
+					school.setPublic_contract("Estadual e Municipal");
+				}
+				if (rs.getString("private_school_business_or_individual") == null
+						|| rs.getString("private_school_business_or_individual").equals("")) {
+					school.setPrivate_school_business_or_individual("Não foi informado");
+				} else if (rs.getString("private_school_business_or_individual").equals("0")) {
+					school.setPrivate_school_business_or_individual("Não");
+				} else if (rs.getString("private_school_business_or_individual").equals("1")) {
+					school.setPrivate_school_business_or_individual("Sim");
+				}
+				if (rs.getString("private_school_syndicate_or_association") == null
+						|| rs.getString("private_school_syndicate_or_association").equals("")) {
+					school.setPrivate_school_syndicate_or_association("Não foi informado");
+				} else if (rs.getString("private_school_syndicate_or_association").equals("0")) {
+					school.setPrivate_school_syndicate_or_association("Não");
+				} else if (rs.getString("private_school_syndicate_or_association").equals("1")) {
+					school.setPrivate_school_syndicate_or_association("Sim");
+				}
+				if (rs.getString("private_school_ong_or_oscip") == null
+						|| rs.getString("private_school_ong_or_oscip").equals("")) {
+					school.setPrivate_school_ong_or_oscip("Não foi informado");
+				} else if (rs.getString("private_school_ong_or_oscip").equals("0")) {
+					school.setPrivate_school_ong_or_oscip("Não");
+				} else if (rs.getString("private_school_ong_or_oscip").equals("1")) {
+					school.setPrivate_school_ong_or_oscip("Sim");
+				}
+				if (rs.getString("private_school_non_profit_institutions") == null
+						|| rs.getString("private_school_non_profit_institutions").equals("")) {
+					school.setPrivate_school_non_profit_institutions("Não foi informado");
+				} else if (rs.getString("private_school_non_profit_institutions").equals("0")) {
+					school.setPrivate_school_non_profit_institutions("Não");
+				} else if (rs.getString("private_school_non_profit_institutions").equals("1")) {
+					school.setPrivate_school_non_profit_institutions("Sim");
+				}
+				if (rs.getString("private_school_s_system") == null
+						|| rs.getString("private_school_s_system").equals("")) {
+					school.setPrivate_school_s_system("Não foi informado");
+				} else if (rs.getString("private_school_s_system").equals("0")) {
+					school.setPrivate_school_s_system("Não");
+				} else if (rs.getString("private_school_s_system").equals("1")) {
+					school.setPrivate_school_s_system("Sim");
+				}
+				if (rs.getString("private_school_maintainer_cnpj") == null
+						|| rs.getString("private_school_maintainer_cnpj").equals("")) {
+					school.setPrivate_school_maintainer_cnpj("Não informado");
+				} else if (rs.getString("private_school_maintainer_cnpj").equals("0")) {
+					school.setPrivate_school_maintainer_cnpj("Não");
+				} else if (rs.getString("private_school_maintainer_cnpj").equals("1")) {
+					school.setPrivate_school_maintainer_cnpj("Sim");
+				}
+				if (rs.getString("private_school_cnpj") == null || rs.getString("private_school_cnpj").equals("")) {
+					school.setPrivate_school_cnpj("Não informado");
+				} else if (rs.getString("private_school_cnpj").equals("0")) {
+					school.setPrivate_school_cnpj("Não");
+				} else if (rs.getString("private_school_cnpj").equals("1")) {
+					school.setPrivate_school_cnpj("Sim");
+				}
+				if (rs.getString("regulation") == null || rs.getString("regulation").equals("")) {
+					school.setRegulation("Não foi informado");
+				} else if (rs.getString("regulation").equals("1")) {
+					school.setRegulation("Não");
+				} else if (rs.getString("regulation").equals("2")) {
+					school.setRegulation("Sim");
+				} else if (rs.getString("regulation").equals("3")) {
+					school.setRegulation("Em tramitação");
+				}
+				if (rs.getString("offer_or_linked_unity") == null
+						|| rs.getString("offer_or_linked_unity").equals("-1")) {
+					school.setOffer_or_linked_unity("Não foi informado");
+				} else if (rs.getString("offer_or_linked_unity").equals("1")) {
+					school.setOffer_or_linked_unity("Unidade vinculada a escola de Educação Básica");
+				} else if (rs.getString("offer_or_linked_unity").equals("2")) {
+					school.setOffer_or_linked_unity("Unidade ofertante de Ensino Superior");
+				} else if (rs.getString("offer_or_linked_unity").equals("0")) {
+					school.setOffer_or_linked_unity("Não");
+				}
+				if (rs.getString("inep_head_school") == null || rs.getString("inep_head_school").equals("")) {
+					school.setInep_head_school("Não foi informado");
+				} else {
+					school.setInep_head_school(rs.getString("inep_head_school"));
+				}
+				if (rs.getString("ies_code") == null || rs.getString("ies_code").equals("")) {
+					school.setIes_code("Não foi informado");
+				} else {
+					school.setIes_code(rs.getString("ies_code"));
+				}
+				if (rs.getString("logo_file_name") == null) {
+					school.setLogo_file_name("Não foi informado");
+				} else {
+					school.setLogo_file_name(rs.getString("logo_file_name"));
+				}
+				if (rs.getString("logo_file_type") == null) {
+					school.setLogo_file_type("Não foi informado");
+				} else {
+					school.setLogo_file_type(rs.getString("logo_file_type"));
+				}
+				// school.setLogo_file_content(rs.getString("logo_file_content"));
+				if (rs.getString("act_of_acknowledgement") == null
+						|| rs.getString("act_of_acknowledgement").equals("")) {
+					school.setAct_of_acknowledgement("Não foi informado");
+				} else {
+					school.setAct_of_acknowledgement(rs.getString("act_of_acknowledgement"));
+				}
+				arraySchool.add(school);
+			}
+			return arraySchool;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 }

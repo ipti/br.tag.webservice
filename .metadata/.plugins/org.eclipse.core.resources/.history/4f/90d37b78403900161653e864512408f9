@@ -145,10 +145,10 @@ public class TAGManager {
 		return arrayClassroom;
 	}
 	
-	public ArrayList<Classroom> getClassroomsOfInstructor(String instructor_fk, String year) throws Exception {
+	public ArrayList<Classroom> getClassroomsOfInstructor(String instructor_fk) throws Exception {
 		try {
 			connection = database.getConnection();
-			arrayClassroom = tagProject.getClassroomsOfInstructor(connection, instructor_fk, year);
+			arrayClassroom = tagProject.getClassroomsOfInstructor(connection, instructor_fk);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -199,16 +199,6 @@ public class TAGManager {
 		try {
 			connection = database.getConnection();
 			arraySchool = tagProject.getSchools(connection, inep_id);
-		} catch (Exception e) {
-			throw e;
-		}
-		return arraySchool;
-	}
-	
-	public ArrayList<School> getSchoolsByUserID(String user_fk) throws Exception {
-		try {
-			connection = database.getConnection();
-			arraySchool = tagProject.getSchoolsByUserID(connection, user_fk);
 		} catch (Exception e) {
 			throw e;
 		}
