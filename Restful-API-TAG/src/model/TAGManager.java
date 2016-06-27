@@ -46,6 +46,7 @@ public class TAGManager {
 	}
 
 	public ArrayList<Credentials> getCredentials(String username, String password) throws Exception {
+		//Credentials credentials = new Credentials();
 		try {
 			connection = database.getConnection();
 			arrayCredentials = tagProject.getCredentials(connection, username, password);
@@ -125,16 +126,6 @@ public class TAGManager {
 		return arrayInstructor;
 	}
 	
-	public ArrayList<InstructorTeachingData> getInstructorsByClassroom(String instructor_inep_id) throws Exception {
-		try {
-			connection = database.getConnection();
-			arrayInstructorTeachingData = tagProject.getInstructorsByClassroom(connection, instructor_inep_id);
-		} catch (Exception e) {
-			throw e;
-		}
-		return arrayInstructorTeachingData;
-	}
-
 	public ArrayList<Classroom> getClassrooms() throws Exception {
 		try {
 			connection = database.getConnection();
@@ -205,10 +196,10 @@ public class TAGManager {
 		return arraySchool;
 	}
 	
-	public ArrayList<School> getSchoolsByUserID(String user_fk) throws Exception {
+	public ArrayList<School> getSchoolsByUserFK(String user_fk) throws Exception {
 		try {
 			connection = database.getConnection();
-			arraySchool = tagProject.getSchoolsByUserID(connection, user_fk);
+			arraySchool = tagProject.getSchoolsByUserFK(connection, user_fk);
 		} catch (Exception e) {
 			throw e;
 		}

@@ -14,6 +14,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 
+import com.google.gson.Gson;
+
 import dto.Classroom;
 import dto.Credentials;
 import dto.DisciplinesByClass;
@@ -47,14 +49,15 @@ public class TAGService {
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayCredentials);
 	}
-	
+
 	@GET
 	@Path("/getCredentials/{username}/{password}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getCredentials(@PathParam("username") String username, @PathParam("password") String password) throws Exception {
-		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+	public String getCredentials(@PathParam("username") String username, @PathParam("password") String password)
+			throws Exception {
 		arrayCredentials = tagManager.getCredentials(username, password);
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayCredentials);
 	}
@@ -80,7 +83,7 @@ public class TAGService {
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayStudent);
 	}
-	
+
 	@GET
 	@Path("/getStudentsPerClassroom/{classroom_id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
@@ -102,12 +105,13 @@ public class TAGService {
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayStudent);
 	}
-	
+
 	@GET
 	@Path("/getStudentsByID/{classroom_id}/{id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getStudentsByID(@PathParam("classroom_id") String classroom_id, @PathParam("id") String id) throws Exception {
+	public String getStudentsByID(@PathParam("classroom_id") String classroom_id, @PathParam("id") String id)
+			throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
 		arrayStudent = tagManager.getStudentsByID(classroom_id, id);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
@@ -135,17 +139,6 @@ public class TAGService {
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayInstructor);
 	}
-	
-	@GET
-	@Path("/getInstructorsByClassroom/{instructor_inep_id}")
-	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
-	@JsonProperty
-	public String getInstructorsByClassroom(@PathParam("instructor_inep_id") String instructor_inep_id) throws Exception {
-		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-		arrayInstructorTeachingData = tagManager.getInstructorsByClassroom(instructor_inep_id);
-		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
-		return objectMapper.writeValueAsString(arrayInstructorTeachingData);
-	}
 
 	@GET
 	@Path("/getClassrooms")
@@ -168,18 +161,19 @@ public class TAGService {
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayClassroom);
 	}
-	
+
 	@GET
 	@Path("/getClassroomsOfInstructor/{instructor_fk}/{year}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getClassroomsOfInstructor(@PathParam("instructor_fk") String instructor_fk, @PathParam("year") String year) throws Exception {
+	public String getClassroomsOfInstructor(@PathParam("instructor_fk") String instructor_fk,
+			@PathParam("year") String year) throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
 		arrayClassroom = tagManager.getClassroomsOfInstructor(instructor_fk, year);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayClassroom);
 	}
-	
+
 	@GET
 	@Path("/getDisciplinesByClassID/{id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
@@ -190,7 +184,7 @@ public class TAGService {
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayDisciplinesByClass);
 	}
-	
+
 	@GET
 	@Path("/getClassroomsBySchoolInep/{school_inep_fk}")
 	@Produces(MediaType.APPLICATION_JSON + ";**charset=utf-8**")
@@ -223,14 +217,14 @@ public class TAGService {
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arraySchool);
 	}
-	
+
 	@GET
-	@Path("/getSchoolsByUserID/{user_fk}")
+	@Path("/getSchoolsByUserFK/{user_fk}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getSchoolsByUserID(@PathParam("user_fk") String user_fk) throws Exception {
+	public String getSchoolsByUserFK(@PathParam("user_fk") String user_fk) throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-		arraySchool = tagManager.getSchoolsByUserID(user_fk);
+		arraySchool = tagManager.getSchoolsByUserFK(user_fk);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arraySchool);
 	}
