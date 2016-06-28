@@ -45,14 +45,13 @@ public class TAGProject {
 	public ArrayList<Credentials> getCredentials(Connection connection, String username, String password) throws Exception {
 		try {
 			String passwordEncrypted = getPasswordEncrypted(password);
-			PreparedStatement ps = connection.prepareStatement("SELECT id, instructor_fk, username, password, type FROM users "
+			PreparedStatement ps = connection.prepareStatement("SELECT id, username, password, type FROM users "
 					+ "WHERE username = '" + username + "' AND password = '" + passwordEncrypted + "';");
 			ResultSet rs = ps.executeQuery();
 
 			Credentials credentials = new Credentials();
 			while (rs.next()) {
 				credentials.setId(rs.getString("id"));
-				credentials.setInstructor_fk(rs.getString("instructor_fk"));
 				credentials.setUsername(rs.getString("username"));
 				credentials.setPassword(rs.getString("password"));
 				credentials.setType(rs.getString("type"));
@@ -67,13 +66,12 @@ public class TAGProject {
 
 	public ArrayList<Credentials> getCredentials(Connection connection) throws Exception {
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT id, instructor_fk, username, password, type FROM users;");
+			PreparedStatement ps = connection.prepareStatement("SELECT id, username, password, type FROM users;");
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 				Credentials credentials = new Credentials();
 				credentials.setId(rs.getString("id"));
-				credentials.setInstructor_fk(rs.getString("instructor_fk"));
 				credentials.setUsername(rs.getString("username"));
 				credentials.setPassword(rs.getString("password"));
 				credentials.setType(rs.getString("type"));
