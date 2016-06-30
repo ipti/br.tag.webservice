@@ -3,7 +3,6 @@ package dto;
 public class Credentials {
 	
 	private String id;
-	private String name;
 	private String instructor_fk;
 	private String username;
 	private String password;
@@ -15,14 +14,6 @@ public class Credentials {
 	
 	public void setId(String id) {
 		this.id = id;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 	public String getInstructor_fk() {

@@ -92,15 +92,10 @@ public class TAGProject {
 	public ArrayList<Student> getChildrenPerFather(Connection connection, String username) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT DISTINCT student_identification.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*"
-							+ " FROM student_identification, users, edcenso_city, edcenso_uf, edcenso_nation"
+					.prepareStatement("SELECT DISTINCT student_identification.* FROM `br.org.ipti.tag`.student_identification, users"
 							+ " WHERE student_identification.responsable_cpf = '" + username + "'"
 							+ " AND users.type = 3"
-							+ " AND student_identification.edcenso_nation_fk = edcenso_nation.id"
-							+ " AND student_identification.edcenso_uf_fk = edcenso_uf.id"
-							+ " AND student_identification.edcenso_city_fk = edcenso_city.id"
 							+ " ORDER BY student_identification.id;");
-
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
