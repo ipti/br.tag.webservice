@@ -6,11 +6,15 @@
 	<display-name>API TAG</display-name>
 	<servlet>
 		<servlet-name>TAGService</servlet-name>
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
-			<param-name>com.sun.jersey.config.property.resourceConfigClass</param-name>
-			<param-value>com.sun.jersey.api.core.PackagesResourceConfig</param-value>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>com.wld.rest</param-value>
 		</init-param>
+		<!-- <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class> 
+			<init-param> <param-name>com.sun.jersey.config.property.resourceConfigClass</param-name> 
+			<param-value>com.sun.jersey.api.core.PackagesResourceConfig</param-value> 
+			</init-param> -->
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
 			<param-value>webService</param-value>
@@ -25,4 +29,7 @@
 		<servlet-name>TAGService</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+	<!-- <filter> <filter-name>AuthenticationFilter</filter-name> <filter-class>webService.RestAuthenticationFilter</filter-class> 
+		</filter> <filter-mapping> <filter-name>AuthenticationFilter</filter-name> 
+		<url-pattern>/*</url-pattern> </filter-mapping> -->
 </web-app>

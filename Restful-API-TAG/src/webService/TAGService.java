@@ -2,6 +2,7 @@ package webService;
 
 import java.util.ArrayList;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -19,6 +20,7 @@ import com.google.gson.Gson;
 import dto.Classroom;
 import dto.Credentials;
 import dto.DisciplinesByClass;
+import dto.Grade;
 import dto.Instructor;
 import dto.InstructorTeachingData;
 import dto.School;
@@ -36,9 +38,11 @@ public class TAGService {
 	ArrayList<School> arraySchool = new ArrayList<>();
 	ArrayList<Credentials> arrayCredentials = new ArrayList<>();
 	ArrayList<DisciplinesByClass> arrayDisciplinesByClass = new ArrayList<DisciplinesByClass>();
+	ArrayList<Grade> arrayGrade = new ArrayList<Grade>();
 
 	TAGManager tagManager = new TAGManager();
 
+	//@RolesAllowed("admin")
 	@GET
 	@Path("/getCredentials")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
@@ -238,5 +242,27 @@ public class TAGService {
 		arraySchool = tagManager.getSchoolsByUserFK(user_fk);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arraySchool);
+	}
+	
+	@GET
+	@Path("/getGrade")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getGrade() throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayGrade = tagManager.getGrade();
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayGrade);
+	}
+	
+	@GET
+	@Path("/getGrade/{enrollment_fk}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getGrade(@PathParam("enrollment_fk") String enrollment_fk) throws Exception {
+		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+		arrayGrade = tagManager.getGrade(enrollment_fk);
+		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+		return objectMapper.writeValueAsString(arrayGrade);
 	}
 }

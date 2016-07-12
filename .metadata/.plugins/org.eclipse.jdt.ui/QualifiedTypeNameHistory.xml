@@ -14,8 +14,6 @@
 <fullyQualifiedTypeName name="com.mysql.jdbc.Connection"/>
 <fullyQualifiedTypeName name="java.sql.DriverManager"/>
 <fullyQualifiedTypeName name="org.codehaus.jackson.annotate.JsonProperty"/>
-<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
-<fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
 <fullyQualifiedTypeName name="org.codehaus.jackson.JsonGenerator"/>
 <fullyQualifiedTypeName name="org.codehaus.jackson.JsonGenerator.Feature"/>
@@ -23,7 +21,12 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="dto.DisciplinesByClass"/>
 <fullyQualifiedTypeName name="dto.InstructorTeachingData"/>
-<fullyQualifiedTypeName name="javax.ws.rs.PathParam"/>
 <fullyQualifiedTypeName name="com.google.gson.Gson"/>
 <fullyQualifiedTypeName name="dto.Credentials"/>
+<fullyQualifiedTypeName name="dto.Grade"/>
+<fullyQualifiedTypeName name="javax.ws.rs.PathParam"/>
+<fullyQualifiedTypeName name="com.sun.jersey.core.util.Base64"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="javax.annotation.security.RolesAllowed"/>
 </qualifiedTypeNameHistroy>

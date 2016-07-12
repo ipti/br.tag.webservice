@@ -8,6 +8,7 @@ import dao.TAGProject;
 import dto.Classroom;
 import dto.Credentials;
 import dto.DisciplinesByClass;
+import dto.Grade;
 import dto.Instructor;
 import dto.InstructorTeachingData;
 import dto.School;
@@ -26,6 +27,7 @@ public class TAGManager {
 	private ArrayList<DisciplinesByClass> arrayDisciplinesByClass = new ArrayList<DisciplinesByClass>();
 	private ArrayList<School> arraySchool = new ArrayList<>();
 	private ArrayList<Credentials> arrayCredentials = new ArrayList<>();
+	private ArrayList<Grade> arrayGrade = new ArrayList<Grade>();
 
 	/*
 	 * Criando o banco da classe criada Database para ter conexão com o banco do
@@ -46,7 +48,7 @@ public class TAGManager {
 	}
 
 	public ArrayList<Credentials> getCredentials(String username, String password) throws Exception {
-		//Credentials credentials = new Credentials();
+		// Credentials credentials = new Credentials();
 		try {
 			connection = database.getConnection();
 			arrayCredentials = tagProject.getCredentials(connection, username, password);
@@ -65,7 +67,7 @@ public class TAGManager {
 		}
 		return arrayStudent;
 	}
-	
+
 	public ArrayList<Student> getStudents() throws Exception {
 		try {
 			connection = database.getConnection();
@@ -135,7 +137,7 @@ public class TAGManager {
 		}
 		return arrayInstructor;
 	}
-	
+
 	public ArrayList<Classroom> getClassrooms() throws Exception {
 		try {
 			connection = database.getConnection();
@@ -145,7 +147,7 @@ public class TAGManager {
 		}
 		return arrayClassroom;
 	}
-	
+
 	public ArrayList<Classroom> getClassroomsOfInstructor(String instructor_fk, String year) throws Exception {
 		try {
 			connection = database.getConnection();
@@ -205,7 +207,7 @@ public class TAGManager {
 		}
 		return arraySchool;
 	}
-	
+
 	public ArrayList<School> getSchoolsByUserFK(String user_fk) throws Exception {
 		try {
 			connection = database.getConnection();
@@ -215,4 +217,25 @@ public class TAGManager {
 		}
 		return arraySchool;
 	}
+
+	public ArrayList<Grade> getGrade() throws Exception {
+		try {
+			connection = database.getConnection();
+			arrayGrade = tagProject.getGrades(connection);
+		} catch (Exception e) {
+			throw e;
+		}
+		return arrayGrade;
+	}
+	
+	public ArrayList<Grade> getGrade(String enrollment_fk) throws Exception {
+		try {
+			connection = database.getConnection();
+			arrayGrade = tagProject.getGrades(connection, enrollment_fk);
+		} catch (Exception e) {
+			throw e;
+		}
+		return arrayGrade;
+	}
+
 }

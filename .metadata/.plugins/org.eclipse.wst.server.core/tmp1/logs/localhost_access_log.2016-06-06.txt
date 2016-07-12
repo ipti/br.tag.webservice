@@ -1,3 +1,0 @@
-127.0.0.1 - - [06/Jun/2016:13:09:15 -0300] "GET / HTTP/1.1" 404 951
-0:0:0:0:0:0:0:1 - - [06/Jun/2016:13:10:28 -0300] "GET /Restful-API-TAG/api/TagService/getStudents HTTP/1.1" 500 4179
-0:0:0:0:0:0:0:1 - - [06/Jun/2016:13:10:29 -0300] "GET /favicon.ico HTTP/1.1" 404 973
