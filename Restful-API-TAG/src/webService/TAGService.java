@@ -1,8 +1,10 @@
 package webService;
 
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.annotation.security.RolesAllowed;
+import javax.swing.JLabel;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -42,7 +44,7 @@ public class TAGService {
 
 	TAGManager tagManager = new TAGManager();
 
-	//@RolesAllowed("admin")
+	//@RolesAllowed("admin")	
 	@GET
 	@Path("/getCredentials")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
@@ -67,12 +69,12 @@ public class TAGService {
 	}
 	
 	@GET
-	@Path("/getChildrenPerFather/{username}")
+	@Path("/getChildrenPerParent/{username}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getChildrenPerFather(@PathParam("username") String username) throws Exception {
+	public String getChildrenPerParent(@PathParam("username") String username) throws Exception {
 		objectMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
-		arrayStudent = tagManager.getChildrenPerFather(username);
+		arrayStudent = tagManager.getChildrenPerParent(username);
 		objectMapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 		return objectMapper.writeValueAsString(arrayStudent);
 	}

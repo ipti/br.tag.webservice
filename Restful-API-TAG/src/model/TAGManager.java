@@ -58,10 +58,10 @@ public class TAGManager {
 		return arrayCredentials;
 	}
 
-	public ArrayList<Student> getChildrenPerFather(String username) throws Exception {
+	public ArrayList<Student> getChildrenPerParent(String username) throws Exception {
 		try {
 			connection = database.getConnection();
-			arrayStudent = tagProject.getChildrenPerFather(connection, username);
+			arrayStudent = tagProject.getChildrenPerParent(connection, username);
 		} catch (Exception e) {
 			throw e;
 		}

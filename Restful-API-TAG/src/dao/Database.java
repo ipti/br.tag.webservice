@@ -13,7 +13,8 @@ public class Database {
 			//String connectionURL = "jdbc:mysql://localhost:3306/br.tag.se";
 			Connection connection = null;
 			Class.forName(driver).newInstance();
-			connection = DriverManager.getConnection(connectionURL, "root", "");
+			//connection = DriverManager.getConnection(connectionURL, "root", "");
+			connection = DriverManager.getConnection(connectionURL, "tag", "123456");
 			//connection = DriverManager.getConnection(connectionURL, "user.tag", "123456");
 			return connection;
 		} catch (SQLException e) {

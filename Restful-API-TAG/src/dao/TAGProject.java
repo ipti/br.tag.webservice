@@ -91,24 +91,22 @@ public class TAGProject {
 		}
 	}
 
-	public ArrayList<Student> getChildrenPerFather(Connection connection, String username) throws Exception {
+	public ArrayList<Student> getChildrenPerParent(Connection connection, String username) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT DISTINCT student_enrollment.*, student_identification.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*"
-							+ " FROM student_enrollment, student_identification, users, edcenso_city, edcenso_uf, edcenso_nation"
+					.prepareStatement("SELECT DISTINCT student_identification.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*"
+							+ " FROM student_identification, users, edcenso_city, edcenso_uf, edcenso_nation"
 							+ " WHERE student_identification.responsable_cpf = '" + username + "'"
 							+ " AND users.type = 3"
 							+ " AND student_identification.edcenso_nation_fk = edcenso_nation.id"
 							+ " AND student_identification.edcenso_uf_fk = edcenso_uf.id"
 							+ " AND student_identification.edcenso_city_fk = edcenso_city.id"
-							+ " AND student_identification.id = student_enrollment.student_fk"
 							+ " ORDER BY student_identification.id;");
 
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 				Student student = new Student();
-				student.setEnrollment_fk(rs.getString("student_enrollment.enrollment_id"));
 				student.setRegister_type(rs.getString("register_type"));
 				student.setSchool_inep_id_fk(rs.getString("school_inep_id_fk"));
 				if (rs.getString("inep_id") == null || rs.getString("inep_id").equals("")) {
@@ -404,7 +402,7 @@ public class TAGProject {
 	public ArrayList<Student> getStudentsPerClassroom(Connection connection, String classroom_id) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT student_enrollment.*, student_identification.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*"
+					.prepareStatement("SELECT student_identification.*, student_enrollment.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*"
 							+ " FROM student_enrollment, student_identification, edcenso_city, edcenso_uf, edcenso_nation"
 							+ " WHERE student_enrollment.student_inep_id = student_identification.inep_id"
 							+ " AND student_enrollment.classroom_fk = '" + classroom_id + "'"
@@ -1341,21 +1339,21 @@ public class TAGProject {
 	public ArrayList<Student> getStudentsByID(Connection connection, String classroom_id, String id) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT student_enrollment.*, student_identification.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*"
+					.prepareStatement("SELECT student_identification.*, student_enrollment.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*"
 							+ " FROM student_enrollment, student_identification, edcenso_city, edcenso_uf, edcenso_nation"
 							+ " WHERE student_identification.edcenso_nation_fk = edcenso_nation.id"
-							//+ " AND student_identification.id = student_enrollment.student_fk"
+							+ " AND student_identification.id = student_enrollment.student_fk"
 							+ " AND student_identification.edcenso_uf_fk = edcenso_uf.id"
 							+ " AND student_identification.edcenso_city_fk = edcenso_city.id"
-							+ " AND student_enrollment.classroom_fk = '" + classroom_id + "'"
-							+ " AND student_identification.id = '" + id + "'"
+							+ " AND student_enrollment.student_fk = " + id + ""
+							+ " AND student_enrollment.classroom_fk = " + classroom_id + ""
 							+ " LIMIT 1;");
 
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 				Student student = new Student();
-				//student.setEnrollment_fk(rs.getString("student_enrollment.enrollment_id"));
+				student.setEnrollment_fk(rs.getString("student_enrollment.enrollment_id"));
 				student.setRegister_type(rs.getString("register_type"));
 				student.setSchool_inep_id_fk(rs.getString("school_inep_id_fk"));
 				if (rs.getString("inep_id") == null || rs.getString("inep_id").equals("")) {
@@ -4829,7 +4827,8 @@ public class TAGProject {
 	public ArrayList<Grade> getGrades(Connection connection) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT * FROM grade;");
+					.prepareStatement("SELECT * FROM grade, edcenso_discipline"
+							+ " WHERE grade.discipline_fk = edcenso_discipline.id;");
 
 			ResultSet rs = ps.executeQuery();
 			
@@ -4846,7 +4845,7 @@ public class TAGProject {
 				grade.setRecovery_grade3(rs.getString("recovery_grade3"));
 				grade.setRecovery_grade4(rs.getString("recovery_grade4"));
 				grade.setRecovery_final_grade(rs.getString("recovery_final_grade"));
-				grade.setDiscipline_fk(rs.getString("discipline_fk"));
+				grade.setDiscipline_fk(rs.getString("edcenso_discipline.name"));
 				grade.setEnrollment_fk(rs.getString("enrollment_fk"));
 				grade.setFkid(rs.getString("fkid"));
 				
@@ -4861,7 +4860,9 @@ public class TAGProject {
 	public ArrayList<Grade> getGrades(Connection connection, String enrollment_fk) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT * FROM grade WHERE enrollment_fk = '" + enrollment_fk + "';");
+					.prepareStatement("SELECT * FROM grade, edcenso_discipline"
+							+ " WHERE grade.discipline_fk = edcenso_discipline.id"
+							+ " AND enrollment_fk = '" + enrollment_fk + "';");
 
 			ResultSet rs = ps.executeQuery();
 			
@@ -4878,7 +4879,7 @@ public class TAGProject {
 				grade.setRecovery_grade3(rs.getString("recovery_grade3"));
 				grade.setRecovery_grade4(rs.getString("recovery_grade4"));
 				grade.setRecovery_final_grade(rs.getString("recovery_final_grade"));
-				grade.setDiscipline_fk(rs.getString("discipline_fk"));
+				grade.setDiscipline_fk(rs.getString("edcenso_discipline.name"));
 				grade.setEnrollment_fk(rs.getString("enrollment_fk"));
 				grade.setFkid(rs.getString("fkid"));
 				
