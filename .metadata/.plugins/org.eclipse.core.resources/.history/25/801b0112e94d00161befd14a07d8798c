@@ -94,22 +94,20 @@ public class TAGProject {
 	public ArrayList<Student> getChildrenPerParent(Connection connection, String username) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT DISTINCT student_identification.*, edcenso_city.*, edcenso_uf.*,"
-							+ " edcenso_nation.*, student_enrollment.student_fk, student_enrollment.id"
+					.prepareStatement("SELECT DISTINCT student_identification.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*, student_enrollment.*"
 							+ " FROM student_identification, users, edcenso_city, edcenso_uf, edcenso_nation, student_enrollment"
 							+ " WHERE student_identification.responsable_cpf = '" + username + "'"
 							+ " AND users.type = 3"
 							+ " AND student_identification.edcenso_nation_fk = edcenso_nation.id"
 							+ " AND student_identification.edcenso_uf_fk = edcenso_uf.id"
 							+ " AND student_identification.edcenso_city_fk = edcenso_city.id"
-							+ " AND student_identification.id = student_enrollment.student_fk"
 							+ " ORDER BY student_identification.id;");
 
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 				Student student = new Student();
-				student.setEnrollment_fk(rs.getString("student_enrollment.id"));
+				student.setEnrollment_fk("student_enrollment.student_fk");
 				student.setRegister_type(rs.getString("register_type"));
 				student.setSchool_inep_id_fk(rs.getString("school_inep_id_fk"));
 				if (rs.getString("inep_id") == null || rs.getString("inep_id").equals("")) {

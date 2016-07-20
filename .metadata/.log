@@ -5989,3 +5989,75 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-14 11:43:27.378
 !MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war
+!SESSION 2016-07-15 08:46:02.289 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-07-15 09:32:57.366
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Filipi Andrade'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-15 09:35:17.621
+!MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war
+
+!ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-15 10:21:18.489
+!MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war
+
+!ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-15 11:38:31.101
+!MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war
+!SESSION 2016-07-19 14:36:41.824 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-07-19 15:26:29.004
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Filipi Andrade'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-19 15:41:17.954
+!MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war
+
+!ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-19 16:40:00.168
+!MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war
+
+!ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-19 16:43:35.192
+!MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war
+
+!ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-19 16:50:33.965
+!MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war
+
+!ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-19 16:52:23.506
+!MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war
+!SESSION 2016-07-20 14:25:39.134 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_92
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2016-07-20 14:35:26.174
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Filipi Andrade'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-20 14:37:24.007
+!MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war
+
+!ENTRY oracle.eclipse.tools.glassfish 1 1 2016-07-20 14:49:06.742
+!MESSAGE GlassFish: Deploy archive C:\Desenvolvimento\API\br.tag.api\Restful-API-TAG.war

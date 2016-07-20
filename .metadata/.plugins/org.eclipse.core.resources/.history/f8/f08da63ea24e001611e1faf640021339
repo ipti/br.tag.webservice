@@ -94,8 +94,7 @@ public class TAGProject {
 	public ArrayList<Student> getChildrenPerParent(Connection connection, String username) throws Exception {
 		try {
 			PreparedStatement ps = connection
-					.prepareStatement("SELECT DISTINCT student_identification.*, edcenso_city.*, edcenso_uf.*,"
-							+ " edcenso_nation.*, student_enrollment.student_fk, student_enrollment.id"
+					.prepareStatement("SELECT DISTINCT student_identification.*, edcenso_city.*, edcenso_uf.*, edcenso_nation.*, student_enrollment.*"
 							+ " FROM student_identification, users, edcenso_city, edcenso_uf, edcenso_nation, student_enrollment"
 							+ " WHERE student_identification.responsable_cpf = '" + username + "'"
 							+ " AND users.type = 3"
