@@ -3,12 +3,14 @@ package api;
 import java.util.ArrayList;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -17,14 +19,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import dto.Classroom;
-import dto.Credentials;
-import dto.DisciplinesByClass;
-import dto.Grade;
-import dto.Instructor;
-import dto.InstructorTeachingData;
-import dto.School;
-import dto.Student;
+import dto.*;
 import filter.CORSFilter;
 import model.TAGManager;
 
@@ -32,259 +27,278 @@ import model.TAGManager;
 @Provider
 public class TAGService {
 
-	ArrayList<Student> arrayStudent = new ArrayList<>();
-	ArrayList<Instructor> arrayInstructor = new ArrayList<>();
-	ArrayList<InstructorTeachingData> arrayInstructorTeachingData = new ArrayList<>();
-	ArrayList<Classroom> arrayClassroom = new ArrayList<>();
-	ArrayList<School> arraySchool = new ArrayList<>();
-	ArrayList<Credentials> arrayCredentials = new ArrayList<>();
-	ArrayList<DisciplinesByClass> arrayDisciplinesByClass = new ArrayList<DisciplinesByClass>();
-	ArrayList<Grade> arrayGrade = new ArrayList<Grade>();
+	private ArrayList<CredentialsReturn> arrayCredentialsReturn = new ArrayList<>();
+	private ArrayList<StudentReturn> arrayStudentReturn = new ArrayList<>();
+	private ArrayList<InstructorReturn> arrayInstructorReturn = new ArrayList<>();
+	private ArrayList<InstructorTeachingDataReturn> arrayInstructorTeachingDataReturn = new ArrayList<>();
+	private ArrayList<ClassroomReturn> arrayClassroomReturn = new ArrayList<>();
+	private ArrayList<DisciplinesByClassReturn> arrayDisciplinesByClassReturn = new ArrayList<>();
+	private ArrayList<SchoolReturn> arraySchoolReturn = new ArrayList<>();
+	private ArrayList<GradeReturn> arrayGradeReturn = new ArrayList<>();
 
-	TAGManager tagManager = new TAGManager();
-	ObjectMapper objectMapper = new ObjectMapper();
-	ResourceConfig resourceConfig = new ResourceConfig();
+	private TAGManager tagManager = new TAGManager();
+	private ObjectMapper objectMapper = new ObjectMapper();
+	private ResourceConfig resourceConfig = new ResourceConfig();
 
-	@GET
-	@Path("getCredentials")
+	// --------------- USERS ------------------ //
+	@POST
+	@Path("login")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getCredentials() throws Exception {
-		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayCredentials = tagManager.getCredentials();
-		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayCredentials);
-	}
-
-	@GET
-	@Path("getCredentials/{username}/{password}")
-	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
-	@JsonProperty
-	public String getCredentials(@PathParam("username") String username, @PathParam("password") String password)
+	public String getCredentials(@FormDataParam("username") String username, @FormDataParam("password") String password)
 			throws Exception {
-		arrayCredentials = tagManager.getCredentials(username, password);
+		arrayCredentialsReturn = tagManager.getCredentials(username, password);
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayCredentials);
+		return objectMapper.writeValueAsString(arrayCredentialsReturn);
 	}
 
+	// --------------- STUDENT ------------------ //
 	@GET
-	@Path("getChildrenPerParent/{username}")
+	@Path("student/parent/{username}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getChildrenPerParent(@PathParam("username") String username) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayStudent = tagManager.getChildrenPerParent(username);
+		arrayStudentReturn = tagManager.getChildrenPerParent(username);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayStudent);
+		return objectMapper.writeValueAsString(arrayStudentReturn);
 	}
 
 	@GET
-	@Path("getStudents")
+	@Path("students")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getStudents() throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayStudent = tagManager.getStudents();
+		arrayStudentReturn = tagManager.getStudents();
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayStudent);
+		return objectMapper.writeValueAsString(arrayStudentReturn);
 	}
 
 	@GET
-	@Path("getStudents/{inep_id}")
+	@Path("student/{inep_id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getStudents(@PathParam("inep_id") String inep_id) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayStudent = tagManager.getStudents(inep_id);
+		arrayStudentReturn = tagManager.getStudents(inep_id);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayStudent);
+		return objectMapper.writeValueAsString(arrayStudentReturn);
 	}
 
 	@GET
-	@Path("getStudentsPerClassroom/{classroom_id}")
+	@Path("student/classroom/{classroom_id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getStudentsPerClassroom(@PathParam("classroom_id") String classroom_id) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayStudent = tagManager.getStudentsPerClassroom(classroom_id);
+		arrayStudentReturn = tagManager.getStudentsPerClassroom(classroom_id);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayStudent);
+		return objectMapper.writeValueAsString(arrayStudentReturn);
 	}
 
 	@GET
-	@Path("getStudentsByName/{name}")
+	@Path("student/name/{name}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getStudentsByName(@PathParam("name") String name) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayStudent = tagManager.getStudentsByName(name);
+		arrayStudentReturn = tagManager.getStudentsByName(name);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayStudent);
+		return objectMapper.writeValueAsString(arrayStudentReturn);
 	}
 
 	@GET
-	@Path("getStudentsByID/{classroom_id}/{id}")
+	@Path("student/id/{classroom_id}/{id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getStudentsByID(@PathParam("classroom_id") String classroom_id, @PathParam("id") String id)
 			throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayStudent = tagManager.getStudentsByID(classroom_id, id);
+		arrayStudentReturn = tagManager.getStudentsByID(classroom_id, id);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayStudent);
+		return objectMapper.writeValueAsString(arrayStudentReturn);
 	}
 
+	// --------------- INSTRUCTOR ------------------ //
 	@GET
-	@Path("getInstructors")
+	@Path("instructors")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getInstructors() throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayInstructor = tagManager.getInstructors();
+		arrayInstructorReturn = tagManager.getInstructors();
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayInstructor);
+		return objectMapper.writeValueAsString(arrayInstructorReturn);
 	}
 
 	@GET
-	@Path("getInstructors/{inep_id}")
+	@Path("instructor/inep/{inep_id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getInstructors(@PathParam("inep_id") String inep_id) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayInstructor = tagManager.getInstructors(inep_id);
+		arrayInstructorReturn = tagManager.getInstructor(inep_id);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayInstructor);
+		return objectMapper.writeValueAsString(arrayInstructorReturn);
 	}
 
 	@GET
-	@Path("getClassrooms")
+	@Path("instructor/{id}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getInstructorByID(@PathParam("id") String id) throws Exception {
+		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		arrayInstructorReturn = tagManager.getInstructorByID(id);
+		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		resourceConfig.register(new CORSFilter());
+		return objectMapper.writeValueAsString(arrayInstructorReturn);
+	}
+
+	@GET
+	@Path("instructor/discipline/{instructor_fk}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getInstructorTeachingData(@PathParam("instructor_fk") String instructor_fk) throws Exception {
+		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		arrayInstructorTeachingDataReturn = tagManager.getInstructorTeachingData(instructor_fk);
+		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		resourceConfig.register(new CORSFilter());
+		return objectMapper.writeValueAsString(arrayInstructorTeachingDataReturn);
+	}
+
+	// --------------- CLASSROOM ------------------ //
+	@GET
+	@Path("classrooms")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getClassrooms() throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayClassroom = tagManager.getClassrooms();
+		arrayClassroomReturn = tagManager.getClassrooms();
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayClassroom);
+		return objectMapper.writeValueAsString(arrayClassroomReturn);
 	}
 
 	@GET
-	@Path("getClassrooms/{inep_id}")
+	@Path("classroom/{inep_id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getClassrooms(@PathParam("inep_id") String inep_id) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayClassroom = tagManager.getClassrooms(inep_id);
+		arrayClassroomReturn = tagManager.getClassrooms(inep_id);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayClassroom);
+		return objectMapper.writeValueAsString(arrayClassroomReturn);
 	}
 
 	@GET
-	@Path("getClassroomsOfInstructor/{instructor_fk}/{year}")
+	@Path("classroom/instructor/{instructor_fk}/{year}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getClassroomsOfInstructor(@PathParam("instructor_fk") String instructor_fk,
 			@PathParam("year") String year) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayClassroom = tagManager.getClassroomsOfInstructor(instructor_fk, year);
+		arrayClassroomReturn = tagManager.getClassroomsOfInstructor(instructor_fk, year);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayClassroom);
+		return objectMapper.writeValueAsString(arrayClassroomReturn);
 	}
 
 	@GET
-	@Path("getDisciplinesByClassID/{id}")
-	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
-	@JsonProperty
-	public String getDisciplinesByClassID(@PathParam("id") String id) throws Exception {
-		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayDisciplinesByClass = tagManager.getDisciplinesByClassID(id);
-		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayDisciplinesByClass);
-	}
-
-	@GET
-	@Path("getClassroomsBySchoolInep/{school_inep_fk}")
+	@Path("classroom/school/{school_inep_fk}")
 	@Produces(MediaType.APPLICATION_JSON + ";**charset=utf-8**")
 	@JsonProperty
 	public String getClassroomsBySchoolInep(@PathParam("school_inep_fk") String school_inep_fk) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayClassroom = tagManager.getClassroomsBySchoolInep(school_inep_fk);
+		arrayClassroomReturn = tagManager.getClassroomsBySchoolInep(school_inep_fk);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayClassroom);
+		return objectMapper.writeValueAsString(arrayClassroomReturn);
 	}
 
+	// --------------- DISCIPLINE ------------------ //
 	@GET
-	@Path("getSchools")
+	@Path("discipline/classroom/{id}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getDisciplinesByClassID(@PathParam("id") String id) throws Exception {
+		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		arrayDisciplinesByClassReturn = tagManager.getDisciplinesByClassID(id);
+		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		resourceConfig.register(new CORSFilter());
+		return objectMapper.writeValueAsString(arrayDisciplinesByClassReturn);
+	}
+
+	// --------------- SCHOOL ------------------ //
+	@GET
+	@Path("schools")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getSchools() throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arraySchool = tagManager.getSchools();
+		arraySchoolReturn = tagManager.getSchools();
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arraySchool);
+		return objectMapper.writeValueAsString(arraySchoolReturn);
 	}
 
 	@GET
-	@Path("getSchools/{inep_id}")
+	@Path("school/{inep_id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getSchools(@PathParam("inep_id") String inep_id) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arraySchool = tagManager.getSchools(inep_id);
+		arraySchoolReturn = tagManager.getSchools(inep_id);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arraySchool);
+		return objectMapper.writeValueAsString(arraySchoolReturn);
 	}
 
 	@GET
-	@Path("getSchoolsByUserFK/{user_fk}")
+	@Path("school/user/{user_fk}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getSchoolsByUserFK(@PathParam("user_fk") String user_fk) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arraySchool = tagManager.getSchoolsByUserFK(user_fk);
+		arraySchoolReturn = tagManager.getSchoolsByUserFK(user_fk);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arraySchool);
+		return objectMapper.writeValueAsString(arraySchoolReturn);
 	}
 
+	// --------------- GRADE ------------------ //
 	@GET
-	@Path("/getGrade")
+	@Path("grades")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getGrade() throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayGrade = tagManager.getGrade();
+		arrayGradeReturn = tagManager.getGrade();
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayGrade);
+		return objectMapper.writeValueAsString(arrayGradeReturn);
 	}
 
 	@GET
-	@Path("getGrade/{enrollment_fk}")
+	@Path("grade/{enrollment_fk}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getGrade(@PathParam("enrollment_fk") String enrollment_fk) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayGrade = tagManager.getGrade(enrollment_fk);
+		arrayGradeReturn = tagManager.getGrade(enrollment_fk);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayGrade);
+		return objectMapper.writeValueAsString(arrayGradeReturn);
 	}
 }

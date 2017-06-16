@@ -53,7 +53,6 @@ public class Student {
 	private String food_restrictions;
 	private String responsable_telephone;
 	private String fkid;
-	private String enrollment_fk;
 
 	public void setRegister_type(String register_type) {
 		this.register_type = register_type;
@@ -66,7 +65,7 @@ public class Student {
 	public void setInep_id(String inep_id) {
 		this.inep_id = inep_id;
 	}
-	
+
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -259,13 +258,4 @@ public class Student {
 	public void setFkid(String fkid) {
 		this.fkid = fkid;
 	}
-	
-	public String getEnrollment_fk() {
-		return enrollment_fk;
-	}
-	
-	public void setEnrollment_fk(String enrollment_fk) {
-		this.enrollment_fk = enrollment_fk;
-	}
-
 }
