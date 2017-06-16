@@ -2652,7 +2652,6 @@ public class TAGProject {
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				InstructorTeachingData instructorTeachingData = new InstructorTeachingData();
 
 				if (rs.getString("discipline_1_fk") == null && rs.getString("discipline_2_fk") == null
 						&& rs.getString("discipline_3_fk") == null && rs.getString("discipline_4_fk") == null
@@ -2663,20 +2662,35 @@ public class TAGProject {
 						&& rs.getString("discipline_13_fk") == null) {
 					continue;
 				} else {
+					InstructorTeachingData instructorTeachingData = new InstructorTeachingData();
+
 					instructorTeachingData.setClassroom_id_fk(rs.getString("classroom_id_fk"));
 					instructorTeachingData.setDiscipline_1_fk(rs.getString("discipline_1_fk"));
+					instructorTeachingData.setDiscipline_1_name(rs.getString("discipline_1_name"));
 					instructorTeachingData.setDiscipline_2_fk(rs.getString("discipline_2_fk"));
+					instructorTeachingData.setDiscipline_2_name(rs.getString("discipline_2_name"));
 					instructorTeachingData.setDiscipline_3_fk(rs.getString("discipline_3_fk"));
+					instructorTeachingData.setDiscipline_3_name(rs.getString("discipline_3_name"));
 					instructorTeachingData.setDiscipline_4_fk(rs.getString("discipline_4_fk"));
+					instructorTeachingData.setDiscipline_4_name(rs.getString("discipline_4_name"));
 					instructorTeachingData.setDiscipline_5_fk(rs.getString("discipline_5_fk"));
+					instructorTeachingData.setDiscipline_5_name(rs.getString("discipline_5_name"));
 					instructorTeachingData.setDiscipline_6_fk(rs.getString("discipline_6_fk"));
+					instructorTeachingData.setDiscipline_6_name(rs.getString("discipline_6_name"));
 					instructorTeachingData.setDiscipline_7_fk(rs.getString("discipline_7_fk"));
+					instructorTeachingData.setDiscipline_7_name(rs.getString("discipline_7_name"));
 					instructorTeachingData.setDiscipline_8_fk(rs.getString("discipline_8_fk"));
+					instructorTeachingData.setDiscipline_8_name(rs.getString("discipline_8_name"));
 					instructorTeachingData.setDiscipline_9_fk(rs.getString("discipline_9_fk"));
+					instructorTeachingData.setDiscipline_9_name(rs.getString("discipline_9_name"));
 					instructorTeachingData.setDiscipline_10_fk(rs.getString("discipline_10_fk"));
+					instructorTeachingData.setDiscipline_10_name(rs.getString("discipline_10_name"));
 					instructorTeachingData.setDiscipline_11_fk(rs.getString("discipline_11_fk"));
+					instructorTeachingData.setDiscipline_11_name(rs.getString("discipline_11_name"));
 					instructorTeachingData.setDiscipline_12_fk(rs.getString("discipline_12_fk"));
+					instructorTeachingData.setDiscipline_12_name(rs.getString("discipline_12_name"));
 					instructorTeachingData.setDiscipline_13_fk(rs.getString("discipline_13_fk"));
+					instructorTeachingData.setDiscipline_13_name(rs.getString("discipline_13_name"));
 
 					arrayInstructorTeachingData.add(instructorTeachingData);
 				}
