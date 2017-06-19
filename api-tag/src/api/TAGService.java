@@ -116,7 +116,7 @@ public class TAGService {
 	}
 
 	@GET
-	@Path("student/id/{classroom_id}/{id}")
+	@Path("student/{classroom_id}/{id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
 	public String getStudentsByID(@PathParam("classroom_id") String classroom_id, @PathParam("id") String id)
@@ -163,18 +163,6 @@ public class TAGService {
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
 		return objectMapper.writeValueAsString(arrayInstructorReturn);
-	}
-
-	@GET
-	@Path("instructor/discipline/{instructor_fk}")
-	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
-	@JsonProperty
-	public String getInstructorTeachingData(@PathParam("instructor_fk") String instructor_fk) throws Exception {
-		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayInstructorTeachingDataReturn = tagManager.getInstructorTeachingData(instructor_fk);
-		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-		resourceConfig.register(new CORSFilter());
-		return objectMapper.writeValueAsString(arrayInstructorTeachingDataReturn);
 	}
 
 	// --------------- CLASSROOM ------------------ //
@@ -238,6 +226,18 @@ public class TAGService {
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
 		return objectMapper.writeValueAsString(arrayDisciplinesByClassReturn);
+	}
+
+	@GET
+	@Path("discipline/instructor/{id}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getInstructorTeachingData(@PathParam("id") String id) throws Exception {
+		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		arrayInstructorTeachingDataReturn = tagManager.getInstructorTeachingData(id);
+		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		resourceConfig.register(new CORSFilter());
+		return objectMapper.writeValueAsString(arrayInstructorTeachingDataReturn);
 	}
 
 	// --------------- SCHOOL ------------------ //

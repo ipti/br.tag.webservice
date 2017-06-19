@@ -103,14 +103,6 @@ public class TAGManager {
 		}
 	}
 
-	public ArrayList<InstructorTeachingDataReturn> getInstructorTeachingData(String instructor_fk) throws Exception {
-		try {
-			return tagProject.getInstructorTeachingData(connection, instructor_fk);
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
 	// --------------- CLASSROOM ------------------ //
 	public ArrayList<ClassroomReturn> getClassrooms() throws Exception {
 		try {
@@ -148,6 +140,14 @@ public class TAGManager {
 	public ArrayList<DisciplinesByClassReturn> getDisciplinesByClassID(String id) throws Exception {
 		try {
 			return tagProject.getDisciplinesByClassID(connection, id);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public ArrayList<InstructorTeachingDataReturn> getInstructorTeachingData(String id) throws Exception {
+		try {
+			return tagProject.getInstructorTeachingData(connection, id);
 		} catch (Exception e) {
 			throw e;
 		}

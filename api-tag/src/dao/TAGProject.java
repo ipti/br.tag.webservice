@@ -2631,103 +2631,6 @@ public class TAGProject {
 		}
 	}
 
-	public ArrayList<InstructorTeachingDataReturn> getInstructorTeachingData(Connection connection,
-			String instructor_fk) throws Exception {
-		try {
-			String sql = "SELECT classroom_id_fk, discipline_1_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_1_fk = E.id) discipline_1_name, "
-					+ "discipline_2_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_2_fk = E.id) discipline_2_name, "
-					+ "discipline_3_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_3_fk = E.id) discipline_3_name, "
-					+ "discipline_4_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_4_fk = E.id) discipline_4_name, "
-					+ "discipline_5_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_5_fk = E.id) discipline_5_name, "
-					+ "discipline_6_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_6_fk = E.id) discipline_6_name, "
-					+ "discipline_7_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_7_fk = E.id) discipline_7_name, "
-					+ "discipline_8_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_8_fk = E.id) discipline_8_name, "
-					+ "discipline_9_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_9_fk = E.id) discipline_9_name, "
-					+ "discipline_10_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_10_fk = E.id) discipline_10_name, "
-					+ "discipline_11_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_11_fk = E.id) discipline_11_name, "
-					+ "discipline_12_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_12_fk = E.id) discipline_12_name, "
-					+ "discipline_13_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_13_fk = E.id) discipline_13_name FROM instructor_teaching_data T WHERE T.instructor_fk = '"
-					+ instructor_fk + "';";
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-
-				if (rs.getString("discipline_1_fk") == null && rs.getString("discipline_2_fk") == null
-						&& rs.getString("discipline_3_fk") == null && rs.getString("discipline_4_fk") == null
-						&& rs.getString("discipline_5_fk") == null && rs.getString("discipline_6_fk") == null
-						&& rs.getString("discipline_7_fk") == null && rs.getString("discipline_8_fk") == null
-						&& rs.getString("discipline_9_fk") == null && rs.getString("discipline_10_fk") == null
-						&& rs.getString("discipline_11_fk") == null && rs.getString("discipline_12_fk") == null
-						&& rs.getString("discipline_13_fk") == null) {
-					continue;
-				} else {
-					InstructorTeachingData instructorTeachingData = new InstructorTeachingData();
-
-					instructorTeachingData.setClassroom_id_fk(rs.getString("classroom_id_fk"));
-					instructorTeachingData.setDiscipline_1_fk(rs.getString("discipline_1_fk"));
-					instructorTeachingData.setDiscipline_1_name(rs.getString("discipline_1_name"));
-					instructorTeachingData.setDiscipline_2_fk(rs.getString("discipline_2_fk"));
-					instructorTeachingData.setDiscipline_2_name(rs.getString("discipline_2_name"));
-					instructorTeachingData.setDiscipline_3_fk(rs.getString("discipline_3_fk"));
-					instructorTeachingData.setDiscipline_3_name(rs.getString("discipline_3_name"));
-					instructorTeachingData.setDiscipline_4_fk(rs.getString("discipline_4_fk"));
-					instructorTeachingData.setDiscipline_4_name(rs.getString("discipline_4_name"));
-					instructorTeachingData.setDiscipline_5_fk(rs.getString("discipline_5_fk"));
-					instructorTeachingData.setDiscipline_5_name(rs.getString("discipline_5_name"));
-					instructorTeachingData.setDiscipline_6_fk(rs.getString("discipline_6_fk"));
-					instructorTeachingData.setDiscipline_6_name(rs.getString("discipline_6_name"));
-					instructorTeachingData.setDiscipline_7_fk(rs.getString("discipline_7_fk"));
-					instructorTeachingData.setDiscipline_7_name(rs.getString("discipline_7_name"));
-					instructorTeachingData.setDiscipline_8_fk(rs.getString("discipline_8_fk"));
-					instructorTeachingData.setDiscipline_8_name(rs.getString("discipline_8_name"));
-					instructorTeachingData.setDiscipline_9_fk(rs.getString("discipline_9_fk"));
-					instructorTeachingData.setDiscipline_9_name(rs.getString("discipline_9_name"));
-					instructorTeachingData.setDiscipline_10_fk(rs.getString("discipline_10_fk"));
-					instructorTeachingData.setDiscipline_10_name(rs.getString("discipline_10_name"));
-					instructorTeachingData.setDiscipline_11_fk(rs.getString("discipline_11_fk"));
-					instructorTeachingData.setDiscipline_11_name(rs.getString("discipline_11_name"));
-					instructorTeachingData.setDiscipline_12_fk(rs.getString("discipline_12_fk"));
-					instructorTeachingData.setDiscipline_12_name(rs.getString("discipline_12_name"));
-					instructorTeachingData.setDiscipline_13_fk(rs.getString("discipline_13_fk"));
-					instructorTeachingData.setDiscipline_13_name(rs.getString("discipline_13_name"));
-
-					arrayInstructorTeachingData.add(instructorTeachingData);
-				}
-			}
-
-			InstructorTeachingDataReturn instructorTeachingDataReturn = new InstructorTeachingDataReturn();
-			ArrayList<String> error = new ArrayList<>();
-			if (arrayInstructorTeachingData.size() > 0) {
-				instructorTeachingDataReturn.setValid(true);
-				instructorTeachingDataReturn.setError(error);
-				instructorTeachingDataReturn.setDiscipline(arrayInstructorTeachingData);
-			} else {
-				error.add("Esse professor não possui disciplina");
-
-				instructorTeachingDataReturn.setValid(false);
-				instructorTeachingDataReturn.setError(error);
-				instructorTeachingDataReturn.setDiscipline(null);
-			}
-
-			arrayInstructorTeachingDataReturn.add(instructorTeachingDataReturn);
-
-			return arrayInstructorTeachingDataReturn;
-		} catch (Exception e) {
-			InstructorTeachingDataReturn instructorTeachingDataReturn = new InstructorTeachingDataReturn();
-			ArrayList<String> error = new ArrayList<>();
-			error.add(e.getMessage());
-
-			instructorTeachingDataReturn.setValid(false);
-			instructorTeachingDataReturn.setError(error);
-			instructorTeachingDataReturn.setDiscipline(null);
-
-			arrayInstructorTeachingDataReturn.add(instructorTeachingDataReturn);
-			e.printStackTrace();
-			return arrayInstructorTeachingDataReturn;
-		}
-	}
-
 	// --------------- CLASSROOM ------------------ //
 	public ArrayList<ClassroomReturn> getClassrooms(Connection connection) throws Exception {
 		try {
@@ -4701,6 +4604,103 @@ public class TAGProject {
 			arrayDisciplinesByClassReturn.add(disciplinesByClassReturn);
 			e.printStackTrace();
 			return arrayDisciplinesByClassReturn;
+		}
+	}
+
+	public ArrayList<InstructorTeachingDataReturn> getInstructorTeachingData(Connection connection, String id)
+			throws Exception {
+		try {
+			String sql = "SELECT classroom_id_fk, discipline_1_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_1_fk = E.id) discipline_1_name, "
+					+ "discipline_2_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_2_fk = E.id) discipline_2_name, "
+					+ "discipline_3_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_3_fk = E.id) discipline_3_name, "
+					+ "discipline_4_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_4_fk = E.id) discipline_4_name, "
+					+ "discipline_5_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_5_fk = E.id) discipline_5_name, "
+					+ "discipline_6_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_6_fk = E.id) discipline_6_name, "
+					+ "discipline_7_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_7_fk = E.id) discipline_7_name, "
+					+ "discipline_8_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_8_fk = E.id) discipline_8_name, "
+					+ "discipline_9_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_9_fk = E.id) discipline_9_name, "
+					+ "discipline_10_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_10_fk = E.id) discipline_10_name, "
+					+ "discipline_11_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_11_fk = E.id) discipline_11_name, "
+					+ "discipline_12_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_12_fk = E.id) discipline_12_name, "
+					+ "discipline_13_fk, (SELECT name FROM edcenso_discipline E WHERE T.discipline_13_fk = E.id) discipline_13_name FROM instructor_teaching_data T WHERE T.instructor_fk = '"
+					+ id + "';";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				if (rs.getString("discipline_1_fk") == null && rs.getString("discipline_2_fk") == null
+						&& rs.getString("discipline_3_fk") == null && rs.getString("discipline_4_fk") == null
+						&& rs.getString("discipline_5_fk") == null && rs.getString("discipline_6_fk") == null
+						&& rs.getString("discipline_7_fk") == null && rs.getString("discipline_8_fk") == null
+						&& rs.getString("discipline_9_fk") == null && rs.getString("discipline_10_fk") == null
+						&& rs.getString("discipline_11_fk") == null && rs.getString("discipline_12_fk") == null
+						&& rs.getString("discipline_13_fk") == null) {
+					continue;
+				} else {
+					InstructorTeachingData instructorTeachingData = new InstructorTeachingData();
+
+					instructorTeachingData.setClassroom_id_fk(rs.getString("classroom_id_fk"));
+					instructorTeachingData.setDiscipline_1_fk(rs.getString("discipline_1_fk"));
+					instructorTeachingData.setDiscipline_1_name(rs.getString("discipline_1_name"));
+					instructorTeachingData.setDiscipline_2_fk(rs.getString("discipline_2_fk"));
+					instructorTeachingData.setDiscipline_2_name(rs.getString("discipline_2_name"));
+					instructorTeachingData.setDiscipline_3_fk(rs.getString("discipline_3_fk"));
+					instructorTeachingData.setDiscipline_3_name(rs.getString("discipline_3_name"));
+					instructorTeachingData.setDiscipline_4_fk(rs.getString("discipline_4_fk"));
+					instructorTeachingData.setDiscipline_4_name(rs.getString("discipline_4_name"));
+					instructorTeachingData.setDiscipline_5_fk(rs.getString("discipline_5_fk"));
+					instructorTeachingData.setDiscipline_5_name(rs.getString("discipline_5_name"));
+					instructorTeachingData.setDiscipline_6_fk(rs.getString("discipline_6_fk"));
+					instructorTeachingData.setDiscipline_6_name(rs.getString("discipline_6_name"));
+					instructorTeachingData.setDiscipline_7_fk(rs.getString("discipline_7_fk"));
+					instructorTeachingData.setDiscipline_7_name(rs.getString("discipline_7_name"));
+					instructorTeachingData.setDiscipline_8_fk(rs.getString("discipline_8_fk"));
+					instructorTeachingData.setDiscipline_8_name(rs.getString("discipline_8_name"));
+					instructorTeachingData.setDiscipline_9_fk(rs.getString("discipline_9_fk"));
+					instructorTeachingData.setDiscipline_9_name(rs.getString("discipline_9_name"));
+					instructorTeachingData.setDiscipline_10_fk(rs.getString("discipline_10_fk"));
+					instructorTeachingData.setDiscipline_10_name(rs.getString("discipline_10_name"));
+					instructorTeachingData.setDiscipline_11_fk(rs.getString("discipline_11_fk"));
+					instructorTeachingData.setDiscipline_11_name(rs.getString("discipline_11_name"));
+					instructorTeachingData.setDiscipline_12_fk(rs.getString("discipline_12_fk"));
+					instructorTeachingData.setDiscipline_12_name(rs.getString("discipline_12_name"));
+					instructorTeachingData.setDiscipline_13_fk(rs.getString("discipline_13_fk"));
+					instructorTeachingData.setDiscipline_13_name(rs.getString("discipline_13_name"));
+
+					arrayInstructorTeachingData.add(instructorTeachingData);
+				}
+			}
+
+			InstructorTeachingDataReturn instructorTeachingDataReturn = new InstructorTeachingDataReturn();
+			ArrayList<String> error = new ArrayList<>();
+			if (arrayInstructorTeachingData.size() > 0) {
+				instructorTeachingDataReturn.setValid(true);
+				instructorTeachingDataReturn.setError(error);
+				instructorTeachingDataReturn.setDiscipline(arrayInstructorTeachingData);
+			} else {
+				error.add("Esse professor não possui disciplina");
+
+				instructorTeachingDataReturn.setValid(false);
+				instructorTeachingDataReturn.setError(error);
+				instructorTeachingDataReturn.setDiscipline(null);
+			}
+
+			arrayInstructorTeachingDataReturn.add(instructorTeachingDataReturn);
+
+			return arrayInstructorTeachingDataReturn;
+		} catch (Exception e) {
+			InstructorTeachingDataReturn instructorTeachingDataReturn = new InstructorTeachingDataReturn();
+			ArrayList<String> error = new ArrayList<>();
+			error.add(e.getMessage());
+
+			instructorTeachingDataReturn.setValid(false);
+			instructorTeachingDataReturn.setError(error);
+			instructorTeachingDataReturn.setDiscipline(null);
+
+			arrayInstructorTeachingDataReturn.add(instructorTeachingDataReturn);
+			e.printStackTrace();
+			return arrayInstructorTeachingDataReturn;
 		}
 	}
 
