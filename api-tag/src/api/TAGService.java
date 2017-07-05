@@ -2,6 +2,7 @@ package api;
 
 import java.util.ArrayList;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -10,7 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
-import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -19,33 +19,59 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import dto.*;
+import dto.ClassroomReturn;
+import dto.CredentialsReturn;
+import dto.DisciplinesByClassReturn;
+import dto.GradeReturn;
+import dto.InstructorReturn;
+import dto.InstructorTeachingDataReturn;
+import dto.LoginReturn;
+import dto.SchoolReportReturn;
+import dto.SchoolReturn;
+import dto.StudentReturn;
+import dto.UserInfoReturn;
 import filter.CORSFilter;
 import model.TAGManager;
 
-@Path("/tag/")
+@Path("/")
 @Provider
 public class TAGService {
 
 	private ArrayList<CredentialsReturn> arrayCredentialsReturn = new ArrayList<>();
+	private ArrayList<LoginReturn> arrayLoginReturn = new ArrayList<>();
+	private ArrayList<UserInfoReturn> arrayUserInfoReturn = new ArrayList<>();
 	private ArrayList<StudentReturn> arrayStudentReturn = new ArrayList<>();
 	private ArrayList<InstructorReturn> arrayInstructorReturn = new ArrayList<>();
 	private ArrayList<InstructorTeachingDataReturn> arrayInstructorTeachingDataReturn = new ArrayList<>();
 	private ArrayList<ClassroomReturn> arrayClassroomReturn = new ArrayList<>();
 	private ArrayList<DisciplinesByClassReturn> arrayDisciplinesByClassReturn = new ArrayList<>();
 	private ArrayList<SchoolReturn> arraySchoolReturn = new ArrayList<>();
+	private ArrayList<SchoolReportReturn> arraySchoolReportReturn = new ArrayList<>();
 	private ArrayList<GradeReturn> arrayGradeReturn = new ArrayList<>();
 
 	private TAGManager tagManager = new TAGManager();
 	private ObjectMapper objectMapper = new ObjectMapper();
 	private ResourceConfig resourceConfig = new ResourceConfig();
 
-	// --------------- USERS ------------------ //
+	// --------------- LOGIN ------------------ //
 	@POST
-	@Path("login")
+	@Path("parent/login")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getCredentials(@FormDataParam("username") String username, @FormDataParam("password") String password)
+	public String getLogin(@FormParam("username") String username, @FormParam("password") String password)
+			throws Exception {
+		arrayLoginReturn = tagManager.getLogin(username, password);
+		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		resourceConfig.register(new CORSFilter());
+		return objectMapper.writeValueAsString(arrayLoginReturn);
+	}
+
+	@POST
+	@Path("users/login")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getCredentials(@FormParam("username") String username, @FormParam("password") String password)
 			throws Exception {
 		arrayCredentialsReturn = tagManager.getCredentials(username, password);
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
@@ -54,17 +80,42 @@ public class TAGService {
 		return objectMapper.writeValueAsString(arrayCredentialsReturn);
 	}
 
-	// --------------- STUDENT ------------------ //
+	// --------------- USER ------------------ //
 	@GET
-	@Path("student/parent/{username}")
+	@Path("user/info/{username}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getChildrenPerParent(@PathParam("username") String username) throws Exception {
+	public String getUserInfo(@PathParam("username") String username) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayStudentReturn = tagManager.getChildrenPerParent(username);
+		arrayUserInfoReturn = tagManager.getUserInfo(username);
+		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		resourceConfig.register(new CORSFilter());
+		return objectMapper.writeValueAsString(arrayUserInfoReturn);
+	}
+
+	// --------------- STUDENT ------------------ //
+	@GET
+	@Path("children/parent/{responsable_cpf}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getChildrenPerParent(@PathParam("responsable_cpf") String responsable_cpf) throws Exception {
+		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		arrayStudentReturn = tagManager.getChildrenPerParent(responsable_cpf);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
 		return objectMapper.writeValueAsString(arrayStudentReturn);
+	}
+
+	@GET
+	@Path("student/parent/{responsable_cpf}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getStudentParent(@PathParam("responsable_cpf") String responsable_cpf) throws Exception {
+		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		arraySchoolReportReturn = tagManager.getStudentParent(responsable_cpf);
+		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		resourceConfig.register(new CORSFilter());
+		return objectMapper.writeValueAsString(arraySchoolReportReturn);
 	}
 
 	@GET

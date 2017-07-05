@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import dto.*;
 
@@ -14,9 +15,17 @@ public class TAGProject {
 
 	private ArrayList<Credentials> arrayCredentials = new ArrayList<>();
 	private ArrayList<CredentialsReturn> arrayCredentialsReturn = new ArrayList<>();
+	private ArrayList<Login> arrayLogin = new ArrayList<>();
+	private ArrayList<LoginReturn> arrayLoginReturn = new ArrayList<>();
+
+	private ArrayList<UserInfo> arrayUserInfo = new ArrayList<>();
+	private ArrayList<UserInfoReturn> arrayUserInfoReturn = new ArrayList<>();
 
 	private ArrayList<Student> arrayStudent = new ArrayList<>();
 	private ArrayList<StudentReturn> arrayStudentReturn = new ArrayList<>();
+
+	private ArrayList<SchoolReport> arraySchoolReport = new ArrayList<>();
+	private ArrayList<SchoolReportReturn> arraySchoolReportReturn = new ArrayList<>();
 
 	private ArrayList<Instructor> arrayIntructor = new ArrayList<>();
 	private ArrayList<InstructorReturn> arrayIntructorReturn = new ArrayList<>();
@@ -52,18 +61,68 @@ public class TAGProject {
 		}
 	}
 
-	// --------------- USER ------------------ //
+	// --------------- LOGIN ------------------ //
+	public ArrayList<LoginReturn> getLogin(Connection connection, String username, String password) throws Exception {
+		try {
+			String passwordEncrypted = getPasswordEncrypted(password);
+			String sql = "SELECT * FROM login WHERE username = '" + username + "' AND password = '" + passwordEncrypted
+					+ "';";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Login login = new Login();
+
+				login.setId(rs.getString("id"));
+				login.setUsername(rs.getString("username"));
+
+				arrayLogin.add(login);
+			}
+
+			LoginReturn loginReturn = new LoginReturn();
+			ArrayList<String> error = new ArrayList<>();
+			if (arrayLogin.size() > 0) {
+				loginReturn.setValid(true);
+				loginReturn.setError(error);
+				loginReturn.setLogin(arrayLogin);
+			} else {
+				error.add("Erro ao fazer login!");
+
+				loginReturn.setValid(false);
+				loginReturn.setError(error);
+				loginReturn.setLogin(null);
+			}
+
+			arrayLoginReturn.add(loginReturn);
+
+			return arrayLoginReturn;
+		} catch (Exception e) {
+			LoginReturn loginReturn = new LoginReturn();
+			ArrayList<String> error = new ArrayList<>();
+			error.add(e.getMessage());
+
+			loginReturn.setValid(false);
+			loginReturn.setError(error);
+			loginReturn.setLogin(null);
+
+			arrayLoginReturn.add(loginReturn);
+			e.printStackTrace();
+			return arrayLoginReturn;
+		}
+	}
+
 	public ArrayList<CredentialsReturn> getCredentials(Connection connection, String username, String password)
 			throws Exception {
 		try {
 			String passwordEncrypted = getPasswordEncrypted(password);
-			PreparedStatement ps = connection
-					.prepareStatement("SELECT id, name, instructor_fk, username, password, type FROM users "
-							+ "WHERE username = '" + username + "' AND password = '" + passwordEncrypted + "';");
+			String sql = "SELECT id, name, instructor_fk, username, password, type FROM users " + "WHERE username = '"
+					+ username + "' AND password = '" + passwordEncrypted + "';";
+			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 				Credentials credentials = new Credentials();
+
 				credentials.setId(rs.getString("id"));
 				credentials.setName(rs.getString("name"));
 				credentials.setInstructor_fk(rs.getString("instructor_fk"));
@@ -102,6 +161,67 @@ public class TAGProject {
 			arrayCredentialsReturn.add(credentialsReturn);
 			e.printStackTrace();
 			return arrayCredentialsReturn;
+		}
+	}
+
+	// -------------- USER -----------------//
+	public ArrayList<UserInfoReturn> getUserInfo(Connection connection, String username) throws Exception {
+		try {
+			String sql = "SELECT filiation_1, filiation_2, responsable, responsable_cpf, "
+					+ "responsable_rg, responsable_job, responsable_telephone FROM student_identification WHERE responsable_cpf = '"
+					+ username + "' LIMIT 1;";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				UserInfo userInfo = new UserInfo();
+
+				if (rs.getString("responsable").equals("0")) {
+					userInfo.setName(rs.getString("filiation_1"));
+				} else if (rs.getString("responsable").equals("1")) {
+					userInfo.setName(rs.getString("filiation_2"));
+				}
+				userInfo.setCpf(rs.getString("responsable_cpf"));
+				userInfo.setRg(rs.getString("responsable_rg"));
+				if (rs.getString("responsable_telephone") == null) {
+					userInfo.setPhone("Não possui");
+				} else {
+					userInfo.setPhone(rs.getString("responsable_telephone"));
+				}
+				userInfo.setJob(rs.getString("responsable_job"));
+
+				arrayUserInfo.add(userInfo);
+			}
+
+			UserInfoReturn userInfoReturn = new UserInfoReturn();
+			ArrayList<String> error = new ArrayList<>();
+			if (arrayUserInfo.size() > 0) {
+				userInfoReturn.setValid(true);
+				userInfoReturn.setError(error);
+				userInfoReturn.setUser(arrayUserInfo);
+			} else {
+				error.add("Erro ao buscar informações");
+
+				userInfoReturn.setValid(false);
+				userInfoReturn.setError(error);
+				userInfoReturn.setUser(null);
+			}
+
+			arrayUserInfoReturn.add(userInfoReturn);
+
+			return arrayUserInfoReturn;
+		} catch (Exception e) {
+			UserInfoReturn userInfoReturn = new UserInfoReturn();
+			ArrayList<String> error = new ArrayList<>();
+			error.add(e.getMessage());
+
+			userInfoReturn.setValid(false);
+			userInfoReturn.setError(error);
+			userInfoReturn.setUser(null);
+
+			arrayUserInfoReturn.add(userInfoReturn);
+			e.printStackTrace();
+			return arrayUserInfoReturn;
 		}
 	}
 
@@ -439,6 +559,83 @@ public class TAGProject {
 			arrayStudentReturn.add(studentReturn);
 			e.printStackTrace();
 			return arrayStudentReturn;
+		}
+	}
+
+	// REFAZER PARA IGUALAR COM A CLASSE QUE TA SENDO USADA NO APP
+	public ArrayList<SchoolReportReturn> getStudentParent(Connection connection, String responsable_cpf)
+			throws Exception {
+		try {
+			String sql = "SELECT CE.year FROM student_identification S JOIN classroom_enrollment CE ON S.id = CE.enrollment WHERE S.responsable_cpf = '"
+					+ responsable_cpf + "' GROUP BY CE.year;";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				SchoolReport schoolReport = new SchoolReport();
+				ArrayList<StudentReport> studentReports = new ArrayList<>();
+				String year = rs.getString("CE.year");
+				schoolReport.setYear(year);
+
+				String sqlChildren = "SELECT S.id, S.name, CE.classroom_id, C.name "
+						+ "FROM student_identification S JOIN classroom_enrollment CE ON CE.enrollment = S.id "
+						+ "JOIN classroom C ON C.id = CE.classroom_id WHERE responsable_cpf = '" + responsable_cpf
+						+ "' AND CE.year = '" + year + "';";
+				PreparedStatement psChildren = connection.prepareStatement(sqlChildren);
+				ResultSet rsChildren = psChildren.executeQuery();
+
+				while (rsChildren.next()) {
+					StudentReport studentReport = new StudentReport();
+
+					studentReport.setId(rsChildren.getString("S.id"));
+					studentReport.setName(rsChildren.getString("S.name"));
+					studentReport.setClassroom_id(rsChildren.getString("CE.classroom_id"));
+					studentReport.setClassroom_name(rsChildren.getString("C.name"));
+
+					int current_year = Calendar.getInstance().get(Calendar.YEAR);
+					if (Integer.valueOf(year) < current_year) {
+						studentReport.setSituation("Concluído");
+					} else {
+						studentReport.setSituation("Cursando");
+					}
+
+					studentReports.add(studentReport);
+				}
+
+				schoolReport.setStudents(studentReports);
+
+				arraySchoolReport.add(schoolReport);
+			}
+
+			SchoolReportReturn schoolReportReturn = new SchoolReportReturn();
+			ArrayList<String> error = new ArrayList<>();
+			if (arraySchoolReport.size() > 0) {
+				schoolReportReturn.setValid(true);
+				schoolReportReturn.setError(error);
+				schoolReportReturn.setSchoolReports(arraySchoolReport);
+			} else {
+				error.add("Esse responsável não possui filho!");
+
+				schoolReportReturn.setValid(false);
+				schoolReportReturn.setError(error);
+				schoolReportReturn.setSchoolReports(null);
+			}
+
+			arraySchoolReportReturn.add(schoolReportReturn);
+			return arraySchoolReportReturn;
+		} catch (Exception e) {
+			SchoolReportReturn schoolReportReturn = new SchoolReportReturn();
+			ArrayList<String> error = new ArrayList<>();
+			error.add(e.getMessage());
+
+			schoolReportReturn.setValid(true);
+			schoolReportReturn.setError(error);
+			schoolReportReturn.setSchoolReports(null);
+
+			arraySchoolReportReturn.add(schoolReportReturn);
+			e.printStackTrace();
+
+			return arraySchoolReportReturn;
 		}
 	}
 

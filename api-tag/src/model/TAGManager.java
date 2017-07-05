@@ -20,7 +20,15 @@ public class TAGManager {
 		}
 	}
 
-	// --------------- USERS ------------------ //
+	// --------------- LOGIN ------------------ //
+	public ArrayList<LoginReturn> getLogin(String username, String password) throws Exception {
+		try {
+			return tagProject.getLogin(connection, username, password);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 	public ArrayList<CredentialsReturn> getCredentials(String username, String password) throws Exception {
 		try {
 			return tagProject.getCredentials(connection, username, password);
@@ -29,10 +37,27 @@ public class TAGManager {
 		}
 	}
 
-	// --------------- STUDENT ------------------ //
-	public ArrayList<StudentReturn> getChildrenPerParent(String username) throws Exception {
+	// --------------- LOGIN ------------------ //
+	public ArrayList<UserInfoReturn> getUserInfo(String username) throws Exception {
 		try {
-			return tagProject.getChildrenPerParent(connection, username);
+			return tagProject.getUserInfo(connection, username);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	// --------------- STUDENT ------------------ //
+	public ArrayList<StudentReturn> getChildrenPerParent(String responsable_cpf) throws Exception {
+		try {
+			return tagProject.getChildrenPerParent(connection, responsable_cpf);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public ArrayList<SchoolReportReturn> getStudentParent(String responsable_cpf) throws Exception {
+		try {
+			return tagProject.getStudentParent(connection, responsable_cpf);
 		} catch (Exception e) {
 			throw e;
 		}

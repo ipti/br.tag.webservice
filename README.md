@@ -1,18 +1,42 @@
 # br.tag.api
 
-* **Usuário**
+* **Login**
   
-  Realiza o login:
+  Realiza o login (pai):
 
   ```
   @POST
   ("username"), ("password")
-  /tag/login
+  /tag/parent/login
   ```
   
+  Realiza o login (outros usuários):
+
+  ```
+  @POST
+  ("username"), ("password")
+  /tag/users/login
+  ```
+
+* **Informação do usuário**
+
+  Retorna as informações do `username`:
+
+  ```
+  @GET
+  /tag/user/info/{username}
+  ```
+
 * **Estudante**
 
-  Verifica os filhos do usuário logado (método para os pais dos alunos) com o `username`:
+  Retorna os filhos do usuário logado (método para os pais dos alunos) com o `username`:
+
+  ```
+  @GET
+  /tag/children/parent/{username}
+  ```
+
+  Retorna os filhos do usuário logado (método para os pais dos alunos) com o `username` (APP):
 
   ```
   @GET
