@@ -9,7 +9,7 @@ public class Database {
 	public Connection getConnection() throws Exception {
 		try {
 			String driver = "com.mysql.jdbc.Driver";
-			String connectionURL = "jdbc:mysql://localhost:3306/br.org.ipti.boquim.tag";
+			String connectionURL = "jdbc:mysql://localhost:3306/br.org.ipti.local.tag.demo";
 			Connection connection = null;
 			Class.forName(driver).newInstance();
 			connection = DriverManager.getConnection(connectionURL, "root", "");

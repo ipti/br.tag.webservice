@@ -9,7 +9,35 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import dto.*;
+import dto.Classroom;
+import dto.ClassroomReturn;
+import dto.Credentials;
+import dto.CredentialsReturn;
+import dto.Disciplines;
+import dto.DisciplinesByClass;
+import dto.DisciplinesByClassReturn;
+import dto.DisciplinesReturn;
+import dto.FrequencyClass;
+import dto.FrequencyClassStudentReturn;
+import dto.FrequencyReturn;
+import dto.FrequencyStudent;
+import dto.Grade;
+import dto.GradeReturn;
+import dto.Instructor;
+import dto.InstructorReturn;
+import dto.InstructorTeachingData;
+import dto.InstructorTeachingDataReturn;
+import dto.Login;
+import dto.LoginReturn;
+import dto.School;
+import dto.SchoolReport;
+import dto.SchoolReportReturn;
+import dto.SchoolReturn;
+import dto.Student;
+import dto.StudentReport;
+import dto.StudentReturn;
+import dto.UserInfo;
+import dto.UserInfoReturn;
 
 public class TAGProject {
 
@@ -35,6 +63,8 @@ public class TAGProject {
 	private ArrayList<Classroom> arrayClassroom = new ArrayList<>();
 	private ArrayList<ClassroomReturn> arrayClassroomReturn = new ArrayList<>();
 
+	private ArrayList<Disciplines> arrayDisciplines = new ArrayList<>();
+	private ArrayList<DisciplinesReturn> arrayDisciplinesReturn = new ArrayList<>();
 	private ArrayList<DisciplinesByClass> arrayDisciplinesByClass = new ArrayList<>();
 	private ArrayList<DisciplinesByClassReturn> arrayDisciplinesByClassReturn = new ArrayList<>();
 
@@ -43,6 +73,10 @@ public class TAGProject {
 
 	private ArrayList<Grade> arrayGrade = new ArrayList<>();
 	private ArrayList<GradeReturn> arrayGradeReturn = new ArrayList<>();
+
+	private ArrayList<FrequencyClass> arrayFrequencyClass = new ArrayList<>();
+	private ArrayList<FrequencyStudent> arrayFrequencyStudent = new ArrayList<>();
+	private ArrayList<FrequencyClassStudentReturn> arrayFrequencyClassStudentReturn = new ArrayList<>();
 
 	// ------------- METODOS AUXILIARES -----------//
 	// Usando MD5 para criptografar
@@ -562,7 +596,6 @@ public class TAGProject {
 		}
 	}
 
-	// REFAZER PARA IGUALAR COM A CLASSE QUE TA SENDO USADA NO APP
 	public ArrayList<SchoolReportReturn> getStudentParent(Connection connection, String responsable_cpf)
 			throws Exception {
 		try {
@@ -591,6 +624,7 @@ public class TAGProject {
 					studentReport.setName(rsChildren.getString("S.name"));
 					studentReport.setClassroom_id(rsChildren.getString("CE.classroom_id"));
 					studentReport.setClassroom_name(rsChildren.getString("C.name"));
+					studentReport.setEnrollment_fk(rsChildren.getString("S.id"));
 
 					int current_year = Calendar.getInstance().get(Calendar.YEAR);
 					if (Integer.valueOf(year) < current_year) {
@@ -4578,6 +4612,52 @@ public class TAGProject {
 	}
 
 	// --------------- DISCIPLINE ------------------ //
+	public ArrayList<DisciplinesReturn> getDisciplines(Connection connection) throws Exception {
+		try {
+			String sql = "SELECT * FROM edcenso_discipline ORDER BY id;";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Disciplines disciplines = new Disciplines();
+
+				disciplines.setId(rs.getString("id"));
+				disciplines.setName(rs.getString("name"));
+
+				arrayDisciplines.add(disciplines);
+			}
+
+			DisciplinesReturn disciplinesReturn = new DisciplinesReturn();
+			ArrayList<String> error = new ArrayList<>();
+			if (arrayDisciplines.size() > 0) {
+				disciplinesReturn.setValid(true);
+				disciplinesReturn.setError(error);
+				disciplinesReturn.setDisciplines(arrayDisciplines);
+			} else {
+				error.add("Não possui disciplinas!");
+				disciplinesReturn.setValid(false);
+				disciplinesReturn.setError(error);
+				disciplinesReturn.setDisciplines(null);
+			}
+
+			arrayDisciplinesReturn.add(disciplinesReturn);
+
+			return arrayDisciplinesReturn;
+		} catch (Exception e) {
+			DisciplinesReturn disciplinesReturn = new DisciplinesReturn();
+			ArrayList<String> error = new ArrayList<>();
+			error.add(e.getMessage());
+
+			disciplinesReturn.setValid(false);
+			disciplinesReturn.setError(error);
+			disciplinesReturn.setDisciplines(null);
+
+			arrayDisciplinesReturn.add(disciplinesReturn);
+			e.printStackTrace();
+			return arrayDisciplinesReturn;
+		}
+	}
+
 	public ArrayList<DisciplinesByClassReturn> getDisciplinesByClassID(Connection connection, String id)
 			throws Exception {
 		try {
@@ -4884,7 +4964,7 @@ public class TAGProject {
 			}
 
 			arrayInstructorTeachingDataReturn.add(instructorTeachingDataReturn);
-
+			connection.close();
 			return arrayInstructorTeachingDataReturn;
 		} catch (Exception e) {
 			InstructorTeachingDataReturn instructorTeachingDataReturn = new InstructorTeachingDataReturn();
@@ -4897,6 +4977,7 @@ public class TAGProject {
 
 			arrayInstructorTeachingDataReturn.add(instructorTeachingDataReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayInstructorTeachingDataReturn;
 		}
 	}
@@ -5168,7 +5249,7 @@ public class TAGProject {
 			}
 
 			arraySchoolReturn.add(schoolReturn);
-
+			connection.close();
 			return arraySchoolReturn;
 		} catch (Exception e) {
 			SchoolReturn schoolReturn = new SchoolReturn();
@@ -5181,6 +5262,7 @@ public class TAGProject {
 
 			arraySchoolReturn.add(schoolReturn);
 			e.printStackTrace();
+			connection.close();
 			return arraySchoolReturn;
 		}
 	}
@@ -5451,7 +5533,7 @@ public class TAGProject {
 			}
 
 			arraySchoolReturn.add(schoolReturn);
-
+			connection.close();
 			return arraySchoolReturn;
 		} catch (Exception e) {
 			SchoolReturn schoolReturn = new SchoolReturn();
@@ -5464,6 +5546,7 @@ public class TAGProject {
 
 			arraySchoolReturn.add(schoolReturn);
 			e.printStackTrace();
+			connection.close();
 			return arraySchoolReturn;
 		}
 	}
@@ -5736,7 +5819,7 @@ public class TAGProject {
 			}
 
 			arraySchoolReturn.add(schoolReturn);
-
+			connection.close();
 			return arraySchoolReturn;
 		} catch (Exception e) {
 			SchoolReturn schoolReturn = new SchoolReturn();
@@ -5749,6 +5832,7 @@ public class TAGProject {
 
 			arraySchoolReturn.add(schoolReturn);
 			e.printStackTrace();
+			connection.close();
 			return arraySchoolReturn;
 		}
 	}
@@ -5796,7 +5880,7 @@ public class TAGProject {
 			}
 
 			arrayGradeReturn.add(gradeReturn);
-
+			connection.close();
 			return arrayGradeReturn;
 		} catch (Exception e) {
 			GradeReturn gradeReturn = new GradeReturn();
@@ -5809,36 +5893,114 @@ public class TAGProject {
 
 			arrayGradeReturn.add(gradeReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayGradeReturn;
 		}
 	}
 
-	public ArrayList<GradeReturn> getGrades(Connection connection, String enrollment_fk) throws Exception {
+	public ArrayList<GradeReturn> getGrades(Connection connection, String enrollment_fk, String classroom_fk)
+			throws Exception {
 		try {
-			String sql = "SELECT * FROM grade G JOIN edcenso_discipline E ON G.discipline_fk = E.id AND G.enrollment_fk = '"
-					+ enrollment_fk + "';";
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
+			String sqlDisciplines = "SELECT discipline_chemistry, discipline_physics, discipline_mathematics, "
+					+ "discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, "
+					+ "discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, "
+					+ "discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, "
+					+ "discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, "
+					+ "discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others FROM classroom WHERE id = '"
+					+ classroom_fk + "';";
+			PreparedStatement psDisciplines = connection.prepareStatement(sqlDisciplines);
+			ResultSet rsDisciplines = psDisciplines.executeQuery();
 
-			while (rs.next()) {
-				Grade grade = new Grade();
+			ArrayList<String> disciplines = new ArrayList<>();
+			ArrayList<String> pick = new ArrayList<>();
+			while (rsDisciplines.next()) {
+				pick.add(rsDisciplines.getString("discipline_chemistry"));
+				disciplines.add("Química");
+				pick.add(rsDisciplines.getString("discipline_physics"));
+				disciplines.add("Física");
+				pick.add(rsDisciplines.getString("discipline_mathematics"));
+				disciplines.add("Matemática");
+				pick.add(rsDisciplines.getString("discipline_biology"));
+				disciplines.add("Biologia");
+				pick.add(rsDisciplines.getString("discipline_science"));
+				disciplines.add("Ciências");
+				pick.add(rsDisciplines.getString("discipline_language_portuguese_literature"));
+				disciplines.add("Língua /Literatura Portuguesa");
+				pick.add(rsDisciplines.getString("discipline_foreign_language_english"));
+				disciplines.add("Língua /Literatura estrangeira - Inglês");
+				pick.add(rsDisciplines.getString("discipline_foreign_language_spanish"));
+				disciplines.add("Língua /Literatura estrangeira - Espanhol");
+				pick.add(rsDisciplines.getString("discipline_foreign_language_franch"));
+				disciplines.add("Língua /Literatura estrangeira - Francês");
+				pick.add(rsDisciplines.getString("discipline_foreign_language_other"));
+				disciplines.add("Língua /Literatura estrangeira - outra");
+				pick.add(rsDisciplines.getString("discipline_arts"));
+				disciplines.add("Arte (Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras)");
+				pick.add(rsDisciplines.getString("discipline_physical_education"));
+				disciplines.add("Educação Física");
+				pick.add(rsDisciplines.getString("discipline_history"));
+				disciplines.add("História");
+				pick.add(rsDisciplines.getString("discipline_geography"));
+				disciplines.add("Geografia");
+				pick.add(rsDisciplines.getString("discipline_philosophy"));
+				disciplines.add("Filosofia");
+				pick.add(rsDisciplines.getString("discipline_social_study"));
+				disciplines.add("Estudos Sociais");
+				pick.add(rsDisciplines.getString("discipline_sociology"));
+				disciplines.add("Sociologia");
+				pick.add(rsDisciplines.getString("discipline_informatics"));
+				disciplines.add("Informática/Computação");
+				pick.add(rsDisciplines.getString("discipline_professional_disciplines"));
+				disciplines.add("Disciplinas profissionalizantes");
+				pick.add(rsDisciplines.getString("discipline_special_education_and_inclusive_practices"));
+				disciplines.add(
+						"Disciplinas voltadas ao atendimento às necessidades educacionais específicas dos alunos que são público alvo da educação especial e às práticas educacionais inclusivas");
+				pick.add(rsDisciplines.getString("discipline_sociocultural_diversity"));
+				disciplines.add("Disciplinas voltadas à diversidade sociocultural (disciplinas pedagógicas)");
+				pick.add(rsDisciplines.getString("discipline_libras"));
+				disciplines.add("Libras");
+				pick.add(rsDisciplines.getString("discipline_pedagogical"));
+				disciplines.add("Disciplinas pedagógicas");
+				pick.add(rsDisciplines.getString("discipline_religious"));
+				disciplines.add("Ensino religioso");
+				pick.add(rsDisciplines.getString("discipline_native_language"));
+				disciplines.add("Lingua indígena");
+				pick.add(rsDisciplines.getString("discipline_others"));
+				disciplines.add("Outras Disciplinas");
+			}
 
-				grade.setId(rs.getString("G.id"));
-				grade.setGrade1(rs.getString("G.grade1"));
-				grade.setGrade2(rs.getString("G.grade2"));
-				grade.setGrade3(rs.getString("G.grade3"));
-				grade.setGrade4(rs.getString("G.grade4"));
-				grade.setRecovery_grade1(rs.getString("G.recovery_grade1"));
-				grade.setRecovery_grade2(rs.getString("G.recovery_grade2"));
-				grade.setRecovery_grade3(rs.getString("G.recovery_grade3"));
-				grade.setRecovery_grade4(rs.getString("G.recovery_grade4"));
-				grade.setRecovery_final_grade(rs.getString("G.recovery_final_grade"));
-				grade.setDiscipline_fk(rs.getString("E.id"));
-				grade.setDiscipline_name(rs.getString("E.name"));
-				grade.setEnrollment_fk(rs.getString("G.enrollment_fk"));
-				grade.setFkid(rs.getString("G.fkid"));
+			for (int i = 0; i < disciplines.size(); i++) {
+				if (pick.get(i) != null) {
+					if (pick.get(i).equals("1")) {
+						String sql = "SELECT * FROM grade G WHERE G.enrollment_fk = (SELECT id FROM student_enrollment WHERE student_fk = '"
+								+ enrollment_fk + "' AND classroom_fk = '" + classroom_fk
+								+ "') AND (SELECT id FROM edcenso_discipline WHERE name = '" + disciplines.get(i)
+								+ "') = G.discipline_fk;";
+						PreparedStatement ps = connection.prepareStatement(sql);
+						ResultSet rs = ps.executeQuery();
 
-				arrayGrade.add(grade);
+						while (rs.next()) {
+							Grade grade = new Grade();
+
+							grade.setId(rs.getString("G.id"));
+							grade.setGrade1(rs.getString("G.grade1"));
+							grade.setGrade2(rs.getString("G.grade2"));
+							grade.setGrade3(rs.getString("G.grade3"));
+							grade.setGrade4(rs.getString("G.grade4"));
+							grade.setRecovery_grade1(rs.getString("G.recovery_grade1"));
+							grade.setRecovery_grade2(rs.getString("G.recovery_grade2"));
+							grade.setRecovery_grade3(rs.getString("G.recovery_grade3"));
+							grade.setRecovery_grade4(rs.getString("G.recovery_grade4"));
+							grade.setRecovery_final_grade(rs.getString("G.recovery_final_grade"));
+							grade.setDiscipline_fk(rs.getString("G.discipline_fk"));
+							grade.setDiscipline_name(disciplines.get(i));
+							grade.setEnrollment_fk(rs.getString("G.enrollment_fk"));
+							grade.setFkid(rs.getString("G.fkid"));
+
+							arrayGrade.add(grade);
+						}
+					}
+				}
 			}
 
 			GradeReturn gradeReturn = new GradeReturn();
@@ -5856,7 +6018,7 @@ public class TAGProject {
 			}
 
 			arrayGradeReturn.add(gradeReturn);
-
+			connection.close();
 			return arrayGradeReturn;
 		} catch (Exception e) {
 			GradeReturn gradeReturn = new GradeReturn();
@@ -5869,8 +6031,87 @@ public class TAGProject {
 
 			arrayGradeReturn.add(gradeReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayGradeReturn;
 		}
 	}
 
+	// --------------- FREQUENCY ------------------ //
+	public ArrayList<FrequencyClassStudentReturn> getFrequency(Connection connection, String student_fk,
+			String classroom_fk, String month) throws Exception {
+		try {
+			String sqlClass = "SELECT month, discipline_fk, ed.name discipline_name, classroom_fk, COUNT(schedule) classes "
+					+ "FROM class LEFT JOIN edcenso_discipline ed ON ed.id = class.discipline_fk "
+					+ "WHERE classroom_fk = '" + classroom_fk + "' AND month = '" + month
+					+ "' GROUP BY classroom_fk, discipline_fk, month;";
+			PreparedStatement psClass = connection.prepareStatement(sqlClass);
+			ResultSet rsClass = psClass.executeQuery();
+
+			while (rsClass.next()) {
+				FrequencyClass frequency = new FrequencyClass();
+
+				frequency.setMonth(month);
+				frequency.setDiscipline_fk(rsClass.getString("discipline_fk"));
+				frequency.setDiscipline_name(rsClass.getString("discipline_name"));
+				frequency.setClassroom_fk(classroom_fk);
+				frequency.setClasses(rsClass.getInt("classes"));
+
+				arrayFrequencyClass.add(frequency);
+			}
+
+			String sqlStudent = "SELECT  month, discipline_fk, SE.classroom_fk, SE.id, count(CF.schedule) faults "
+					+ "FROM class_faults CF JOIN class C on C.id = CF.class_fk JOIN student_enrollment SE ON SE.student_fk = CF.student_fk "
+					+ "WHERE SE.id = (SELECT id FROM student_enrollment WHERE student_fk = '" + student_fk
+					+ "' AND classroom_fk = '" + classroom_fk + "') AND month = '" + month
+					+ "' GROUP BY SE.id, discipline_fk, month;";
+			PreparedStatement psStudent = connection.prepareStatement(sqlStudent);
+			ResultSet rsStudent = psStudent.executeQuery();
+
+			while (rsStudent.next()) {
+				FrequencyStudent frequency = new FrequencyStudent();
+
+				frequency.setMonth(month);
+				frequency.setDiscipline_fk(rsStudent.getString("discipline_fk"));
+				frequency.setClassroom_fk(classroom_fk);
+				frequency.setId(rsStudent.getString("SE.id"));
+				frequency.setFaults(rsStudent.getInt("faults"));
+
+				arrayFrequencyStudent.add(frequency);
+			}
+
+			FrequencyClassStudentReturn frequencyReturn = new FrequencyClassStudentReturn();
+			ArrayList<String> error = new ArrayList<>();
+			if (arrayFrequencyClass.size() > 0 && arrayFrequencyStudent.size() > 0) {
+				frequencyReturn.setValid(true);
+				frequencyReturn.setError(error);
+				frequencyReturn.setFrequency_class(arrayFrequencyClass);
+				frequencyReturn.setFrequency_student(arrayFrequencyStudent);
+			} else {
+				error.add("Esse aluno não possui frequência cadastrada!");
+
+				frequencyReturn.setValid(false);
+				frequencyReturn.setError(error);
+				frequencyReturn.setFrequency_class(null);
+				frequencyReturn.setFrequency_student(null);
+			}
+
+			arrayFrequencyClassStudentReturn.add(frequencyReturn);
+			connection.close();
+			return arrayFrequencyClassStudentReturn;
+		} catch (Exception e) {
+			FrequencyClassStudentReturn frequencyReturn = new FrequencyClassStudentReturn();
+			ArrayList<String> error = new ArrayList<>();
+			error.add(e.getMessage());
+
+			frequencyReturn.setValid(false);
+			frequencyReturn.setError(error);
+			frequencyReturn.setFrequency_class(null);
+			frequencyReturn.setFrequency_student(null);
+
+			arrayFrequencyClassStudentReturn.add(frequencyReturn);
+			e.printStackTrace();
+			connection.close();
+			return arrayFrequencyClassStudentReturn;
+		}
+	}
 }

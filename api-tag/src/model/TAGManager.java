@@ -3,8 +3,21 @@ package model;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import dao.*;
-import dto.*;
+import dao.Database;
+import dao.TAGProject;
+import dto.ClassroomReturn;
+import dto.CredentialsReturn;
+import dto.DisciplinesByClassReturn;
+import dto.DisciplinesReturn;
+import dto.FrequencyClassStudentReturn;
+import dto.GradeReturn;
+import dto.InstructorReturn;
+import dto.InstructorTeachingDataReturn;
+import dto.LoginReturn;
+import dto.SchoolReportReturn;
+import dto.SchoolReturn;
+import dto.StudentReturn;
+import dto.UserInfoReturn;
 
 public class TAGManager {
 
@@ -162,6 +175,14 @@ public class TAGManager {
 	}
 
 	// --------------- DISCIPLINE ------------------ //
+	public ArrayList<DisciplinesReturn> getDisciplines() throws Exception {
+		try {
+			return tagProject.getDisciplines(connection);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 	public ArrayList<DisciplinesByClassReturn> getDisciplinesByClassID(String id) throws Exception {
 		try {
 			return tagProject.getDisciplinesByClassID(connection, id);
@@ -212,12 +233,21 @@ public class TAGManager {
 		}
 	}
 
-	public ArrayList<GradeReturn> getGrade(String enrollment_fk) throws Exception {
+	public ArrayList<GradeReturn> getGrade(String enrollment_fk, String classroom_fk) throws Exception {
 		try {
-			return tagProject.getGrades(connection, enrollment_fk);
+			return tagProject.getGrades(connection, enrollment_fk, classroom_fk);
 		} catch (Exception e) {
 			throw e;
 		}
 	}
 
+	// --------------- FREQUENCY ------------------ //
+	public ArrayList<FrequencyClassStudentReturn> getFrequency(String enrollment_fk, String classroom_fk, String month)
+			throws Exception {
+		try {
+			return tagProject.getFrequency(connection, enrollment_fk, classroom_fk, month);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }

@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import dto.ClassroomReturn;
 import dto.CredentialsReturn;
 import dto.DisciplinesByClassReturn;
+import dto.DisciplinesReturn;
+import dto.FrequencyClassStudentReturn;
 import dto.GradeReturn;
 import dto.InstructorReturn;
 import dto.InstructorTeachingDataReturn;
@@ -44,10 +46,12 @@ public class TAGService {
 	private ArrayList<InstructorReturn> arrayInstructorReturn = new ArrayList<>();
 	private ArrayList<InstructorTeachingDataReturn> arrayInstructorTeachingDataReturn = new ArrayList<>();
 	private ArrayList<ClassroomReturn> arrayClassroomReturn = new ArrayList<>();
+	private ArrayList<DisciplinesReturn> arrayDisciplinesReturn = new ArrayList<>();
 	private ArrayList<DisciplinesByClassReturn> arrayDisciplinesByClassReturn = new ArrayList<>();
 	private ArrayList<SchoolReturn> arraySchoolReturn = new ArrayList<>();
 	private ArrayList<SchoolReportReturn> arraySchoolReportReturn = new ArrayList<>();
 	private ArrayList<GradeReturn> arrayGradeReturn = new ArrayList<>();
+	private ArrayList<FrequencyClassStudentReturn> arrayFrequencyClassStudentReturn = new ArrayList<>();
 
 	private TAGManager tagManager = new TAGManager();
 	private ObjectMapper objectMapper = new ObjectMapper();
@@ -268,6 +272,18 @@ public class TAGService {
 
 	// --------------- DISCIPLINE ------------------ //
 	@GET
+	@Path("disciplines")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getDisciplines() throws Exception {
+		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		arrayDisciplinesReturn = tagManager.getDisciplines();
+		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		resourceConfig.register(new CORSFilter());
+		return objectMapper.writeValueAsString(arrayDisciplinesReturn);
+	}
+
+	@GET
 	@Path("discipline/classroom/{id}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
@@ -342,14 +358,29 @@ public class TAGService {
 	}
 
 	@GET
-	@Path("grade/{enrollment_fk}")
+	@Path("grade/{enrollment_fk}/{classroom_fk}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getGrade(@PathParam("enrollment_fk") String enrollment_fk) throws Exception {
+	public String getGrade(@PathParam("enrollment_fk") String enrollment_fk,
+			@PathParam("classroom_fk") String classroom_fk) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayGradeReturn = tagManager.getGrade(enrollment_fk);
+		arrayGradeReturn = tagManager.getGrade(enrollment_fk, classroom_fk);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
 		return objectMapper.writeValueAsString(arrayGradeReturn);
+	}
+
+	// --------------- FREQUENCY ------------------ //
+	@GET
+	@Path("frequency/{enrollment_fk}/{classroom_fk}/{month}")
+	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
+	@JsonProperty
+	public String getFrequency(@PathParam("enrollment_fk") String enrollment_fk,
+			@PathParam("classroom_fk") String classroom_fk, @PathParam("month") String month) throws Exception {
+		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		arrayFrequencyClassStudentReturn = tagManager.getFrequency(enrollment_fk, classroom_fk, month);
+		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		resourceConfig.register(new CORSFilter());
+		return objectMapper.writeValueAsString(arrayFrequencyClassStudentReturn);
 	}
 }

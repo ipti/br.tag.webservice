@@ -186,6 +186,15 @@
   /tag/grade/{enrollment_fk}
   ```
 
+* **Frequência**
+  
+  Retorna a frequência do aluno com o `student_fk`, filtrando pela `classroom_fk` e `month`:
+
+  ```
+  @GET
+  /tag/frequency/{student_fk}/{classroom_fk}/{month}
+  ```
+  
 ## Desenvolvido com
 
 * [Eclipse Neon](http://www.eclipse.org/neon/) - IDE para desenvolvimento
