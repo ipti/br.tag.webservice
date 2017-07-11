@@ -372,13 +372,13 @@ public class TAGService {
 
 	// --------------- FREQUENCY ------------------ //
 	@GET
-	@Path("frequency/{enrollment_fk}/{classroom_fk}/{month}")
+	@Path("frequency/{student_fk}/{classroom_fk}/{month}")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@JsonProperty
-	public String getFrequency(@PathParam("enrollment_fk") String enrollment_fk,
+	public String getFrequency(@PathParam("student_fk") String student_fk,
 			@PathParam("classroom_fk") String classroom_fk, @PathParam("month") String month) throws Exception {
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		arrayFrequencyClassStudentReturn = tagManager.getFrequency(enrollment_fk, classroom_fk, month);
+		arrayFrequencyClassStudentReturn = tagManager.getFrequency(student_fk, classroom_fk, month);
 		objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		resourceConfig.register(new CORSFilter());
 		return objectMapper.writeValueAsString(arrayFrequencyClassStudentReturn);

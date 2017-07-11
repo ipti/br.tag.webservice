@@ -242,10 +242,10 @@ public class TAGManager {
 	}
 
 	// --------------- FREQUENCY ------------------ //
-	public ArrayList<FrequencyClassStudentReturn> getFrequency(String enrollment_fk, String classroom_fk, String month)
+	public ArrayList<FrequencyClassStudentReturn> getFrequency(String student_fk, String classroom_fk, String month)
 			throws Exception {
 		try {
-			return tagProject.getFrequency(connection, enrollment_fk, classroom_fk, month);
+			return tagProject.getFrequency(connection, student_fk, classroom_fk, month);
 		} catch (Exception e) {
 			throw e;
 		}
