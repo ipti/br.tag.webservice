@@ -600,7 +600,7 @@ public class TAGProject {
 			throws Exception {
 		try {
 			String sql = "SELECT CE.year FROM student_identification S JOIN classroom_enrollment CE ON S.id = CE.enrollment WHERE S.responsable_cpf = '"
-					+ responsable_cpf + "' GROUP BY CE.year;";
+					+ responsable_cpf + "' GROUP BY CE.year ORDER BY CE.year DESC;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 
@@ -613,7 +613,7 @@ public class TAGProject {
 				String sqlChildren = "SELECT S.id, S.name, CE.classroom_id, C.name "
 						+ "FROM student_identification S JOIN classroom_enrollment CE ON CE.enrollment = S.id "
 						+ "JOIN classroom C ON C.id = CE.classroom_id WHERE responsable_cpf = '" + responsable_cpf
-						+ "' AND CE.year = '" + year + "';";
+						+ "' AND CE.year = '" + year + "' ORDER BY S.name;";
 				PreparedStatement psChildren = connection.prepareStatement(sqlChildren);
 				ResultSet rsChildren = psChildren.executeQuery();
 
@@ -5975,7 +5975,7 @@ public class TAGProject {
 						String sql = "SELECT * FROM grade G WHERE G.enrollment_fk = (SELECT id FROM student_enrollment WHERE student_fk = '"
 								+ enrollment_fk + "' AND classroom_fk = '" + classroom_fk
 								+ "') AND (SELECT id FROM edcenso_discipline WHERE name = '" + disciplines.get(i)
-								+ "') = G.discipline_fk;";
+								+ "') = G.discipline_fk ORDER BY G.discipline_fk;";
 						PreparedStatement ps = connection.prepareStatement(sql);
 						ResultSet rs = ps.executeQuery();
 
@@ -6040,7 +6040,9 @@ public class TAGProject {
 	public ArrayList<FrequencyClassStudentReturn> getFrequency(Connection connection, String student_fk,
 			String classroom_fk, String month) throws Exception {
 		try {
-			String sqlClass = "SELECT month, discipline_fk, ed.name discipline_name, classroom_fk, COUNT(schedule) classes "
+			String sqlClass = "SELECT month, discipline_fk, ed.name discipline_name, classroom_fk, COUNT(schedule) classes,"
+					+ " (SELECT id FROM student_enrollment WHERE student_fk = '" + student_fk + "' AND classroom_fk = '"
+					+ classroom_fk + "') id "
 					+ "FROM class LEFT JOIN edcenso_discipline ed ON ed.id = class.discipline_fk "
 					+ "WHERE classroom_fk = '" + classroom_fk + "' AND month = '" + month
 					+ "' GROUP BY classroom_fk, discipline_fk, month;";
@@ -6050,6 +6052,8 @@ public class TAGProject {
 			while (rsClass.next()) {
 				FrequencyClass frequency = new FrequencyClass();
 
+				String discipline_fk = rsClass.getString("discipline_fk");
+
 				frequency.setMonth(month);
 				frequency.setDiscipline_fk(rsClass.getString("discipline_fk"));
 				frequency.setDiscipline_name(rsClass.getString("discipline_name"));
@@ -6057,6 +6061,18 @@ public class TAGProject {
 				frequency.setClasses(rsClass.getInt("classes"));
 
 				arrayFrequencyClass.add(frequency);
+
+				if (discipline_fk == null) {
+					FrequencyStudent frequencyStudent = new FrequencyStudent();
+
+					frequencyStudent.setMonth(month);
+					frequencyStudent.setDiscipline_fk(discipline_fk);
+					frequencyStudent.setClassroom_fk(classroom_fk);
+					frequencyStudent.setId(rsClass.getString("id"));
+					frequencyStudent.setFaults(0);
+
+					arrayFrequencyStudent.add(frequencyStudent);
+				}
 			}
 
 			String sqlStudent = "SELECT  month, discipline_fk, SE.classroom_fk, SE.id, count(CF.schedule) faults "
@@ -6068,15 +6084,19 @@ public class TAGProject {
 			ResultSet rsStudent = psStudent.executeQuery();
 
 			while (rsStudent.next()) {
-				FrequencyStudent frequency = new FrequencyStudent();
+				FrequencyStudent frequencyStudent = new FrequencyStudent();
 
-				frequency.setMonth(month);
-				frequency.setDiscipline_fk(rsStudent.getString("discipline_fk"));
-				frequency.setClassroom_fk(classroom_fk);
-				frequency.setId(rsStudent.getString("SE.id"));
-				frequency.setFaults(rsStudent.getInt("faults"));
+				frequencyStudent.setMonth(month);
+				frequencyStudent.setDiscipline_fk(rsStudent.getString("discipline_fk"));
+				frequencyStudent.setClassroom_fk(classroom_fk);
+				frequencyStudent.setId(rsStudent.getString("SE.id"));
+				frequencyStudent.setFaults(rsStudent.getInt("faults"));
 
-				arrayFrequencyStudent.add(frequency);
+				arrayFrequencyStudent.add(frequencyStudent);
+			}
+
+			if (arrayFrequencyStudent.size() > arrayFrequencyClass.size()) {
+				arrayFrequencyStudent.remove(0);
 			}
 
 			FrequencyClassStudentReturn frequencyReturn = new FrequencyClassStudentReturn();
