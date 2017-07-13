@@ -6044,7 +6044,7 @@ public class TAGProject {
 					+ " (SELECT id FROM student_enrollment WHERE student_fk = '" + student_fk + "' AND classroom_fk = '"
 					+ classroom_fk + "') id "
 					+ "FROM class LEFT JOIN edcenso_discipline ed ON ed.id = class.discipline_fk "
-					+ "WHERE classroom_fk = '" + classroom_fk + "' AND month = '" + month
+					+ "WHERE given_class = 1 AND classroom_fk = '" + classroom_fk + "' AND month = '" + month
 					+ "' GROUP BY classroom_fk, discipline_fk, month;";
 			PreparedStatement psClass = connection.prepareStatement(sqlClass);
 			ResultSet rsClass = psClass.executeQuery();
