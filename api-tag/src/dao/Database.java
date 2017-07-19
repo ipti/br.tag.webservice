@@ -13,6 +13,8 @@ public class Database {
 			Connection connection = null;
 			Class.forName(driver).newInstance();
 			connection = DriverManager.getConnection(connectionURL, "root", "");
+			//PRODUÇÃO
+//			connection = DriverManager.getConnection(connectionURL, "user.tag", "123456");
 			return connection;
 		} catch (SQLException e) {
 			throw e;

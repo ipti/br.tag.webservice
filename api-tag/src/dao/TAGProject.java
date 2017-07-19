@@ -129,6 +129,7 @@ public class TAGProject {
 
 			arrayLoginReturn.add(loginReturn);
 
+			connection.close();
 			return arrayLoginReturn;
 		} catch (Exception e) {
 			LoginReturn loginReturn = new LoginReturn();
@@ -141,6 +142,7 @@ public class TAGProject {
 
 			arrayLoginReturn.add(loginReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayLoginReturn;
 		}
 	}
@@ -182,6 +184,7 @@ public class TAGProject {
 			}
 
 			arrayCredentialsReturn.add(credentialsReturn);
+			connection.close();
 			return arrayCredentialsReturn;
 		} catch (Exception e) {
 			CredentialsReturn credentialsReturn = new CredentialsReturn();
@@ -194,6 +197,7 @@ public class TAGProject {
 
 			arrayCredentialsReturn.add(credentialsReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayCredentialsReturn;
 		}
 	}
@@ -243,6 +247,7 @@ public class TAGProject {
 
 			arrayUserInfoReturn.add(userInfoReturn);
 
+			connection.close();
 			return arrayUserInfoReturn;
 		} catch (Exception e) {
 			UserInfoReturn userInfoReturn = new UserInfoReturn();
@@ -255,6 +260,7 @@ public class TAGProject {
 
 			arrayUserInfoReturn.add(userInfoReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayUserInfoReturn;
 		}
 	}
@@ -580,6 +586,7 @@ public class TAGProject {
 			}
 
 			arrayStudentReturn.add(studentReturn);
+			connection.close();
 			return arrayStudentReturn;
 		} catch (Exception e) {
 			StudentReturn studentReturn = new StudentReturn();
@@ -592,6 +599,7 @@ public class TAGProject {
 
 			arrayStudentReturn.add(studentReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayStudentReturn;
 		}
 	}
@@ -656,6 +664,7 @@ public class TAGProject {
 			}
 
 			arraySchoolReportReturn.add(schoolReportReturn);
+			connection.close();
 			return arraySchoolReportReturn;
 		} catch (Exception e) {
 			SchoolReportReturn schoolReportReturn = new SchoolReportReturn();
@@ -669,6 +678,7 @@ public class TAGProject {
 			arraySchoolReportReturn.add(schoolReportReturn);
 			e.printStackTrace();
 
+			connection.close();
 			return arraySchoolReportReturn;
 		}
 	}
@@ -994,6 +1004,7 @@ public class TAGProject {
 			}
 
 			arrayStudentReturn.add(studentReturn);
+			connection.close();
 			return arrayStudentReturn;
 		} catch (Exception e) {
 			StudentReturn studentReturn = new StudentReturn();
@@ -1006,6 +1017,7 @@ public class TAGProject {
 
 			arrayStudentReturn.add(studentReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayStudentReturn;
 		}
 	}
@@ -1329,6 +1341,7 @@ public class TAGProject {
 			}
 
 			arrayStudentReturn.add(studentReturn);
+			connection.close();
 			return arrayStudentReturn;
 		} catch (Exception e) {
 			StudentReturn studentReturn = new StudentReturn();
@@ -1341,6 +1354,7 @@ public class TAGProject {
 
 			arrayStudentReturn.add(studentReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayStudentReturn;
 		}
 	}
@@ -1663,6 +1677,7 @@ public class TAGProject {
 			}
 
 			arrayStudentReturn.add(studentReturn);
+			connection.close();
 			return arrayStudentReturn;
 		} catch (Exception e) {
 			StudentReturn studentReturn = new StudentReturn();
@@ -1675,6 +1690,7 @@ public class TAGProject {
 
 			arrayStudentReturn.add(studentReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayStudentReturn;
 		}
 	}
@@ -2000,6 +2016,7 @@ public class TAGProject {
 			}
 
 			arrayStudentReturn.add(studentReturn);
+			connection.close();
 			return arrayStudentReturn;
 		} catch (Exception e) {
 			StudentReturn studentReturn = new StudentReturn();
@@ -2012,6 +2029,7 @@ public class TAGProject {
 
 			arrayStudentReturn.add(studentReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayStudentReturn;
 		}
 
@@ -2334,6 +2352,7 @@ public class TAGProject {
 			}
 
 			arrayStudentReturn.add(studentReturn);
+			connection.close();
 			return arrayStudentReturn;
 		} catch (Exception e) {
 			StudentReturn studentReturn = new StudentReturn();
@@ -2346,6 +2365,7 @@ public class TAGProject {
 
 			arrayStudentReturn.add(studentReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayStudentReturn;
 		}
 	}
@@ -2505,6 +2525,7 @@ public class TAGProject {
 
 			arrayIntructorReturn.add(instructorReturn);
 
+			connection.close();
 			return arrayIntructorReturn;
 		} catch (Exception e) {
 			InstructorReturn instructorReturn = new InstructorReturn();
@@ -2517,6 +2538,7 @@ public class TAGProject {
 
 			arrayIntructorReturn.add(instructorReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayIntructorReturn;
 		}
 	}
@@ -2676,6 +2698,7 @@ public class TAGProject {
 
 			arrayIntructorReturn.add(instructorReturn);
 
+			connection.close();
 			return arrayIntructorReturn;
 		} catch (Exception e) {
 			InstructorReturn instructorReturn = new InstructorReturn();
@@ -2688,6 +2711,7 @@ public class TAGProject {
 
 			arrayIntructorReturn.add(instructorReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayIntructorReturn;
 		}
 	}
@@ -2846,6 +2870,7 @@ public class TAGProject {
 
 			arrayIntructorReturn.add(instructorReturn);
 
+			connection.close();
 			return arrayIntructorReturn;
 		} catch (Exception e) {
 			InstructorReturn instructorReturn = new InstructorReturn();
@@ -2858,6 +2883,7 @@ public class TAGProject {
 
 			arrayIntructorReturn.add(instructorReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayIntructorReturn;
 		}
 	}
@@ -3283,6 +3309,7 @@ public class TAGProject {
 
 			arrayClassroomReturn.add(classroomReturn);
 
+			connection.close();
 			return arrayClassroomReturn;
 		} catch (Exception e) {
 			ClassroomReturn classroomReturn = new ClassroomReturn();
@@ -3295,6 +3322,7 @@ public class TAGProject {
 
 			arrayClassroomReturn.add(classroomReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayClassroomReturn;
 		}
 	}
@@ -3722,6 +3750,7 @@ public class TAGProject {
 
 			arrayClassroomReturn.add(classroomReturn);
 
+			connection.close();
 			return arrayClassroomReturn;
 		} catch (Exception e) {
 			ClassroomReturn classroomReturn = new ClassroomReturn();
@@ -3734,6 +3763,7 @@ public class TAGProject {
 
 			arrayClassroomReturn.add(classroomReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayClassroomReturn;
 		}
 	}
@@ -4159,6 +4189,7 @@ public class TAGProject {
 
 			arrayClassroomReturn.add(classroomReturn);
 
+			connection.close();
 			return arrayClassroomReturn;
 		} catch (Exception e) {
 			ClassroomReturn classroomReturn = new ClassroomReturn();
@@ -4171,6 +4202,7 @@ public class TAGProject {
 
 			arrayClassroomReturn.add(classroomReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayClassroomReturn;
 		}
 	}
@@ -4595,6 +4627,7 @@ public class TAGProject {
 
 			arrayClassroomReturn.add(classroomReturn);
 
+			connection.close();
 			return arrayClassroomReturn;
 		} catch (Exception e) {
 			ClassroomReturn classroomReturn = new ClassroomReturn();
@@ -4607,6 +4640,7 @@ public class TAGProject {
 
 			arrayClassroomReturn.add(classroomReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayClassroomReturn;
 		}
 	}
@@ -4642,6 +4676,7 @@ public class TAGProject {
 
 			arrayDisciplinesReturn.add(disciplinesReturn);
 
+			connection.close();
 			return arrayDisciplinesReturn;
 		} catch (Exception e) {
 			DisciplinesReturn disciplinesReturn = new DisciplinesReturn();
@@ -4654,6 +4689,7 @@ public class TAGProject {
 
 			arrayDisciplinesReturn.add(disciplinesReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayDisciplinesReturn;
 		}
 	}
@@ -4868,6 +4904,7 @@ public class TAGProject {
 
 			arrayDisciplinesByClassReturn.add(disciplinesByClassReturn);
 
+			connection.close();
 			return arrayDisciplinesByClassReturn;
 		} catch (Exception e) {
 			DisciplinesByClassReturn disciplinesByClassReturn = new DisciplinesByClassReturn();
@@ -4880,6 +4917,7 @@ public class TAGProject {
 
 			arrayDisciplinesByClassReturn.add(disciplinesByClassReturn);
 			e.printStackTrace();
+			connection.close();
 			return arrayDisciplinesByClassReturn;
 		}
 	}
