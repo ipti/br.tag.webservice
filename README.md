@@ -1,206 +1,233 @@
-# br.tag.api
+<p align="center">
+    <a href="https://github.com/yiisoft" target="_blank">
+        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
+    </a>
+    <h1 align="center">Yii 2 Basic Project Template</h1>
+    <br>
+</p>
 
-* **Login**
-  
-  Realiza o login (pai):
+Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
+rapidly creating small projects.
 
-  ```
-  @POST
-  ("username"), ("password")
-  /tag/parent/login
-  ```
-  
-  Realiza o login (outros usuários):
+The template contains the basic features including user login/logout and a contact page.
+It includes all commonly used configurations that would allow you to focus on adding new
+features to your application.
 
-  ```
-  @POST
-  ("username"), ("password")
-  /tag/users/login
-  ```
+[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
+[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
+[![Build Status](https://travis-ci.org/yiisoft/yii2-app-basic.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-basic)
 
-* **Informação do usuário**
+DIRECTORY STRUCTURE
+-------------------
 
-  Retorna as informações do `username`:
+      assets/             contains assets definition
+      commands/           contains console commands (controllers)
+      config/             contains application configurations
+      controllers/        contains Web controller classes
+      mail/               contains view files for e-mails
+      models/             contains model classes
+      runtime/            contains files generated during runtime
+      tests/              contains various tests for the basic application
+      vendor/             contains dependent 3rd-party packages
+      views/              contains view files for the Web application
+      web/                contains the entry script and Web resources
 
-  ```
-  @GET
-  /tag/user/info/{username}
-  ```
 
-* **Estudante**
 
-  Retorna os filhos do usuário logado (método para os pais dos alunos) com o `username`:
+REQUIREMENTS
+------------
 
-  ```
-  @GET
-  /tag/children/parent/{username}
-  ```
+The minimum requirement by this project template that your Web server supports PHP 5.4.0.
 
-  Retorna os filhos do usuário logado (método para os pais dos alunos) com o `username` (APP):
 
-  ```
-  @GET
-  /tag/student/parent/{username}
-  ```
-  
-  Retorna todos os estudantes:
+INSTALLATION
+------------
 
-  ```
-  @GET
-  /tag/students
-  ```
+### Install via Composer
 
-  Retorna o estudante com o `inep_id`:
+If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
+at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
 
-  ```
-  @GET
-  /tag/student/{inep_id}
-  ```
-  
-  Retorna todos os estudantes da turma com o `classroom_id`:
+You can then install this project template using the following command:
 
-  ```
-  @GET
-  /tag/student/classroom/{classroom_id}
-  ```
-  
-  Retorna o estudante com o `name`:
+~~~
+php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
+~~~
 
-  ```
-  @GET
-  /tag/student/name/{name}
-  ```
-  
-  Retorna o estudante com o `id` filtrando pela turma com o `classroom_id`:
+Now you should be able to access the application through the following URL, assuming `basic` is the directory
+directly under the Web root.
 
-  ```
-  @GET
-  /tag/student/{classroom_id}/{id}
-  ```
+~~~
+http://localhost/basic/web/
+~~~
 
-* **Professor**
-  
-  Retorna todos os professores:
+### Install from an Archive File
 
-  ```
-  @GET
-  /tag/instructors
-  ```
-  
-  Retorna o professor com o `inep_id`:
+Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
+a directory named `basic` that is directly under the Web root.
 
-  ```
-  @GET
-  /tag/instructor/inep/{inep_id}
-  ```
-  
-  Retorna o professor com o `id`:
+Set cookie validation key in `config/web.php` file to some random secret string:
 
-  ```
-  @GET
-  /tag/instructor/{id}
-  ```
+```php
+'request' => [
+    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+    'cookieValidationKey' => '<secret random string goes here>',
+],
+```
 
-* **Turmas**
-  
-  Retorna todas as turmas:
+You can then access the application through the following URL:
 
-  ```
-  @GET
-  /tag/classrooms
-  ```
-  
-  Retorna a turma com o `inep_id`:
+~~~
+http://localhost/basic/web/
+~~~
 
-  ```
-  @GET
-  /tag/classroom/{inep_id}
-  ```
-  
-  Retorna as turmas do professor com o `instructor_fk` do `year` passado no parâmetro:
 
-  ```
-  @GET
-  /tag/classroom/instructor/{instructor_fk}/{year}
-  ```
-  
-  Retorna as turmas da escola com o `school_inep_fk`:
+### Install with Docker
 
-  ```
-  @GET
-  /tag/classroom/school/{school_inep_fk}
-  ```
+Update your vendor packages
 
-* **Disciplinas**
+    docker-compose run --rm php composer update --prefer-dist
+    
+Run the installation triggers (creating cookie validation code)
 
-  Retorna todas as disciplinas da turma com o `id`:
+    docker-compose run --rm php composer install    
+    
+Start the container
 
-  ```
-  @GET
-  /tag/discipline/classroom/{id}
-  ```
-  
-  Retorna todas as disciplinas do professor com o `id`:
+    docker-compose up -d
+    
+You can then access the application through the following URL:
 
-  ```
-  @GET
-  /tag/discipline/instructor/{id}
-  ```
+    http://127.0.0.1:8000
 
-* **Escola**
+**NOTES:** 
+- Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))
+- The default configuration uses a host-volume in your home directory `.docker-composer` for composer caches
 
-  Retorna todas as escolas:
 
-  ```
-  @GET
-  /tag/schools
-  ```
+CONFIGURATION
+-------------
 
-  Retorna a escola com o `inep_id`:
+### Database
 
-  ```
-  @GET
-  /tag/school/{inep_id}
-  ```
+Edit the file `config/db.php` with real data, for example:
 
-  Retorna todas as escolas do usuário logado (professor ou secretário) com `user_fk`:
+```php
+return [
+    'class' => 'yii\db\Connection',
+    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
+    'username' => 'root',
+    'password' => '1234',
+    'charset' => 'utf8',
+];
+```
 
-  ```
-  @GET
-  /tag/school/user/{user_fk}
-  ```
+**NOTES:**
+- Yii won't create the database for you, this has to be done manually before you can access it.
+- Check and edit the other files in the `config/` directory to customize your application as required.
+- Refer to the README in the `tests` directory for information specific to basic application tests.
 
-* **Grade**
 
-  Retorna todas as grades:
+TESTING
+-------
 
-  ```
-  @GET
-  /tag/grades
-  ```
+Tests are located in `tests` directory. They are developed with [Codeception PHP Testing Framework](http://codeception.com/).
+By default there are 3 test suites:
 
-  Retorna a grade do aluno com o `enrollment_fk`:
+- `unit`
+- `functional`
+- `acceptance`
 
-  ```
-  @GET
-  /tag/grade/{enrollment_fk}
-  ```
+Tests can be executed by running
 
-* **Frequência**
-  
-  Retorna a frequência do aluno com o `student_fk`, filtrando pela `classroom_fk` e `month`:
+```
+vendor/bin/codecept run
+```
 
-  ```
-  @GET
-  /tag/frequency/{student_fk}/{classroom_fk}/{month}
-  ```
-  
-## Desenvolvido com
+The command above will execute unit and functional tests. Unit tests are testing the system components, while functional
+tests are for testing user interaction. Acceptance tests are disabled by default as they require additional setup since
+they perform testing in real browser. 
 
-* [Eclipse Neon](http://www.eclipse.org/neon/) - IDE para desenvolvimento
-* [Maven](https://maven.apache.org/) - Gerenciador de dependência
-* [Glassfish](https://glassfish.java.net/public/alldownloads.html) - Servidor de aplicação
 
-## License
+### Running  acceptance tests
 
-  Esse projeto está licenciado pela MIT License - veja em [LICENSE.md](LICENSE.md) para mais detalhes
+To execute acceptance tests do the following:  
+
+1. Rename `tests/acceptance.suite.yml.example` to `tests/acceptance.suite.yml` to enable suite configuration
+
+2. Replace `codeception/base` package in `composer.json` with `codeception/codeception` to install full featured
+   version of Codeception
+
+3. Update dependencies with Composer 
+
+    ```
+    composer update  
+    ```
+
+4. Download [Selenium Server](http://www.seleniumhq.org/download/) and launch it:
+
+    ```
+    java -jar ~/selenium-server-standalone-x.xx.x.jar
+    ```
+
+    In case of using Selenium Server 3.0 with Firefox browser since v48 or Google Chrome since v53 you must download [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) and launch Selenium with it:
+
+    ```
+    # for Firefox
+    java -jar -Dwebdriver.gecko.driver=~/geckodriver ~/selenium-server-standalone-3.xx.x.jar
+    
+    # for Google Chrome
+    java -jar -Dwebdriver.chrome.driver=~/chromedriver ~/selenium-server-standalone-3.xx.x.jar
+    ``` 
+    
+    As an alternative way you can use already configured Docker container with older versions of Selenium and Firefox:
+    
+    ```
+    docker run --net=host selenium/standalone-firefox:2.53.0
+    ```
+
+5. (Optional) Create `yii2_basic_tests` database and update it by applying migrations if you have them.
+
+   ```
+   tests/bin/yii migrate
+   ```
+
+   The database configuration can be found at `config/test_db.php`.
+
+
+6. Start web server:
+
+    ```
+    tests/bin/yii serve
+    ```
+
+7. Now you can run all available tests
+
+   ```
+   # run all available tests
+   vendor/bin/codecept run
+
+   # run acceptance tests
+   vendor/bin/codecept run acceptance
+
+   # run only unit and functional tests
+   vendor/bin/codecept run unit,functional
+   ```
+
+### Code coverage support
+
+By default, code coverage is disabled in `codeception.yml` configuration file, you should uncomment needed rows to be able
+to collect code coverage. You can run your tests and collect coverage with the following command:
+
+```
+#collect coverage for all tests
+vendor/bin/codecept run -- --coverage-html --coverage-xml
+
+#collect coverage only for unit tests
+vendor/bin/codecept run unit -- --coverage-html --coverage-xml
+
+#collect coverage for unit and functional tests
+vendor/bin/codecept run functional,unit -- --coverage-html --coverage-xml
+```
+
+You can see code coverage output under the `tests/_output` directory.
