@@ -67,6 +67,9 @@ $config = [
         'v1' => [
             'class' => 'app\modules\v1\Module'
         ],
+        'migration' => [
+            'class' => 'app\modules\migration\Module'
+        ],
     ],
     'params' => $params,
 ];

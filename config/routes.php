@@ -38,4 +38,7 @@ return [
     'POST v1/citizen' => 'v1/citizen/create',
     'GET,HEAD v1/citizen/<id>' => 'v1/citizen/view',
     'GET,HEAD v1/citizen' => 'v1/citizen/index',
+
+    // =========== Migration ============
+    'GET migration/import' => 'migration/import/index',
 ];
