@@ -46,4 +46,30 @@ class AcadClassroom extends ActiveRecord
             'disciplines'
         ];
     }
+
+    public function rules()
+    {
+        return [
+            // Scenario Migration
+            [
+                [
+                    'id_schoolinep',
+                    'id_inep',
+                    'name',
+                    'type_pedagogicalmediation',
+                    'work_time',
+                    'work_days',
+                    'schooling',
+                    'aee',
+                    'complementary_activies',
+                    'diff_location',
+                    'modality',
+                    'stage',
+                    'course',
+                    'disciplines'
+                ],
+                'safe', 'on' => self::SCENARIO_MIGRATION
+            ]
+        ];
+    }
 }

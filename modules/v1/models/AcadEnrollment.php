@@ -38,4 +38,22 @@ class AcadEnrollment extends ActiveRecord
             'public_transport',
         ];
     }
+
+    public function rules()
+    {
+        return [
+            // Scenario Migration
+            [
+                [
+                    'id_hashperson',
+                    'id_hashclassroom',
+                    'multi',
+                    'aee',
+                    'another_space',
+                    'public_transport'
+                ],
+                'safe', 'on' => self::SCENARIO_MIGRATION
+            ]
+        ];
+    }
 }

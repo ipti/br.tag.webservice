@@ -7,7 +7,7 @@ use app\modules\v1\models\AcadEnrollment;
 
 class Enrollment extends Model{
 
-    use app\modules\migration\traits\Import;
+    use \app\modules\migration\traits\Import;
     public $id_hashperson;
     public $id_hashclassroom;
     public $multi;
@@ -41,12 +41,11 @@ class Enrollment extends Model{
     public $waterway_boat_35;
 
 
-    public function load($enrollment){
+    public function loadModel($enrollment){
         $this->id_hashperson = $enrollment->id_hashperson;
         $this->id_hashclassroom = $enrollment->id_hashclassroom;
         $this->multi = null;
 
-        $this->aee = false;
         $this->cognitive_functions = false;
         $this->autonomous_life = false;
         $this->curriculum_enrichment = false;
@@ -58,21 +57,46 @@ class Enrollment extends Model{
         $this->mobility_techniques = false;
         $this->caa = false;
         $this->optical_nonoptical = false;
+        $this->aee = [
+            'cognitive_functions' => $this->cognitive_functions,
+            'autonomous_life' => $this->autonomous_life,
+            'curriculum_enrichment' => $this->curriculum_enrichment,
+            'accessible_teaching' => $this->accessible_teaching,
+            'libras' => $this->libras,
+            'portuguese' => $this->portuguese,
+            'soroban' => $this->soroban,
+            'braille' => $this->braille,
+            'mobility_techniques' => $this->mobility_techniques,
+            'caa' => $this->caa,
+            'optical_nonoptical' => $this->optical_nonoptical, 
+        ];
 
         $this->another_space = null;
-        $this->public_transport = $enrollment->public_transport;
         
         $this->responsable_government = $enrollment->responsable_government;
-        $this->vehicle_bike = $enrollment->vehicle_bike;
-        $this->vehicle_microbus = $enrollment->vehicle_microbus;
-        $this->vehicle_bus = $enrollment->vehicle_bus;
-        $this->vehicle_van = $enrollment->vehicle_van;
-        $this->vehicle_animal = $enrollment->vehicle_animal;
-        $this->vehicle_other = $enrollment->vehicle_other;
-        $this->waterway_boat_5 = $enrollment->waterway_boat_5;
-        $this->waterway_boat_5_15 = $enrollment->waterway_boat_5_15;
-        $this->waterway_boat_15_35 = $enrollment->waterway_boat_15_35;
-        $this->waterway_boat_35 = $enrollment->waterway_boat_35;
+        $this->vehicle_bike = boolval($enrollment->vehicle_bike);
+        $this->vehicle_microbus = boolval($enrollment->vehicle_microbus);
+        $this->vehicle_bus = boolval($enrollment->vehicle_bus);
+        $this->vehicle_van = boolval($enrollment->vehicle_van);
+        $this->vehicle_animal = boolval($enrollment->vehicle_animal);
+        $this->vehicle_other = boolval($enrollment->vehicle_other);
+        $this->waterway_boat_5 = boolval($enrollment->waterway_boat_5);
+        $this->waterway_boat_5_15 = boolval($enrollment->waterway_boat_5_15);
+        $this->waterway_boat_15_35 = boolval($enrollment->waterway_boat_15_35);
+        $this->waterway_boat_35 = boolval($enrollment->waterway_boat_35);
+        $this->public_transport = [
+            'responsable_government' => $this->responsable_government,
+            'vehicle_bike' => $this->vehicle_bike,
+            'vehicle_microbus' => $this->vehicle_microbus,
+            'vehicle_bus' => $this->vehicle_bus,
+            'vehicle_van' => $this->vehicle_van,
+            'vehicle_animal' => $this->vehicle_animal,
+            'vehicle_other' => $this->vehicle_other,
+            'waterway_boat_5' => $this->waterway_boat_5,
+            'waterway_boat_5_15' => $this->waterway_boat_5_15,
+            'waterway_boat_15_35' => $this->waterway_boat_15_35,
+            'waterway_boat_35' => $this->waterway_boat_35,
+        ];
 
     }
 
@@ -82,9 +106,7 @@ class Enrollment extends Model{
                 'se.hash_student AS id_hashperson',
                 'se.hash_classroom AS id_hashclassroom',
                 'se.hash_classroom AS id_hashclassroom',
-                'se.public_transport',
-                'se.public_transport',
-                'se.responsable_government AS responsable_government',
+                'se.transport_responsable_government AS responsable_government',
                 'se.vehicle_type_bike AS vehicle_bike',
                 'se.vehicle_type_microbus AS vehicle_microbus',
                 'se.vehicle_type_bus AS vehicle_bus',
@@ -104,9 +126,8 @@ class Enrollment extends Model{
 
     public function count(){
         return (new \yii\db\Query())
-            ->select('COUNT(*)')
             ->from('student_enrollment se')
-            ->all();
+            ->count();
     }
 
     

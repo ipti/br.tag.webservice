@@ -7,7 +7,7 @@ use app\modules\v1\models\AcadClassroom;
 
 class Classroom extends Model{
 
-    use app\modules\migration\traits\Import;
+    use \app\modules\migration\traits\Import;
     public $id_schoolinep;
     public $id_inep;
     public $name;
@@ -70,7 +70,7 @@ class Classroom extends Model{
     public $others;
 
 
-    public function load($classroom){
+    public function loadModel($classroom){
         $this->id_schoolinep = $classroom->id_schoolinep;
         $this->id_inep = $classroom->id_inep;
         $this->name = $classroom->name;
@@ -87,13 +87,13 @@ class Classroom extends Model{
             'final_minute' => $this->final_minute,
         ];
 
-        $this->sunday = $classroom->sunday;
-        $this->monday = $classroom->monday;
-        $this->tuesday = $classroom->tuesday;
-        $this->wednesday = $classroom->wednesday;
-        $this->thursday = $classroom->thursday;
-        $this->friday = $classroom->friday;
-        $this->saturday = $classroom->saturday;
+        $this->sunday = boolval($classroom->sunday);
+        $this->monday = boolval($classroom->monday);
+        $this->tuesday = boolval($classroom->tuesday);
+        $this->wednesday = boolval($classroom->wednesday);
+        $this->thursday = boolval($classroom->thursday);
+        $this->friday = boolval($classroom->friday);
+        $this->saturday = boolval($classroom->saturday);
         $this->work_days = [
             'sunday' => $this->sunday,
             'monday' => $this->monday,
@@ -116,37 +116,40 @@ class Classroom extends Model{
         $this->person = null;
         $this->function = null;
         $this->hiring_regime = null;
-        $this->chemistry = [
+        
+        $defaultValueDisciplines = [
             'person' => $this->person,
             'function' => $this->function,
             'hiring_regime' => $this->hiring_regime,
         ];
 
-        $this->physics = $classroom->physics;
-        $this->mathematics = $classroom->mathematics;
-        $this->biology = $classroom->biology;
-        $this->science = $classroom->science;
-        $this->portuguese_literature = $classroom->portuguese_literature;
-        $this->language_english = $classroom->language_english;
-        $this->language_spanish = $classroom->language_spanish;
-        $this->language_other = $classroom->language_other;
-        $this->arts = $classroom->arts;
-        $this->physical_education = $classroom->physical_education;
-        $this->history = $classroom->history;
-        $this->geography = $classroom->geography;
-        $this->philosophy = $classroom->philosophy;
-        $this->informatics = $classroom->informatics;
-        $this->professional_disciplines = $classroom->professional_disciplines;
-        $this->libras = $classroom->libras;
-        $this->pedagogical = $classroom->pedagogical;
-        $this->religious = $classroom->religious;
-        $this->native_language = $classroom->native_language;
-        $this->social_study = $classroom->social_study;
-        $this->sociology = $classroom->sociology;
-        $this->language_franch = $classroom->language_franch;
-        $this->language_portuguese = $classroom->language_portuguese;
-        $this->internship = null;
-        $this->others = $classroom->others;
+        $this->chemistry = $defaultValueDisciplines;
+        $this->physics = $defaultValueDisciplines;
+        $this->mathematics = $defaultValueDisciplines;
+        $this->biology = $defaultValueDisciplines;
+        $this->science = $defaultValueDisciplines;
+        $this->portuguese_literature = $defaultValueDisciplines;
+        $this->language_english = $defaultValueDisciplines;
+        $this->language_spanish = $defaultValueDisciplines;
+        $this->language_other = $defaultValueDisciplines;
+        $this->arts = $defaultValueDisciplines;
+        $this->physical_education = $defaultValueDisciplines;
+        $this->history = $defaultValueDisciplines;
+        $this->geography = $defaultValueDisciplines;
+        $this->philosophy = $defaultValueDisciplines;
+        $this->informatics = $defaultValueDisciplines;
+        $this->professional_disciplines = $defaultValueDisciplines;
+        $this->libras = $defaultValueDisciplines;
+        $this->pedagogical = $defaultValueDisciplines;
+        $this->religious = $defaultValueDisciplines;
+        $this->native_language = $defaultValueDisciplines;
+        $this->social_study = $defaultValueDisciplines;
+        $this->sociology = $defaultValueDisciplines;
+        $this->language_franch = $defaultValueDisciplines;
+        $this->language_portuguese = $defaultValueDisciplines;
+        $this->internship = $defaultValueDisciplines;
+        $this->others = $defaultValueDisciplines;
+
         $this->disciplines = [
             'chemistry' => $this->chemistry,
             'physics' => $this->physics,
@@ -203,9 +206,9 @@ class Classroom extends Model{
                 'cr.discipline_biology AS biology',
                 'cr.discipline_science AS science',
                 'cr.discipline_language_portuguese_literature AS portuguese_literature',
-                'cr.discipline_foreing_language_english AS language_english',
-                'cr.discipline_foreing_language_spanish AS language_spanish',
-                'cr.discipline_foreing_language_other AS language_other',
+                'cr.discipline_foreign_language_english AS language_english',
+                'cr.discipline_foreign_language_spanish AS language_spanish',
+                'cr.discipline_foreign_language_other AS language_other',
                 'cr.discipline_arts AS arts',
                 'cr.discipline_physical_education AS physical_education',
                 'cr.discipline_history AS history',
@@ -219,7 +222,7 @@ class Classroom extends Model{
                 'cr.discipline_native_language AS native_language',
                 'cr.discipline_social_study AS social_study',
                 'cr.discipline_sociology AS sociology',
-                'cr.discipline_foreing_language_franch AS language_franch',
+                'cr.discipline_foreign_language_franch AS language_franch',
                 'cr.discipline_language_portuguese_literature AS language_portuguese',
                 'cr.discipline_others AS others',
             ])
@@ -231,9 +234,8 @@ class Classroom extends Model{
 
     public function count(){
         return (new \yii\db\Query())
-            ->select('COUNT(*)')
             ->from('classroom cr')
-            ->all();
+            ->count();
     }
 
     public function factory(){

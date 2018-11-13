@@ -7,12 +7,12 @@ use app\modules\v1\models\GnrPerson;
 
 class Instructor extends Model
 {
-    use app\modules\migration\traits\Import;
+    use \app\modules\migration\traits\Import;
     public $id_hash;
     public $id_inep;
     public $id_cpf;
     public $id_nis;
-    public $id_civil_regiter;
+    public $id_civil_register;
     public $id_email;
     public $fullname;
     public $filiation_type;
@@ -59,7 +59,7 @@ class Instructor extends Model
             'intelectual_disability' => '',
             'multiple_disabilities' => '',
             'autism' => '',
-            'gitfed' => '',
+            'gifted' => '',
             'resource_aid_lector' => '',
             'resource_aid_transcription' => '',
             'resource_interpreter_guide' => '',
@@ -85,7 +85,7 @@ class Instructor extends Model
     public $intelectual_disability;
     public $multiple_disabilities;
     public $autism;
-    public $gitfed;
+    public $gifted;
     public $resource_aid_lector;
     public $resource_aid_transcription;
     public $resource_interpreter_guide;
@@ -119,12 +119,12 @@ class Instructor extends Model
             'other_courses_special_education' => '',
             'other_courses_native_education' => '',
             'other_courses_field_education' => '',
-            'other_courses_enviromment_education' => '',
+            'other_courses_environment_education' => '',
             'other_courses_human_rights_education' => '',
             'other_courses_sexual_education' => '',
             'other_courses_child_and_teenage_rights' => '',
             'other_courses_ethnic_education' => '',
-            'other_courses_others' => '',
+            'other_courses_other' => '',
             'id_knowledge_area1' => '',
             'id_knowledge_area2' => '',
             'id_knowledge_area3' => '',
@@ -147,39 +147,39 @@ class Instructor extends Model
     public $other_courses_special_education;
     public $other_courses_native_education;
     public $other_courses_field_education;
-    public $other_courses_enviromment_education;
+    public $other_courses_environment_education;
     public $other_courses_human_rights_education;
     public $other_courses_sexual_education;
     public $other_courses_child_and_teenage_rights;
     public $other_courses_ethnic_education;
-    public $other_courses_others;
+    public $other_courses_other;
     public $id_knowledge_area1;
     public $id_knowledge_area2;
     public $id_knowledge_area3;
     public $no_documents_desc;
 
 
-    public function load($instructor){
-        $this->id_hash = $instructor->hash;
-        $this->id_inep = $instructor->inep_id;
-        $this->id_cpf = $instructor->cpf;
-        $this->id_nis = $instructor->nis;
+    public function loadModel($instructor){
+        $this->id_hash = $instructor->id_hash;
+        $this->id_inep = $instructor->id_inep;
+        $this->id_cpf = $instructor->id_cpf;
+        $this->id_nis = $instructor->id_nis;
         $this->id_civil_register = null;
         $this->id_email = $instructor->id_email;
-        $this->filiation_type = $instructor->filiation;
+        $this->filiation_type = $instructor->filiation_type;
         $this->filiation_1 = $instructor->filiation_1;
         $this->filiation_2 = $instructor->filiation_2;
         $this->birthday = $instructor->birthday;
         $this->birthday_nacionality = null;
         $this->birthday_country = null;
         $this->birthday_city = null;
-        $this->gender = $instructor->sex;
-        $this->skin_tone = $instructor->color_race;
-        $this->street = $instructor->address;
+        $this->gender = $instructor->gender;
+        $this->skin_tone = $instructor->skin_tone;
+        $this->street = $instructor->street;
         $this->country = null;
-        $this->zipcode = $instructor->cep;
-        $this->city = $instructor->edcenso_city_fk;
-        $this->zone = $instructor->edcenso_uf_fk;
+        $this->zipcode = $instructor->zipcode;
+        $this->city = $instructor->city;
+        $this->zone = $instructor->zone;
         $this->diff_location = null;
         $this->address = [
             'street' => $this->street,
@@ -189,15 +189,15 @@ class Instructor extends Model
             'zone' => $this->zone,
             'diff_location' => $this->diff_location,
         ];
-        $this->situation = boolval($this->deficiency);
-        $this->blindness = boolval($this->deficiency_type_blindness);
-        $this->low_vision = boolval($this->deficiency_type_low_vision);
-        $this->deafness = boolval($this->deficiency_type_deafness);
-        $this->disabilty_hearing = boolval($this->deficiency_type_disabilty_hearing);
-        $this->deafblindness = boolval($this->deficiency_type_deafblindness);
-        $this->phisical_disability = boolval($this->deficiency_type_phisical_disability);
-        $this->intelectual_disability = boolval($this->deficiency_type_intelectual_disability);
-        $this->multiple_disabilities = boolval($this->deficiency_type_multiple_disabilities);
+        $this->situation = boolval($instructor->situation);
+        $this->blindness = boolval($instructor->blindness);
+        $this->low_vision = boolval($instructor->low_vision);
+        $this->deafness = boolval($instructor->deafness);
+        $this->disability_hearing = boolval($instructor->disability_hearing);
+        $this->deafblindness = boolval($instructor->deafblindness);
+        $this->phisical_disability = boolval($instructor->phisical_disability);
+        $this->intelectual_disability = boolval($instructor->intelectual_disability);
+        $this->multiple_disabilities = boolval($instructor->multiple_disabilities);
         $this->autism = false;
         $this->gifted = false;
         $this->resource_aid_lector = false;
@@ -205,8 +205,8 @@ class Instructor extends Model
         $this->resource_interpreter_guide = false;
         $this->resource_interpreter_libras = false;
         $this->resource_lip_reading = false;
-        $this->resource_zoomed_18 = false;
-        $this->resource_zoomed_24 = false;
+        $this->resource_zoomed_test_18 = false;
+        $this->resource_zoomed_test_24 = false;
         $this->resource_cd_audio = false;
         $this->resource_proof_language = false;
         $this->resource_video_libras = false;
@@ -222,7 +222,7 @@ class Instructor extends Model
             'intelectual_disability' => $this->intelectual_disability,
             'multiple_disabilities' => $this->multiple_disabilities,
             'autism' => $this->autism,
-            'gitfed' => $this->gitfed,
+            'gifted' => $this->gifted,
             'resource_aid_lector' => $this->resource_aid_lector,
             'resource_aid_transcription' => $this->resource_aid_transcription,
             'resource_interpreter_guide' => $this->resource_interpreter_guide,
@@ -235,29 +235,29 @@ class Instructor extends Model
             'resource_video_libras' => $this->resource_video_libras,
             'resource_braille_test' => $this->resource_braille_test,
         ];
-        $this->scholarity = $instructor->schorality;
+        $this->scholarity = $instructor->scholarity;
         $this->high_school_type = null;
         $this->id_institution = null;
         $this->id_course = null;
         $this->degree_year = null;
-        $this->post_graduation_specialization = $instructor->post_graduation_specialization;
-        $this->post_graduation_master = $instructor->post_graduation_master;
-        $this->post_graduation_doctorate = $instructor->post_graduation_doctorate;
+        $this->post_graduation_specialization = boolval($instructor->post_graduation_specialization);
+        $this->post_graduation_master = boolval($instructor->post_graduation_master);
+        $this->post_graduation_doctorate = boolval($instructor->post_graduation_doctorate);
         $this->post_graduation_education_manager = false;
-        $this->other_courses_pre_school = $instructor->other_courses_pre_school;
-        $this->other_courses_basic_education_initial_years = $instructor->other_courses_basic_education_initial_years;
-        $this->other_courses_basic_education_final_years = $instructor->other_courses_basic_education_final_years;
-        $this->other_courses_high_school = $instructor->other_courses_high_school;
-        $this->other_courses_education_of_youth_and_adults = $instructor->other_courses_education_of_youth_and_adults;
-        $this->other_courses_special_education = $instructor->other_courses_special_education;
-        $this->other_courses_native_education = $instructor->other_courses_native_education;
-        $this->other_courses_field_education = $instructor->other_courses_field_education;
-        $this->other_courses_enviroment_education = $instructor->other_courses_enviroment_education;
-        $this->other_courses_human_rights_education = $instructor->other_courses_human_rights_education;
-        $this->other_courses_sexual_education = $instructor->other_courses_sexual_education;
-        $this->other_courses_child_and_teenage_rights = $instructor->other_courses_child_and_teenage_rights;
-        $this->other_courses_ethnic_education = $instructor->other_courses_ethnic_educatio;
-        $this->other_courses_other = $instructor->other_courses_other;
+        $this->other_courses_pre_school = boolval($instructor->other_courses_pre_school);
+        $this->other_courses_basic_education_initial_years = boolval($instructor->other_courses_basic_education_initial_years);
+        $this->other_courses_basic_education_final_years = boolval($instructor->other_courses_basic_education_final_years);
+        $this->other_courses_high_school = boolval($instructor->other_courses_high_school);
+        $this->other_courses_education_of_youth_and_adults = boolval($instructor->other_courses_education_of_youth_and_adults);
+        $this->other_courses_special_education = boolval($instructor->other_courses_special_education);
+        $this->other_courses_native_education = boolval($instructor->other_courses_native_education);
+        $this->other_courses_field_education = boolval($instructor->other_courses_field_education);
+        $this->other_courses_environment_education = boolval($instructor->other_courses_environment_education);
+        $this->other_courses_human_rights_education = boolval($instructor->other_courses_human_rights_education);
+        $this->other_courses_sexual_education = boolval($instructor->other_courses_sexual_education);
+        $this->other_courses_child_and_teenage_rights = boolval($instructor->other_courses_child_and_teenage_rights);
+        $this->other_courses_ethnic_education = boolval($instructor->other_courses_ethnic_education);
+        $this->other_courses_other = boolval($instructor->other_courses_other);
         $this->id_knowledge_area1 = null;
         $this->id_knowledge_area2 = null;
         $this->id_knowledge_area3 = null;
@@ -303,7 +303,7 @@ class Instructor extends Model
                 'ii.name AS fullname',
                 'ii.filiation AS filiation_type',
                 'ii.filiation_1 AS filiation_1',
-                'ii.filiation_2 AS filiation_1',
+                'ii.filiation_2 AS filiation_2',
                 'ii.birthday_date AS birthday',
                 'ii.sex AS gender',
                 'ii.color_race AS skin_tone',
@@ -320,6 +320,7 @@ class Instructor extends Model
                 'ii.deficiency_type_phisical_disability AS phisical_disability',
                 'ii.deficiency_type_intelectual_disability AS intelectual_disability',
                 'ii.deficiency_type_multiple_disabilities AS multiple_disabilities',
+                'ivd.scholarity',
                 'ivd.post_graduation_specialization',
                 'ivd.post_graduation_master',
                 'ivd.post_graduation_doctorate',
@@ -339,8 +340,8 @@ class Instructor extends Model
                 'ivd.other_courses_other',
             ])
             ->from('instructor_identification ii')
-            ->innerJoin('instructor_documents_and_address ida', 'ii.hash = ida.hash')
-            ->innerJoin('instructor_variable_data ivd', 'ii.hash = ivd.hash')
+            ->innerJoin('instructor_documents_and_address ida', 'ii.id = ida.id AND ii.school_inep_id_fk = ida.school_inep_id_fk')
+            ->innerJoin('instructor_variable_data ivd', 'ii.id = ivd.id AND ii.school_inep_id_fk = ivd.school_inep_id_fk')
             ->limit($limit)
             ->offset($offset * $limit)
             ->all();
@@ -348,11 +349,10 @@ class Instructor extends Model
 
     public function count(){
         return (new \yii\db\Query())
-            ->select('COUNT(*)')
             ->from('instructor_identification ii')
-            ->innerJoin('instructor_documents_and_address ida', 'ii.hash = ida.hash')
-            ->innerJoin('instructor_variable_data ivd', 'ii.hash = ivd.hash')
-            ->all();
+            ->innerJoin('instructor_documents_and_address ida', 'ii.id = ida.id AND ii.school_inep_id_fk = ida.school_inep_id_fk')
+            ->innerJoin('instructor_variable_data ivd', 'ii.id = ivd.id AND ii.school_inep_id_fk = ivd.school_inep_id_fk')
+            ->count();
     }
 
     public function factory(){

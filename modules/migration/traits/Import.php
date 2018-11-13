@@ -16,10 +16,14 @@ trait Import
             $data = $this->find($batchSize, $actualInteration);
 
             foreach ($data as $item) {
-                $this->load((object) $item);
+                $this->loadModel((object) $item);
                 $instance = $this->factory();
-                $instance->load($this->getAttributes());
-                $instance->save();
+                $type = get_class($instance);
+                $pos = strrpos($type, '\\') + 1;
+                $type = substr($type, $pos);
+                $dataModel = [$type => $this->getAttributes()];
+                $instance->load($dataModel);
+                $instance->save(false);
 
             }
             ++$actualInteration;

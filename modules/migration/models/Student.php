@@ -7,12 +7,12 @@ use app\modules\v1\models\GnrPerson;
 
 class Student extends Model
 {
-    use app\modules\migration\traits\Import;
+    use \app\modules\migration\traits\Import;
     public $id_hash;
     public $id_inep;
     public $id_cpf;
     public $id_nis;
-    public $id_civil_regiter;
+    public $id_civil_register;
     public $id_email;
     public $fullname;
     public $filiation_type;
@@ -60,7 +60,7 @@ class Student extends Model
             'intelectual_disability' => '',
             'multiple_disabilities' => '',
             'autism' => '',
-            'gitfed' => '',
+            'gifted' => '',
             'resource_aid_lector' => '',
             'resource_aid_transcription' => '',
             'resource_interpreter_guide' => '',
@@ -86,7 +86,7 @@ class Student extends Model
     public $intelectual_disability;
     public $multiple_disabilities;
     public $autism;
-    public $gitfed;
+    public $gifted;
     public $resource_aid_lector;
     public $resource_aid_transcription;
     public $resource_interpreter_guide;
@@ -120,12 +120,12 @@ class Student extends Model
             'other_courses_special_education' => '',
             'other_courses_native_education' => '',
             'other_courses_field_education' => '',
-            'other_courses_enviromment_education' => '',
+            'other_courses_environment_education' => '',
             'other_courses_human_rights_education' => '',
             'other_courses_sexual_education' => '',
             'other_courses_child_and_teenage_rights' => '',
             'other_courses_ethnic_education' => '',
-            'other_courses_others' => '',
+            'other_courses_other' => '',
             'id_knowledge_area1' => '',
             'id_knowledge_area2' => '',
             'id_knowledge_area3' => '',
@@ -148,39 +148,39 @@ class Student extends Model
     public $other_courses_special_education;
     public $other_courses_native_education;
     public $other_courses_field_education;
-    public $other_courses_enviromment_education;
+    public $other_courses_environment_education;
     public $other_courses_human_rights_education;
     public $other_courses_sexual_education;
     public $other_courses_child_and_teenage_rights;
     public $other_courses_ethnic_education;
-    public $other_courses_others;
+    public $other_courses_other;
     public $id_knowledge_area1;
     public $id_knowledge_area2;
     public $id_knowledge_area3;
     public $no_documents_desc;
 
 
-    public function load($student){
-        $this->id_hash = $student->hash;
-        $this->id_inep = $student->inep_id;
-        $this->id_cpf = $student->cpf;
-        $this->id_nis = $student->nis;
-        $this->id_civil_register = $student->civil_register_enrollment_number;
+    public function loadModel($student){
+        $this->id_hash = $student->id_hash;
+        $this->id_inep = $student->id_inep;
+        $this->id_cpf = $student->id_cpf;
+        $this->id_nis = $student->id_nis;
+        $this->id_civil_register = $student->id_civil_register;
         $this->id_email = null;
-        $this->filiation_type = $student->filiation;
+        $this->filiation_type = $student->filiation_type;
         $this->filiation_1 = $student->filiation_1;
         $this->filiation_2 = $student->filiation_2;
         $this->birthday = $student->birthday;
         $this->birthday_nacionality = null;
         $this->birthday_country = null;
         $this->birthday_city = null;
-        $this->gender = $student->sex;
-        $this->skin_tone = $student->color_race;
-        $this->street = $student->address;
+        $this->gender = $student->gender;
+        $this->skin_tone = $student->skin_tone;
+        $this->street = $student->street;
         $this->country = null;
-        $this->zipcode = $student->cep;
-        $this->city = $student->edcenso_city_fk;
-        $this->zone = $student->edcenso_uf_fk;
+        $this->zipcode = $student->zipcode;
+        $this->city = $student->city;
+        $this->zone = $student->zone;
         $this->diff_location = null;
         $this->address = [
             'street' => $this->street,
@@ -190,24 +190,24 @@ class Student extends Model
             'zone' => $this->zone,
             'diff_location' => $this->diff_location,
         ];
-        $this->situation = boolval($this->deficiency);
-        $this->blindness = boolval($this->deficiency_type_blindness);
-        $this->low_vision = boolval($this->deficiency_type_low_vision);
-        $this->deafness = boolval($this->deficiency_type_deafness);
-        $this->disabilty_hearing = boolval($this->deficiency_type_disabilty_hearing);
-        $this->deafblindness = boolval($this->deficiency_type_deafblindness);
-        $this->phisical_disability = boolval($this->deficiency_type_phisical_disability);
-        $this->intelectual_disability = boolval($this->deficiency_type_intelectual_disability);
-        $this->multiple_disabilities = boolval($this->deficiency_type_multiple_disabilities);
-        $this->autism = boolval($this->deficiency_type_autism);
+        $this->situation = boolval($student->situation);
+        $this->blindness = boolval($student->blindness);
+        $this->low_vision = boolval($student->low_vision);
+        $this->deafness = boolval($student->deafness);
+        $this->disability_hearing = boolval($student->disability_hearing);
+        $this->deafblindness = boolval($student->deafblindness);
+        $this->phisical_disability = boolval($student->phisical_disability);
+        $this->intelectual_disability = boolval($student->intelectual_disability);
+        $this->multiple_disabilities = boolval($student->multiple_disabilities);
+        $this->autism = boolval($student->autism);
         $this->gifted = false;
         $this->resource_aid_lector = $student->resource_aid_lector;
         $this->resource_aid_transcription = $student->resource_aid_transcription;
         $this->resource_interpreter_guide = $student->resource_interpreter_guide;
         $this->resource_interpreter_libras = $student->resource_interpreter_libras;
         $this->resource_lip_reading = $student->resource_lip_reading;
-        $this->resource_zoomed_18 = false;
-        $this->resource_zoomed_24 = $student->resource_zoomed_24;
+        $this->resource_zoomed_test_18 = false;
+        $this->resource_zoomed_test_24 = $student->resource_zoomed_test_24;
         $this->resource_cd_audio = false;
         $this->resource_proof_language = false;
         $this->resource_video_libras = false;
@@ -223,7 +223,7 @@ class Student extends Model
             'intelectual_disability' => $this->intelectual_disability,
             'multiple_disabilities' => $this->multiple_disabilities,
             'autism' => $this->autism,
-            'gitfed' => $this->gitfed,
+            'gifted' => $this->gifted,
             'resource_aid_lector' => $this->resource_aid_lector,
             'resource_aid_transcription' => $this->resource_aid_transcription,
             'resource_interpreter_guide' => $this->resource_interpreter_guide,
@@ -253,7 +253,7 @@ class Student extends Model
         $this->other_courses_special_education = false;
         $this->other_courses_native_education = false;
         $this->other_courses_field_education = false;
-        $this->other_courses_enviroment_education = false;
+        $this->other_courses_environment_education = false;
         $this->other_courses_human_rights_education = false;
         $this->other_courses_sexual_education = false;
         $this->other_courses_child_and_teenage_rights = false;
@@ -304,10 +304,10 @@ class Student extends Model
                 'si.name AS fullname',
                 'si.filiation AS filiation_type',
                 'si.filiation_1 AS filiation_1',
-                'si.filiation_2 AS filiation_1',
+                'si.filiation_2 AS filiation_2',
                 'si.birthday AS birthday',
                 'si.sex AS gender',
-                'si.color AS skin_tone',
+                'si.color_race AS skin_tone',
                 'sd.address AS street',
                 'sd.cep AS zipcode',
                 'sd.edcenso_city_fk AS city',
@@ -339,10 +339,9 @@ class Student extends Model
 
     public function count(){
         return (new \yii\db\Query())
-            ->select('COUNT(*)')
             ->from('student_identification si')
             ->innerJoin('student_documents_and_address sd', 'si.hash = sd.hash')
-            ->all();
+            ->count();
     }
 
     public function factory(){

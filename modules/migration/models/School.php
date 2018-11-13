@@ -7,7 +7,7 @@ use app\modules\v1\models\AcadSchool;
 
 class School extends Model
 {
-    use app\modules\migration\traits\Import;
+    use \app\modules\migration\traits\Import;
     public $id_inep;
     public $id_email;
     public $working_status;
@@ -49,9 +49,9 @@ class School extends Model
     public $regulation_status;
     public $regulation_organ;
 
-    public $linked_scholl;
+    public $linked_school;
     public $basicorcollege;
-    public $id_headscholl;
+    public $id_headschool;
     public $id_college;
 
     public $working_location;
@@ -63,14 +63,14 @@ class School extends Model
     public $building_other;
     public $building_occupation;
     public $building_sharing;
-    public $code_schollsharing;
+    public $code_schoolsharing;
 
-    public $suplly_water;
-    public $suplly_water_public_network;
+    public $supply_water;
+    public $supply_water_public_network;
     public $artesian_well;
     public $well;
     public $river;
-    public $suplly_water_inexistent;
+    public $supply_water_inexistent;
 
     public $supply_energy;
     public $supply_energy_public_network;
@@ -283,8 +283,8 @@ class School extends Model
     // ==== end board_organ ====
 
 
-    public function load($school){
-        $this->id_inep = $school->inep_id;
+    public function loadModel($school){
+        $this->id_inep = $school->id_inep;
         $this->id_email = $school->id_email;
         $this->working_status = null;
         $this->start_date = $school->start_date ;
@@ -346,11 +346,11 @@ class School extends Model
         $this->regulation_organ = null;
 
         $this->basicorcollege = null;
-        $this->id_headscholl = null;
+        $this->id_headschool = null;
         $this->id_college = null;
-        $this->linked_scholl = [
+        $this->linked_school = [
             'basicorcollege' => $this->basicorcollege,
-            'id_headscholl' => $this->id_headscholl,
+            'id_headschool' => $this->id_headschool,
             'id_college' => $this->id_college,
         ];
 
@@ -362,7 +362,7 @@ class School extends Model
         $this->building_other = $school->building_other;
         $this->building_occupation = $school->building_occupation;
         $this->building_sharing = $school->building_sharing;
-        $this->code_schollsharing = $school->code_schollsharing;
+        $this->code_schoolsharing = $school->code_schoolsharing;
         $this->working_location = [
            'building_school' => $this->building_school,
            'building_otherschool' => $this->building_otherschool,
@@ -372,20 +372,20 @@ class School extends Model
            'building_other' => $this->building_other,
            'building_occupation' => $this->building_occupation,
            'building_sharing' => $this->building_sharing,
-           'code_schollsharing' => $this->code_schollsharing,
+           'code_schoolsharing' => $this->code_schoolsharing,
         ];
         
-        $this->suplly_water_public_network = $school->suplly_water_public_network;
+        $this->supply_water_public_network = $school->supply_water_public_network;
         $this->artesian_well = $school->artesian_well;
         $this->well = $school->well;
         $this->river = $school->river;
-        $this->suplly_water_inexistent = $school->suplly_water_inexistent;
-        $this->suplly_water = [
-            'public_network' => $this->suplly_water_public_network,
+        $this->supply_water_inexistent = $school->supply_water_inexistent;
+        $this->supply_water = [
+            'public_network' => $this->supply_water_public_network,
             'artesian_well' => $this->artesian_well,
             'well' => $this->well,
             'river' => $this->river,
-            'inexistent' => $this->suplly_water_inexistent,
+            'inexistent' => $this->supply_water_inexistent,
         ];
 
         $this->supply_energy_public_network = $school->supply_energy_public_network;
@@ -761,7 +761,8 @@ class School extends Model
                 'si.address AS street_name',
                 'si.address_number AS street_number',
                 'si.address_complement AS street_complement',
-                'si.address_neighboorhood AS street_neighbor',
+                'si.address_neighborhood AS street_neighbor',
+                'si.edcenso_uf_fk AS street_zone',
                 'si.ddd AS phone_ddd',
                 'si.phone_number',
                 'si.other_phone_number',
@@ -784,11 +785,11 @@ class School extends Model
                 'ss.building_occupation_situation AS building_occupation',
                 'ss.shared_building_with_school AS building_sharing',
                 'ss.shared_school_inep_id_1 AS code_schoolsharing',
-                'ss.water_suplly_public AS suplly_water_public_network',
-                'ss.water_suplly_artesian_well AS artesian_well',
-                'ss.water_suplly_well AS well',
-                'ss.water_suplly_river AS river',
-                'ss.water_suplly_inexistent AS suplly_water_inexistent',
+                'ss.water_supply_public AS supply_water_public_network',
+                'ss.water_supply_artesian_well AS artesian_well',
+                'ss.water_supply_well AS well',
+                'ss.water_supply_river AS river',
+                'ss.water_supply_inexistent AS supply_water_inexistent',
                 'ss.energy_supply_public AS supply_energy_public_network',
                 'ss.energy_supply_generator AS generator_gas',
                 'ss.energy_supply_inexistent AS supply_energy_inexistent',
@@ -811,6 +812,7 @@ class School extends Model
                 'ss.dependencies_student_accomodation AS student_accomodation',
                 'ss.dependencies_instructor_accomodation AS instructor_accomodation',
                 'ss.dependencies_science_lab AS science_lab',
+                'ss.dependencies_info_lab AS info_lab',
                 'ss.dependencies_playground AS playground',
                 'ss.dependencies_covered_patio AS covered_patio',
                 'ss.dependencies_uncovered_patio AS uncovered_patio',
@@ -827,9 +829,10 @@ class School extends Model
                 'ss.equipments_computer AS computer',
                 'ss.equipments_copier AS copier',
                 'ss.equipments_printer AS printer',
-                'ss.equipments_multifucional_printer AS multifucional_printer',
+                'ss.equipments_multifunctional_printer AS multifunctional_printer',
                 'ss.equipments_stereo_system AS qtd_stereosystem',
                 'ss.equipments_tv AS qtd_tv',
+                'ss.equipments_dvd AS qtd_dvd',
                 'ss.equipments_data_show AS qtd_datashow',
                 'ss.student_computers_count AS qtd_pcstudent',
                 'ss.native_education AS indian_school',
@@ -845,10 +848,9 @@ class School extends Model
 
     public function count(){
         return (new \yii\db\Query())
-            ->select('COUNT(*)')
             ->from('school_identification si')
             ->innerJoin('school_structure ss', 'si.inep_id = ss.school_inep_id_fk')
-            ->all();
+            ->count();
     }
 
     public function factory(){
