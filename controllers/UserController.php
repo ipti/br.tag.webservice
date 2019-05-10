@@ -33,7 +33,7 @@ class UserController extends Controller
                     'Origin'                           => static::allowedDomains(),
                     'Access-Control-Request-Method'    => ['POST','OPTIONS','GET','PUT','HEAD','DELETE','PATCH'],
                     'Access-Control-Request-Headers'    => ['*'],
-                    'Access-Control-Allow-Credentials' => true,
+                    'Access-Control-Allow-Credentials' => false,
                     'Access-Control-Max-Age'           => 3600,                 // Cache (seconds)
                 ],
             ],

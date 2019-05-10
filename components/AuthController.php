@@ -3,10 +3,11 @@
 namespace app\components;
 
 use yii\rest\Controller;
-use yii\filters\auth\CompositeAuth;
-use yii\filters\auth\HttpBasicAuth;
-use yii\filters\auth\HttpBearerAuth;
+use app\components\CompositeAuth;
+use app\components\HttpBasicAuth;
+use app\components\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
+use yii\filters\Cors;
 use Yii;
 
 class AuthController extends Controller{
@@ -33,16 +34,16 @@ class AuthController extends Controller{
             ],
             // For cross-domain AJAX request
             'corsFilter'  => [
-                'class' => \yii\filters\Cors::className(),
+                'class' => Cors::className(),
                 'cors'  => [
                     // restrict access to domains:
-                    'Origin'                           => static::allowedDomains(),
-                    'Access-Control-Request-Method'    => ['POST','OPTIONS','GET','PUT','HEAD','DELETE','PATCH'],
+                    'Origin'                            => static::allowedDomains(),
+                    'Access-Control-Request-Method'     => ['POST','OPTIONS','GET','PUT','HEAD','DELETE','PATCH'],
                     'Access-Control-Request-Headers'    => ['*'],
-                    'Access-Control-Allow-Headers' => ['*'],
-                    'Access-Control-Expose-Headers' => ['*'],
-                    'Access-Control-Allow-Credentials' => true,
-                    'Access-Control-Max-Age'           => 3600,
+                    'Access-Control-Allow-Headers'      => ['*'],
+                    'Access-Control-Expose-Headers'     => ['*'],
+                    'Access-Control-Allow-Credentials'  => false,
+                    'Access-Control-Max-Age'            => 3600,
                 ],
             ],
     

@@ -27,12 +27,19 @@ return [
     'GET,HEAD v1/complaint/<id>' => 'v1/complaint/view',
     'POST v1/complaint' => 'v1/complaint/create',
     'GET,HEAD v1/complaint' => 'v1/complaint/index',
-    'v1/complaint' => 'v1/complaint/option',
-    'v1/complaint/forward/<id>' => 'v1/complaint/option',
-    'v1/complaint/formalize/<id>' => 'v1/complaint/option',
-    'v1/complaint/finalize/<id>' => 'v1/complaint/option',
-    'v1/complaint/response/<id>' => 'v1/complaint/option',
-    'v1/complaint/update/<id>' => 'v1/complaint/option',
+
+    // =========== People ============
+    'POST v1/people' => 'v1/people/create',
+    'POST,OPTIONS v1/people/<id>' => 'v1/people/update',
+    'GET,HEAD v1/people' => 'v1/people/index',
+    'GET,HEAD,OPTIONS v1/people/get/<id>' => 'v1/people/get',
+    'GET,HEAD,OPTIONS v1/people/search' => 'v1/people/search',
+
+    // =========== Notification ============
+    'POST v1/notification' => 'v1/notification/create',
+    'POST,OPTIONS v1/notification/<id>' => 'v1/notification/update',
+    'GET,HEAD v1/notification' => 'v1/notification/index',
+    'GET,HEAD,OPTIONS v1/notification/get/<id>' => 'v1/notification/get',
 
     // =========== Citizen ============
     'POST v1/citizen' => 'v1/citizen/create',
@@ -41,4 +48,7 @@ return [
 
     // =========== Migration ============
     'GET migration/import' => 'migration/import/index',
+
+    'OPTIONS v1/<url:[a-zA-Z0-9-]+>' => 'v1/option/index',
+    'OPTIONS <url:[a-zA-Z0-9-]+>' => 'v1/option/index',
 ];
