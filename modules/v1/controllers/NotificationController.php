@@ -71,49 +71,67 @@ class NotificationController extends AuthController
 
     public function actionCreate()
     {
-        $people = new Notification(['scenario' => Notification::SCENARIO_CREATE]);
+        $notification = new Notification(['scenario' => Notification::SCENARIO_CREATE]);
         $data['Notification'] = Yii::$app->request->post();
 
-        if ($people->create($data)) {
+        if ($notification->create($data)) {
             return [
                 'status' => '1',
-                'payload' => ['_id' => (string) $people->_id],
+                'payload' => ['_id' => (string) $notification->_id],
                 'message' => 'Notificação cadastrada com sucesso'
             ];
         }
 
         return [
             'status' => '0',
-            'error' => $people->getErrors(),
+            'error' => $notification->getErrors(),
             'message' => 'Erro ao cadastrar notificação'
         ];
     }
 
     public function actionGet($id){
-        $people = Notification::findOne($id);
-        if(!is_null($people)){
-            return $people->formatData();
+        $notification = Notification::findOne($id);
+        if(!is_null($notification)){
+            return $notification->formatData();
         }
         return [];
     }
 
     public function actionUpdate($id)
     {
-        $people = Notification::findOne(new ObjectId($id));
-        $people->scenario = Notification::SCENARIO_UPDATE;
+        $notification = Notification::findOne(new ObjectId($id));
+        $notification->scenario = Notification::SCENARIO_UPDATE;
         $data = ['Notification' => Yii::$app->request->post()];
 
-        if ($people->_update($data)) {
+        if ($notification->_update($data)) {
             return [
                 'status' => '1',
-                'data' => ['_id' => (string) $people->_id],
+                'data' => ['_id' => (string) $notification->_id],
                 'message' => 'Notificação atualizada com sucesso'
             ];
         }
 
         return [
             'status' => '0',
-            'error' => $people->getErrors(),
+            'error' => $notification->getErrors(),
+            'message' => 'Erro ao atualizar notificação'
+        ];
+    }
+
+    public function actionDelete($id)
+    {
+        $notification = Notification::findOne(new ObjectId($id));
+
+        if (!is_null($notification) && $notification->delete()) {
+            return [
+                'status' => '1',
+                'message' => 'Notificação excluída com sucesso'
+            ];
+        }
+
+        return [
+            'status' => '0',
+            'error' => $notification->getErrors(),
             'message' => 'Erro ao atualizar notificação'
         ];
     }

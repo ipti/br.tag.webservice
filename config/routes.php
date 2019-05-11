@@ -2,11 +2,11 @@
 
 return [
     // =========== Institution ============
-    'PUT,PATCH v1/institution/<id>' => 'v1/institution/update',
-    'DELETE v1/institution/<id>' => 'v1/institution/delete',
-    'GET,HEAD v1/institution/<id>' => 'v1/institution/view',
-    'POST v1/institution' => 'v1/institution/create',
-    'GET,HEAD v1/institution' => 'v1/institution/index',
+    'PUT,PATCH,OPTIONS v1/institution/<id>' => 'v1/institution/update',
+    'DELETE,OPTIONS v1/institution/<id>' => 'v1/institution/delete',
+    'GET,HEAD,OPTIONS v1/institution/get/<id>' => 'v1/institution/view',
+    'POST,OPTIONS v1/institution' => 'v1/institution/create',
+    'GET,HEAD,OPTIONS v1/institution' => 'v1/institution/index',
 
     // =========== User ============
     'PUT,PATCH v1/user/<id>' => 'v1/user/update',
@@ -38,6 +38,7 @@ return [
     // =========== Notification ============
     'POST v1/notification' => 'v1/notification/create',
     'POST,OPTIONS v1/notification/<id>' => 'v1/notification/update',
+    'DELETE,OPTIONS v1/notification/<id>' => 'v1/notification/delete',
     'GET,HEAD v1/notification' => 'v1/notification/index',
     'GET,HEAD,OPTIONS v1/notification/get/<id>' => 'v1/notification/get',
 

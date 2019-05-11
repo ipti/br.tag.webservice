@@ -96,7 +96,7 @@ class Notification extends ActiveRecord
     public function formatData(){
         $data = $this->getAttributes();
         $data['_id'] = (string) $data['_id'];
-        $data['notified'] = People::find()->select(['name'])->where(['_id' => new ObjectId($data['notified'])])->one();
+        $data['notified'] = People::find()->where(['_id' => new ObjectId($data['notified'])])->one();
 
         if(is_object($data['createdAt'])){
             $data['createdAt'] = date('d/m/Y H:i:s', (string) $data['createdAt']);
