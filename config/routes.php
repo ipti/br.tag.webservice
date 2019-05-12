@@ -42,6 +42,13 @@ return [
     'GET,HEAD v1/notification' => 'v1/notification/index',
     'GET,HEAD,OPTIONS v1/notification/get/<id>' => 'v1/notification/get',
 
+    // =========== Food ============
+    'POST v1/food' => 'v1/food/create',
+    'POST,OPTIONS v1/food/<id>' => 'v1/food/update',
+    'DELETE,OPTIONS v1/food/<id>' => 'v1/food/delete',
+    'GET,HEAD v1/food' => 'v1/food/index',
+    'GET,HEAD,OPTIONS v1/food/get/<id>' => 'v1/food/get',
+
     // =========== Service ============
     'POST v1/service' => 'v1/service/create',
     'POST,OPTIONS v1/service/<id>' => 'v1/service/update',
