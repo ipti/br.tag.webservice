@@ -3,24 +3,21 @@
 namespace app\modules\v1\controllers;
 
 use app\components\AuthController;
-use app\modules\v1\models\Notification;
+use app\modules\v1\models\Housing;
 use MongoDB\BSON\ObjectId;
 use yii\data\ActiveDataProvider;
 use Yii;
 
-class NotificationController extends AuthController
+class HousingController extends AuthController
 {
 
     public function actionIndex()
     {
 
         $data = Yii::$app->request->get();
-        $query = Notification::find();
+        $query = Housing::find();
         $queryCondition = [];
 
-        if(isset($data['notifier'])){
-            $queryCondition['notifier'] = ['$regex' => '/^'.$data['notifier'].'/'];
-        }
 
         if(isset($data['createAt'])){
 
@@ -35,9 +32,9 @@ class NotificationController extends AuthController
             $query->where($queryCondition);
         }
 
-        $query->orderBy('notifier');
+        $query->orderBy('createAt');
 
-        $notifications = [];
+        $housings = [];
         $provider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -64,75 +61,75 @@ class NotificationController extends AuthController
         $models = $provider->getModels();
 
         foreach($models as $model){
-            $notifications[] = $model->formatData();
+            $housings[] = $model->formatData();
         }
-        return array_merge(['notifications' => $notifications], ['pagination' =>$paginationParam]);
+        return array_merge(['housings' => $housings], ['pagination' =>$paginationParam]);
     }
 
     public function actionCreate()
     {
-        $notification = new Notification(['scenario' => Notification::SCENARIO_CREATE]);
-        $data['Notification'] = Yii::$app->request->post();
+        $housing = new Housing(['scenario' => Housing::SCENARIO_CREATE]);
+        $data['Housing'] = Yii::$app->request->post();
 
-        if ($notification->create($data)) {
+        if ($housing->create($data)) {
             return [
                 'status' => '1',
-                'payload' => ['_id' => (string) $notification->_id],
-                'message' => 'Notificação cadastrada com sucesso'
+                'payload' => ['_id' => (string) $housing->_id],
+                'message' => 'Termo de Abrigamento cadastrada com sucesso'
             ];
         }
 
         return [
             'status' => '0',
-            'error' => $notification->getErrors(),
-            'message' => 'Erro ao cadastrar notificação'
+            'error' => $housing->getErrors(),
+            'message' => 'Erro ao cadastrar Termo de Abrigamento'
         ];
     }
 
     public function actionGet($id){
-        $notification = Notification::findOne($id);
-        if(!is_null($notification)){
-            return $notification->formatData();
+        $housing = Housing::findOne($id);
+        if(!is_null($housing)){
+            return $housing->formatData();
         }
         return [];
     }
 
     public function actionUpdate($id)
     {
-        $notification = Notification::findOne(new ObjectId($id));
-        $notification->scenario = Notification::SCENARIO_UPDATE;
-        $data = ['Notification' => Yii::$app->request->post()];
+        $housing = Housing::findOne(new ObjectId($id));
+        $housing->scenario = Housing::SCENARIO_UPDATE;
+        $data = ['Housing' => Yii::$app->request->post()];
 
-        if ($notification->_update($data)) {
+        if ($housing->_update($data)) {
             return [
                 'status' => '1',
-                'data' => ['_id' => (string) $notification->_id],
-                'message' => 'Notificação atualizada com sucesso'
+                'data' => ['_id' => (string) $housing->_id],
+                'message' => 'Termo de Abrigamento atualizada com sucesso'
             ];
         }
 
         return [
             'status' => '0',
-            'error' => $notification->getErrors(),
-            'message' => 'Erro ao atualizar notificação'
+            'error' => $housing->getErrors(),
+            'message' => 'Erro ao atualizar Termo de Abrigamento'
         ];
     }
 
     public function actionDelete($id)
     {
-        $notification = Notification::findOne(new ObjectId($id));
+        $housing = Housing::findOne(new ObjectId($id));
 
-        if (!is_null($notification) && $notification->delete()) {
+        if (!is_null($housing) && $housing->delete()) {
             return [
                 'status' => '1',
-                'message' => 'Notificação excluída com sucesso'
+                'message' => 'Termo de Abrigamento excluído com sucesso'
             ];
         }
 
         return [
             'status' => '0',
-            'error' => $notification->getErrors(),
-            'message' => 'Erro ao excluir notificação'
+            'error' => $housing->getErrors(),
+            'message' => 'Erro ao excluir Termo de Abrigamento'
         ];
     }
 

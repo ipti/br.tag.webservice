@@ -73,4 +73,11 @@ return [
 
     'OPTIONS v1/<url:[a-zA-Z0-9-]+>' => 'v1/option/index',
     'OPTIONS <url:[a-zA-Z0-9-]+>' => 'v1/option/index',
+
+    // =========== Notification ============
+    'POST v1/housing' => 'v1/housing/create',
+    'POST,OPTIONS v1/housing/<id>' => 'v1/housing/update',
+    'DELETE,OPTIONS v1/housing/<id>' => 'v1/housing/delete',
+    'GET,HEAD v1/housing' => 'v1/housing/index',
+    'GET,HEAD,OPTIONS v1/housing/get/<id>' => 'v1/housing/get',
 ];
