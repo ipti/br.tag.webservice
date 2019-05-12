@@ -10,7 +10,7 @@ use app\modules\v1\models\Institution;
 use \DateTime;
 use Yii;
 
-class Food extends ActiveRecord
+class Warning extends ActiveRecord
 {
     public const SCENARIO_CREATE = 'CREATE';
     public const SCENARIO_UPDATE = 'UPDATE';
@@ -21,18 +21,18 @@ class Food extends ActiveRecord
      */
     public static function collectionName()
     {
-        return 'food';
+        return 'warning';
     }
 
     public function attributes()
     {
-        return ['_id', 'personApplicant', 'personRepresentative', 'personRequired', 'reason', 'place', 'createdAt'];
+        return ['_id', 'personAdolescent', 'personRepresentative', 'reason', 'createdAt'];
     }
 
     public function rules()
     {
         return [
-            [['personApplicant', 'personRepresentative', 'personRequired', 'reason', 'place', 'createdAt'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE], 'message' => 'Campo obrigatório'],
+            [['personAdolescent', 'personRepresentative', 'reason', 'createdAt'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE], 'message' => 'Campo obrigatório'],
             ['createdAt', 'date', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE], 'format' => 'php:Y-m-d H:i:s', 'message' => 'Data inválida'],
         ];
     }
@@ -75,7 +75,7 @@ class Food extends ActiveRecord
 
         if($this->validate()){
             $this->beforeSave($this);
-            $collection = Yii::$app->mongodb->getCollection('food');
+            $collection = Yii::$app->mongodb->getCollection('warning');
             $update = $this->getAttributes();
 
             if($collection->update(['_id' => $this->_id],$update)){
@@ -88,9 +88,8 @@ class Food extends ActiveRecord
     public function formatData(){
         $data = $this->getAttributes();
         $data['_id'] = (string) $data['_id'];
-        $data['personApplicant'] = People::find()->where(['_id' => new ObjectId($data['personApplicant'])])->one();
+        $data['personAdolescent'] = People::find()->where(['_id' => new ObjectId($data['personAdolescent'])])->one();
         $data['personRepresentative'] = People::find()->where(['_id' => new ObjectId($data['personRepresentative'])])->one();
-        $data['personRequired'] = People::find()->where(['_id' => new ObjectId($data['personRequired'])])->one();
 
         if(is_object($data['createdAt'])){
             $data['createdAt'] = date('d/m/Y H:i:s', (string) $data['createdAt']);
