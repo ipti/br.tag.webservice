@@ -90,6 +90,8 @@ class Service extends ActiveRecord
         $data['notified'] = People::find()->where(['_id' => new ObjectId($data['idPerson'])])->one();
 
         if(is_object($data['createdAt'])){
+            $data['date'] = date('d/m/Y', (string) $data['createdAt']);
+            $data['time'] = date('H:i', (string) $data['createdAt']);
             $data['createdAt'] = date('d/m/Y H:i:s', (string) $data['createdAt']);
         }
 
