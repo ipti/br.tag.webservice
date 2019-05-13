@@ -26,13 +26,14 @@ class Service extends ActiveRecord
 
     public function attributes()
     {
-        return ['idPerson', 'createdAt', '_id'];
+        return ['_id', 'child', 'description', 'createdAt',];
     }
 
     public function rules()
     {
         return [
-            [['idPerson','createdAt'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE], 'message' => 'Campo obrigatório']
+            [['child', 'description', 'createdAt'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE], 'message' => 'Campo obrigatório'],
+            ['createdAt', 'date', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE], 'format' => 'php:Y-m-d H:i:s', 'message' => 'Data inválida']
         ];
     }
 
@@ -86,12 +87,18 @@ class Service extends ActiveRecord
 
     public function formatData(){
         $data = $this->getAttributes();
-        $data['idPerson'] = (string) $data['idPerson'];
-        $data['notified'] = People::find()->where(['_id' => new ObjectId($data['idPerson'])])->one();
+        $data['_id'] = (string) $data['_id'];
+        $data['child'] = People::find()->where(['_id' => new ObjectId($data['child'])])->one();
+
+        if(!is_null($data['child'])){
+            $data['child'] = $data['child']->formatData(); 
+
+            if(!is_null($data['child']['birthday'])){
+                $data['child']['age'] = date('Y') - date('Y', strtotime($data['child']['birthday']));
+            }
+        }
 
         if(is_object($data['createdAt'])){
-            $data['date'] = date('d/m/Y', (string) $data['createdAt']);
-            $data['time'] = date('H:i', (string) $data['createdAt']);
             $data['createdAt'] = date('d/m/Y H:i:s', (string) $data['createdAt']);
         }
 
