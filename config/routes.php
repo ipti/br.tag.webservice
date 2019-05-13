@@ -55,7 +55,6 @@ return [
     'DELETE,OPTIONS v1/warning/<id>' => 'v1/warning/delete',
     'GET,HEAD v1/warning' => 'v1/warning/index',
     'GET,HEAD,OPTIONS v1/warning/get/<id>' => 'v1/warning/get',
-
     // =========== Service ============
     'POST v1/service' => 'v1/service/create',
     'POST,OPTIONS v1/service/<id>' => 'v1/service/update',
@@ -63,7 +62,15 @@ return [
     'GET,HEAD v1/service' => 'v1/service/index',
     'GET,HEAD,OPTIONS v1/service/get/<id>' => 'v1/service/get',
 
+    // =========== Report ============
+    'POST v1/report' => 'v1/report/create',
+    'POST,OPTIONS v1/report/<id>' => 'v1/report/update',
+    'DELETE,OPTIONS v1/report/<id>' => 'v1/report/delete',
+    'GET,HEAD v1/report' => 'v1/report/index',
+    'GET,HEAD,OPTIONS v1/report/get/<id>' => 'v1/report/get',
+
     // =========== Citizen ============
+
     'POST v1/citizen' => 'v1/citizen/create',
     'GET,HEAD v1/citizen/<id>' => 'v1/citizen/view',
     'GET,HEAD v1/citizen' => 'v1/citizen/index',
