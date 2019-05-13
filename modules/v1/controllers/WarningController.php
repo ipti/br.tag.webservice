@@ -82,7 +82,7 @@ class WarningController extends AuthController
             return [
                 'status' => '1',
                 'payload' => ['_id' => (string) $warning->_id],
-                'message' => 'Advertência cadastrado com sucesso'
+                'message' => 'Advertência cadastrada com sucesso'
             ];
         }
 
