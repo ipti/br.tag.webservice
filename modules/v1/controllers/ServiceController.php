@@ -18,10 +18,6 @@ class ServiceController extends AuthController
         $query = Service::find();
         $queryCondition = [];
 
-        if(isset($data['notifier'])){
-            $queryCondition['notifier'] = ['$regex' => '/^'.$data['notifier'].'/'];
-        }
-
         if(isset($data['createAt'])){
 
             $createAt = date('Y-m-d', strtotime($data['createAt']));
@@ -35,7 +31,7 @@ class ServiceController extends AuthController
             $query->where($queryCondition);
         }
 
-        $query->orderBy('notifier');
+        $query->orderBy('createAt');
 
         $services = [];
         $provider = new ActiveDataProvider([
