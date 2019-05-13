@@ -3,28 +3,21 @@
 namespace app\modules\v1\controllers;
 
 use app\components\AuthController;
-use app\modules\v1\models\Warning;
+use app\modules\v1\models\Fact;
 use MongoDB\BSON\ObjectId;
 use yii\data\ActiveDataProvider;
 use Yii;
 
-class WarningController extends AuthController
+class FactController extends AuthController
 {
 
     public function actionIndex()
     {
 
         $data = Yii::$app->request->get();
-        $query = Warning::find();
+        $query = Fact::find();
         $queryCondition = [];
 
-        if(isset($data['personAdolescent'])){
-            $queryCondition['personAdolescent'] = ['$regex' => '/^'.$data['personAdolescent'].'/'];
-        }
-
-        if(isset($data['personRepresentative'])){
-            $queryCondition['personRepresentative'] = ['$regex' => '/^' . $data['personRepresentative'] . '/'];
-        }
 
         if(isset($data['createAt'])){
 
@@ -41,7 +34,7 @@ class WarningController extends AuthController
 
         $query->orderBy('createAt');
 
-        $warnings = [];
+        $facts = [];
         $provider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -68,75 +61,75 @@ class WarningController extends AuthController
         $models = $provider->getModels();
 
         foreach($models as $model){
-            $warnings[] = $model->formatData();
+            $facts[] = $model->formatData();
         }
-        return array_merge(['warnings' => $warnings], ['pagination' =>$paginationParam]);
+        return array_merge(['facts' => $facts], ['pagination' =>$paginationParam]);
     }
 
     public function actionCreate()
     {
-        $warning = new Warning(['scenario' => Warning::SCENARIO_CREATE]);
-        $data['Warning'] = Yii::$app->request->post();
+        $fact = new Fact(['scenario' => Fact::SCENARIO_CREATE]);
+        $data['Fact'] = Yii::$app->request->post();
 
-        if ($warning->create($data)) {
+        if ($fact->create($data)) {
             return [
                 'status' => '1',
-                'payload' => ['_id' => (string) $warning->_id],
-                'message' => 'Advertência cadastrada com sucesso'
+                'payload' => ['_id' => (string) $fact->_id],
+                'message' => 'Registro de Fato cadastrado com sucesso'
             ];
         }
 
         return [
             'status' => '0',
-            'error' => $warning->getErrors(),
-            'message' => 'Erro ao cadastrar advertência'
+            'error' => $fact->getErrors(),
+            'message' => 'Erro ao cadastrar Registro de Fato'
         ];
     }
 
     public function actionGet($id){
-        $warning = Warning::findOne($id);
-        if(!is_null($warning)){
-            return $warning->formatData();
+        $fact = Fact::findOne($id);
+        if(!is_null($fact)){
+            return $fact->formatData();
         }
         return [];
     }
 
     public function actionUpdate($id)
     {
-        $warning = Warning::findOne(new ObjectId($id));
-        $warning->scenario = Warning::SCENARIO_UPDATE;
-        $data = ['Warning' => Yii::$app->request->post()];
+        $fact = Fact::findOne(new ObjectId($id));
+        $fact->scenario = Fact::SCENARIO_UPDATE;
+        $data = ['Fact' => Yii::$app->request->post()];
 
-        if ($warning->_update($data)) {
+        if ($fact->_update($data)) {
             return [
                 'status' => '1',
-                'data' => ['_id' => (string) $warning->_id],
-                'message' => 'Advertência atualizada com sucesso'
+                'data' => ['_id' => (string) $fact->_id],
+                'message' => 'Registro de Fato atualizado com sucesso'
             ];
         }
 
         return [
             'status' => '0',
-            'error' => $warning->getErrors(),
-            'message' => 'Erro ao atualizar advertência'
+            'error' => $fact->getErrors(),
+            'message' => 'Erro ao atualizar Registro de Fato'
         ];
     }
 
     public function actionDelete($id)
     {
-        $warning = Warning::findOne(new ObjectId($id));
+        $fact = Fact::findOne(new ObjectId($id));
 
-        if (!is_null($warning) && $warning->delete()) {
+        if (!is_null($fact) && $fact->delete()) {
             return [
                 'status' => '1',
-                'message' => 'Advertência excluída com sucesso'
+                'message' => 'Registro de Fato excluído com sucesso'
             ];
         }
 
         return [
             'status' => '0',
-            'error' => $warning->getErrors(),
-            'message' => 'Erro ao excluir advertência'
+            'error' => $fact->getErrors(),
+            'message' => 'Erro ao excluir Registro de Fato'
         ];
     }
 
