@@ -59,6 +59,13 @@ class People extends ActiveRecord
             case self::SCENARIO_UPDATE:
                 $birthday = new DateTime($this->birthday);
                 $this->birthday = new UTCDateTime($birthday->getTimeStamp());
+                $this->cpf = preg_replace('/\D/', '', $this->cpf);
+                $this->rg = preg_replace('/\D/', '', $this->rg);
+                if(isset($this->address)){
+                    $address = $this->address;
+                    $address['zip'] = preg_replace('/\D/', '', $address['zip']);
+                    $this->address = $address;
+                }
             break;
         }
         return true;

@@ -96,6 +96,14 @@ class Housing extends ActiveRecord
             $data['createdAt'] = date('d/m/Y H:i:s', (string) $data['createdAt']);
         }
 
+        if(!is_null($data['child'])){
+            $data['child'] = $data['child']->formatData();
+        }
+
+        if(!is_null($data['receiver'])){
+            $data['receiver'] = $data['receiver']->formatData();
+        }
+
         return $data;
     }
 
