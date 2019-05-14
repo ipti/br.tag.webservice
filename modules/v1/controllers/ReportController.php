@@ -75,7 +75,7 @@ class ReportController extends AuthController
             return [
                 'status' => '1',
                 'payload' => ['_id' => (string) $report->_id],
-                'message' => 'Relatório cadastrada com sucesso'
+                'message' => 'Relatório cadastrado com sucesso'
             ];
         }
 
@@ -104,14 +104,14 @@ class ReportController extends AuthController
             return [
                 'status' => '1',
                 'data' => ['_id' => (string) $report->_id],
-                'message' => 'Requisição de serviço atualizada com sucesso'
+                'message' => 'Relatório atualizado com sucesso'
             ];
         }
 
         return [
             'status' => '0',
             'error' => $report->getErrors(),
-            'message' => 'Erro ao atualizar requisição de serviço'
+            'message' => 'Erro ao atualizar relatório'
         ];
     }
 
@@ -123,14 +123,14 @@ class ReportController extends AuthController
         if (!is_null($report) && $report->delete()) {
             return [
                 'status' => '1',
-                'message' => 'Requisição de serviço excluída com sucesso'
+                'message' => 'Relatório excluída com sucesso'
             ];
         }
 
         return [
             'status' => '0',
             'error' => $report->getErrors(),
-            'message' => 'Erro ao atualizar requisição de serviço'
+            'message' => 'Erro ao atualizar relatório'
         ];
     }
 

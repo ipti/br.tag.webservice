@@ -87,8 +87,7 @@ class Report extends ActiveRecord
     public function formatData(){
         $data = $this->getAttributes();
         $data['description'] = (string) $data['description'];
-        $id = (array)$data['_id'];
-        $data['notified'] = (object)['name' => $id['oid']];
+        $data['_id'] = (string) $data['_id'];
 
         if(is_object($data['createdAt'])){
             $data['date'] = date('d/m/Y', (string) $data['createdAt']);
