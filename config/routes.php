@@ -18,15 +18,15 @@ return [
     'POST user/logout' => 'user/logout',
 
     // =========== Complaint ============
-    'POST v1/complaint/forward/<id>' => 'v1/complaint/forward',
-    'POST v1/complaint/formalize/<id>' => 'v1/complaint/formalize',
-    'POST v1/complaint/finalize/<id>' => 'v1/complaint/finalize',
-    'POST v1/complaint/response/<id>' => 'v1/complaint/response',
-    'POST v1/complaint/update/<id>' => 'v1/complaint/update',
-    'DELETE v1/complaint/<id>' => 'v1/complaint/delete',
-    'GET,HEAD v1/complaint/<id>' => 'v1/complaint/view',
-    'POST v1/complaint' => 'v1/complaint/create',
-    'GET,HEAD v1/complaint' => 'v1/complaint/index',
+    'POST,OPTIONS v1/complaint/forward/<id>' => 'v1/complaint/forward',
+    'POST,OPTIONS v1/complaint/formalize/<id>' => 'v1/complaint/formalize',
+    'POST,OPTIONS v1/complaint/finalize/<id>' => 'v1/complaint/finalize',
+    'POST,OPTIONS v1/complaint/response/<id>' => 'v1/complaint/response',
+    'POST,OPTIONS v1/complaint/update/<id>' => 'v1/complaint/update',
+    'DELETE,OPTIONS v1/complaint/<id>' => 'v1/complaint/delete',
+    'GET,OPTIONS v1/complaint/<id>' => 'v1/complaint/view',
+    'POST,OPTIONS v1/complaint' => 'v1/complaint/create',
+    'GET,OPTIONS v1/complaint' => 'v1/complaint/index',
 
     // =========== People ============
     'POST v1/people' => 'v1/people/create',
@@ -71,9 +71,9 @@ return [
 
     // =========== Citizen ============
 
-    'POST v1/citizen' => 'v1/citizen/create',
-    'GET,HEAD v1/citizen/<id>' => 'v1/citizen/view',
-    'GET,HEAD v1/citizen' => 'v1/citizen/index',
+    'POST,OPTIONS v1/citizen' => 'v1/citizen/create',
+    'GET,OPTIONS v1/citizen/<id>' => 'v1/citizen/view',
+    'GET,OPTIONS v1/citizen' => 'v1/citizen/index',
 
     // =========== Migration ============
     'GET migration/import' => 'migration/import/index',
