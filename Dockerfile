@@ -1,4 +1,7 @@
 FROM ipti/yii2
+apk add --no-cache --update --virtual buildDeps autoconf \
+ && pecl install mongodb \
+ && docker-php-ext-enable mongodb \
+ && apk del buildDeps
 COPY . /app
-RUN ["chmod", "+x", "/usr/local/bin/docker-run.sh"]
-RUN ["chmod", "+x", "/usr/local/bin/composer"]
+
