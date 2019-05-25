@@ -10,6 +10,7 @@ pecl install mongodb \
 && apk del build-deps
 COPY . /app
 RUN composer install 
-RUN chown -R www-data:www-data /app/runtime/cache/ 
+RUN chown -R www-data:www-data /app/runtime/ \
+&& chown -R www-data:www-data /app/web/assets
 
 
