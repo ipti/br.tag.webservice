@@ -1,12 +1,12 @@
 FROM ipti/yii2
-RUN apk --update --virtual build-deps add \
+RUN apk add --no-cache \
+        libssl1.1 \
+&& apk --update --virtual build-deps add \
         autoconf \
         make \
         gcc \
         g++ \
-        libcurl4-openssl-dev \
-        pkg-config \
-        libssl-dev \
+        openssl-dev \
         libtool && \
 pecl install mongodb \
 && docker-php-ext-enable mongodb \
