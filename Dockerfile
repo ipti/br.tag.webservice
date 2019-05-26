@@ -4,6 +4,9 @@ RUN apk --update --virtual build-deps add \
         make \
         gcc \
         g++ \
+        libcurl4-openssl-dev \
+        pkg-config \
+        libssl-dev \
         libtool && \
 pecl install mongodb \
 && docker-php-ext-enable mongodb \
