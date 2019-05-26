@@ -11,6 +11,7 @@ pecl install mongodb \
 RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/pecl-mongodb.ini
 COPY . /app
 RUN chown -R www-data:www-data /usr/local/bin/composer
+RUN chmod 777 /usr/local/bin/composer
 RUN composer install 
 RUN chown -R www-data:www-data /app/runtime/ \
 && chown -R www-data:www-data /app/web/assets
