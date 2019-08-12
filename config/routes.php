@@ -14,8 +14,8 @@ return [
     'GET,HEAD v1/user/<id>' => 'v1/user/view',
     'POST v1/user' => 'v1/user/create',
     'GET,HEAD v1/user' => 'v1/user/index',
-    'POST user/login' => 'user/login',
-    'POST user/logout' => 'user/logout',
+    'POST,OPTIONS user/login' => 'user/login',
+    'POST,OPTIONS user/logout' => 'user/logout',
 
     // =========== Complaint ============
     'POST,OPTIONS v1/complaint/forward/<id>' => 'v1/complaint/forward',
@@ -94,4 +94,9 @@ return [
     'DELETE,OPTIONS v1/fact/<id>' => 'v1/fact/delete',
     'GET,HEAD v1/fact' => 'v1/fact/index',
     'GET,HEAD,OPTIONS v1/fact/get/<id>' => 'v1/fact/get',
+
+    // =========== Attendance ============
+    'POST v1/attendance' => 'v1/attendance/create',
+    'GET,HEAD v1/attendance' => 'v1/attendance/index',
+    'GET,HEAD,OPTIONS v1/attendance/type' => 'v1/attendance/type',
 ];
