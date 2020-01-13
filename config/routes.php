@@ -99,4 +99,34 @@ return [
     'POST v1/attendance' => 'v1/attendance/create',
     'GET,HEAD v1/attendance' => 'v1/attendance/index',
     'GET,HEAD,OPTIONS v1/attendance/type' => 'v1/attendance/type',
+    
+    // =========== Registration ============
+    'GET,HEAD,OPTIONS registration/import' => 'registration/migration/import',
+    'GET,HEAD,OPTIONS registration/export' => 'registration/migration/export',
+
+    'POST,OPTIONS registration/login' => 'registration/user/login',
+    
+    'GET,HEAD,OPTIONS registration/school' => 'registration/school/index',
+    'GET,HEAD,OPTIONS registration/school/<id>' => 'registration/school/view',
+
+    'GET,HEAD,OPTIONS registration/schedule' => 'registration/schedule/index',
+    'GET,HEAD,OPTIONS registration/schedule/<id>' => 'registration/schedule/view',
+    'PUT,PATCH,OPTIONS registration/schedule/<id>' => 'registration/schedule/update',
+    'POST,OPTIONS registration/schedule' => 'registration/schedule/create',
+    'DELETE,OPTIONS registration/schedule/<id>' => 'registration/schedule/delete',
+    
+    'GET,HEAD,OPTIONS registration/classroom/<schoolInepId>' => 'registration/classroom/index',
+    'PUT,PATCH,OPTIONS registration/classroom/<id>' => 'registration/classroom/update',
+    'GET,HEAD,OPTIONS registration/classroom/get/<id>' => 'registration/classroom/get',
+
+    'GET,HEAD,OPTIONS registration/students' => 'registration/student/index',
+    'GET,HEAD,OPTIONS registration/student/<id>' => 'registration/student/view',
+    'POST,OPTIONS registration/student' => 'registration/student/create',
+    'PUT,PATCH,OPTIONS registration/student/<id>' => 'registration/student/update',
+    
+    'GET,HEAD,OPTIONS registration' => 'registration/registration/index',
+    'GET,HEAD,OPTIONS registration/<id>' => 'registration/registration/view',
+    'POST,OPTIONS registration' => 'registration/registration/create',
+    'PUT,PATCH,OPTIONS registration/<id>' => 'registration/registration/update',
+    'PUT,PATCH,OPTIONS registration/status/<id>' => 'registration/registration/status',
 ];

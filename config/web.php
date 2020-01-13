@@ -22,7 +22,7 @@ $config = [
         ],
         'mongodb' => [
             'class' => '\yii\mongodb\Connection',
-            'dsn' => 'mongodb://@localhost:27017/council',
+            'dsn' => 'mongodb://@mongodb-2207-0.cloudclusters.net:10005/council?authSource=admin',
             'options' => [
                 "username" => "council",
                 "password" => "10*20$30"
@@ -69,6 +69,9 @@ $config = [
         ],
         'migration' => [
             'class' => 'app\modules\migration\Module'
+        ],
+        'registration' => [
+            'class' => 'app\modules\registration\Module'
         ],
     ],
     'params' => $params,

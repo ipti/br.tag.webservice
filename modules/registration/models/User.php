@@ -1,11 +1,11 @@
 <?php
 
-namespace app\models;
+namespace app\modules\registration\models;
 
 use yii\mongodb\ActiveRecord;
 use MongoDB\BSON\ObjectId;
-use app\modules\v1\models\Institution;
 use Yii;
+use yii\mongodb\Query;
 
 class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
@@ -25,7 +25,12 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
 
     public function attributes()
     {
-        return ['_id', 'name', 'email', 'status', 'address', 'credential', 'institution_id'];
+        return [
+            '_id', 
+            'name', 
+            'email', 
+            'credential'
+        ];
     }
 
     /**
