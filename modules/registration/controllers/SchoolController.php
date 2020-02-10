@@ -9,17 +9,8 @@ use MongoDB\BSON\ObjectId;
 use yii\data\ActiveDataProvider;
 use Yii;
 
-class SchoolController extends AuthController
+class SchoolController extends BaseController
 {
-    public $enableCsrfValidation = false;
-
-    
-    public static function allowedDomains() {
-        return [
-            '*'
-        ];
-    }
-    
     public function actionIndex()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

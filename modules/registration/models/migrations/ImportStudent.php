@@ -8,6 +8,7 @@ use app\modules\registration\models\Student;
 class ImportStudent extends Model
 {
     use \app\modules\registration\traits\Migration;
+    public $studentId;            
     public $inepId;         
     public $schoolInepId;   
     public $name;           
@@ -24,8 +25,11 @@ class ImportStudent extends Model
     public $edcensoNationFk;            
     public $deficiency;            
     public $sendYear;            
+    public $residenceZone;            
+    public $responsableCpf;            
 
     public function loadModel($student){
+        $this->studentId         = $student->studentId;
         $this->inepId            = $student->inepId;
         $this->schoolInepId      = $student->schoolInepId;
         $this->name              = $student->name;
@@ -42,17 +46,21 @@ class ImportStudent extends Model
         $this->edcensoNationFk   = $student->edcensoNationFk;
         $this->deficiency        = $student->deficiency;
         $this->sendYear         = $student->sendYear;
+        $this->residenceZone    = $student->residenceZone;
+        $this->responsableCpf   = $student->responsableCpf;
     }
 
     public function find($limit = 500, $offset = 0){
         return (new \yii\db\Query())
             ->select([
+                'si.id as studentId',
                 'si.inep_id AS inepId',
                 'si.school_inep_id_fk AS schoolInepId',
                 'si.name',
                 'si.filiation',
                 'si.filiation_1 as filiation1',
                 'si.responsable_name AS responsableName',
+                'si.responsable_cpf AS responsableCpf',
                 'si.birthday',
                 'si.sex',
                 'si.deficiency',
@@ -62,6 +70,7 @@ class ImportStudent extends Model
                 'si.send_year as sendYear',
                 'sd.cep',
                 'sd.address',
+                'sd.residence_zone as residenceZone',
                 'ec.name AS city'
             ])
             ->from('student_identification si')

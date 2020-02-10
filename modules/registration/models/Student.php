@@ -30,6 +30,7 @@ class Student extends ActiveRecord
     {
         return [
             '_id',
+            'studentId', 
             'schoolInepId', 
             'name', 
             'birthday',
@@ -37,6 +38,7 @@ class Student extends ActiveRecord
             'filiation1',
             'nationality',
             'responsableName',
+            'responsableCpf',
             'sex',
             'colorRace',
             'edcensoNationFk',
@@ -45,19 +47,22 @@ class Student extends ActiveRecord
             'city',
             'newStudent',
             'deficiency',
-            'sendYear'
+            'sendYear',
+            'residenceZone',
+            'fone'
         ];
     }
 
     public function rules()
     {
         return [
-            [['schoolInepId', 'name', 'birthday', 'filiation', 'filiation1', 'responsableName', 'sex', 'colorRace', 'nationality', 'edcensoNationFk','address', 'cep', 'city', 'deficiency', 'sendYear'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE], 'message' => 'Campo obrigatório'],
+            [['schoolInepId', 'name', 'birthday', 'responsableName', 'sex', 'colorRace', 'residenceZone'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE], 'message' => 'Campo obrigatório'],
             [['birthday'], 'date', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE], 'format' => 'php:Y-m-d', 'message' => 'Data inválida'],
             ['newStudent', 'default', 'value' => true, 'on' => [self::SCENARIO_CREATE]],
             ['newStudent', 'boolean', 'trueValue' => true, 'falseValue' => false, 'strict' => true, 'message' => 'Tipo inválido'],
             [
                 [
+                    'studentId', 
                     'schoolInepId', 
                     'name', 
                     'birthday',
@@ -66,13 +71,15 @@ class Student extends ActiveRecord
                     'nationality',
                     'edcensoNationFk',
                     'responsableName',
+                    'responsableCpf',
                     'sex',
                     'colorRace',
                     'deficiency',
                     'address',
                     'cep',
                     'city',
-                    'sendYear'
+                    'sendYear',
+                    'residenceZone'
                 ],
                 'safe', 'on' => self::SCENARIO_MIGRATION
             ]
@@ -81,7 +88,7 @@ class Student extends ActiveRecord
 
     public function getSchool()
     {
-        return $this->belongsTo(School::className(), ['schoolInepId' => 'inepId']);
+        return $this->hasOne(School::className(), [inepId => 'schoolInepId']);
     }
 
     public function beforeSave($insert){

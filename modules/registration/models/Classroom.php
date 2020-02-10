@@ -31,7 +31,8 @@ class Classroom extends ActiveRecord
             'schoolInepId',
             'name',
             'year',
-            'vacancies'
+            'vacancies',
+            'modality'
         ];
     }
 
@@ -43,18 +44,14 @@ class Classroom extends ActiveRecord
                     'inepId',
                     'schoolInepId',
                     'name',
-                    'year'
+                    'year',
+                    'modality'
                 ],
                 'safe', 'on' => self::SCENARIO_MIGRATION
             ],
             [['vacancies'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE], 'message' => 'Campo obrigatório'],
             ['vacancies', 'integer', 'min' => 0, 'message' => 'Tipo inválido']
         ];
-    }
-
-    public function getRegistration()
-    {
-        return $this->hasMany(Registration::className(), ['classroomId' => 'id']);
     }
 
     public function beforeSave($insert){
@@ -100,7 +97,16 @@ class Classroom extends ActiveRecord
     public function formatData(){
         $data = $this->getAttributes();
         $data['_id'] = (string) $data['_id'];
+        $data['confirmed'] = $this->registrationConfirmed;
+        $data['requested'] = $this->registrationRequested;
+        $data['remaining'] = $this->registrationRemaining;
+        $data['registrations'] = $this->registrations;
         return $data;
+    }
+
+    public function getSchool()
+    {
+        return $this->hasOne(School::className(), ['inepId' => 'schoolInepId']);
     }
 
     public function getRegistrationConfirmed(){
@@ -118,6 +124,16 @@ class Classroom extends ActiveRecord
     public function getRegistrationRefusedCount()
     {
         return Registration::find()->where(['confirmed' => false, 'classroomId' => (string) $this->_id])->count();
+    }
+
+    public function getRegistrations(){
+        $registrations = Registration::find()->where(['classroomId' => (string) $this->_id])->all();
+        $data = [];
+        foreach ($registrations as $registration) {
+            $data[] = $registration->formatData();
+        }
+
+        return $data;
     }
 
 }

@@ -8,26 +8,17 @@ use MongoDB\BSON\ObjectId;
 use yii\data\ActiveDataProvider;
 use Yii;
 
-class ClassroomController extends AuthController
+class ClassroomController extends BaseController
 {
-    public $enableCsrfValidation = false;
-
-    
-    public static function allowedDomains() {
-        return [
-            '*'
-        ];
-    }
-    
-    public function actionIndex($schoolInepId)
+    public function actionIndex()
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         $classrooms = [];
         $provider = new ActiveDataProvider([
-            'query' => Classroom::find(['schoolInepId' => $schoolInepId]),
+            'query' => Classroom::find(),
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 9,
             ]
         ]);
 
@@ -42,7 +33,7 @@ class ClassroomController extends AuthController
         }
         else{
             $paginationParam['currentPage'] = 0;
-            $paginationParam['perPage'] = 10;
+            $paginationParam['perPage'] = 9;
             $paginationParam['totalPages'] = 0;
             $paginationParam['totalItens'] = $count;
         }
@@ -52,6 +43,9 @@ class ClassroomController extends AuthController
         foreach ($models as $model) {
             $attributes = $model->getAttributes();
             $attributes['_id'] = (string) $attributes['_id'];
+            $attributes['confirmed'] = $model->registrationConfirmed;
+            $attributes['requested'] = $model->registrationRequested;
+            $attributes['remaining'] = $model->registrationRemaining;
             $classrooms[] = $attributes;
         }
         return array_merge(['classrooms' => $classrooms], ['pagination' =>$paginationParam]);
@@ -81,12 +75,24 @@ class ClassroomController extends AuthController
         ];
     }
 
-    public function actionGet($id){
+    public function actionView($id){
+        
+        
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $classroom = Classroom::findOne($id);
         if(!is_null($classroom)){
-            return $classroom->formatData();
+            return [
+                'status' => '1',
+                'data' => $classroom->formatData(),
+                'message' => 'Turma carregada com sucesso'
+            ];
         }
-        return [];
+        
+        return [
+            'status' => '0',
+            'error' => ['Turma' => 'Turma não encontrada'],
+            'message' => 'Turma não encontrada'
+        ];
     }
 
     public function actionUpdate($id)

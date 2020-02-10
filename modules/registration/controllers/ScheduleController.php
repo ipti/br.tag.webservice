@@ -8,17 +8,8 @@ use MongoDB\BSON\ObjectId;
 use yii\data\ActiveDataProvider;
 use Yii;
 
-class ScheduleController extends AuthController
+class ScheduleController extends BaseController
 {
-    public $enableCsrfValidation = false;
-
-    
-    public static function allowedDomains() {
-        return [
-            '*'
-        ];
-    }
-    
     public function actionIndex()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -64,7 +55,7 @@ class ScheduleController extends AuthController
         if(!is_null($schedule)){
             return [
                 'status' => '1',
-                'data' => $schedule,
+                'data' => $schedule->formatData(),
                 'message' => 'Cronograma carregado com sucesso'
             ];
         }

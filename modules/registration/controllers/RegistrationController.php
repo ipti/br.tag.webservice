@@ -4,21 +4,14 @@ namespace app\modules\registration\controllers;
 
 use app\components\AuthController;
 use app\modules\registration\models\Registration;
+use app\modules\registration\models\School;
+use app\modules\registration\models\Student;
 use MongoDB\BSON\ObjectId;
 use yii\data\ActiveDataProvider;
 use Yii;
 
-class RegistrationController extends AuthController
+class RegistrationController extends BaseController
 {
-    public $enableCsrfValidation = false;
-
-    
-    public static function allowedDomains() {
-        return [
-            '*'
-        ];
-    }
-    
     public function actionIndex()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -66,7 +59,7 @@ class RegistrationController extends AuthController
         if(!is_null($registration)){
             return [
                 'status' => '1',
-                'data' => $registration,
+                'data' => $registration->formatData(),
                 'message' => 'Matrícula carregada com sucesso'
             ];
         }
@@ -77,30 +70,6 @@ class RegistrationController extends AuthController
             'message' => 'Matrícula não encontrada'
         ];
         
-    }
-
-    public function actionCreate()
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $registration = new Registration((['scenario' => Registration::SCENARIO_CREATE]));
-        $data['Registration'] = Yii::$app->request->post();
-        
-        if(isset($data)){
-            if ($registration->create($data)) {
-               
-                return [
-                    'status' => '1',
-                    'data' => ['_id' => (string) $registration->_id],
-                    'message' => 'Matrícula cadastrada com sucesso'
-                ];
-            }
-        }
-
-        return [
-            'status' => '0',
-            'error' =>  $registration->getErrors(),
-            'message' => 'Erro ao cadastrar matrícula'
-        ];
     }
 
     public function actionUpdate($id)

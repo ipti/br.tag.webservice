@@ -28,6 +28,8 @@ class Registration extends ActiveRecord
         return [
             '_id',
             'studentId',
+            'sequence',
+            'registrationNumber',
             'classroomId', 
             'confirmed'
         ];
@@ -55,6 +57,10 @@ class Registration extends ActiveRecord
                 if(!is_null($this->confirmed)){
                     $this->confirmed = null;
                 }
+                
+                $sequence = self::find()->max('sequence');
+                $this->sequence = !is_null($sequence) ? $sequence+1 : 1;
+                $this->registrationNumber = date('Y').$this->sequence;
 
             case self::SCENARIO_UPDATE:
                 
@@ -109,9 +115,22 @@ class Registration extends ActiveRecord
         return false;
     }
 
+    public function getClassroom()
+    {
+        return $this->hasOne(Classroom::className(), ['_id' => 'classroomId']);
+    }
+
+    public function getStudent()
+    {
+        return $this->hasOne(Student::className(), ['_id' => 'studentId']);
+    }
+
     public function formatData(){
         $data = $this->getAttributes();
         $data['_id'] = (string) $data['_id'];
+        $data['student'] = $this->student;
+        $data['classroom'] = $this->classroom;
+        $data['school'] = $this->classroom->school;
         return $data;
     }
     

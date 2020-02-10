@@ -18,7 +18,7 @@ class UserController extends Controller
             '*'
         ];
     }
-    
+
     /**
      * @inheritdoc
      */

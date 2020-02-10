@@ -6,17 +6,8 @@ use app\components\AuthController;
 use app\modules\registration\models\Migration;
 use Yii;
 
-class MigrationController extends AuthController
+class MigrationController extends BaseController
 {
-    public $enableCsrfValidation = false;
-
-    
-    public static function allowedDomains() {
-        return [
-            '*'
-        ];
-    }
-    
     public function actionImport()
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

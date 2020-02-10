@@ -8,17 +8,8 @@ use MongoDB\BSON\ObjectId;
 use yii\data\ActiveDataProvider;
 use Yii;
 
-class StudentController extends AuthController
+class StudentController extends BaseController
 {
-    public $enableCsrfValidation = false;
-
-    
-    public static function allowedDomains() {
-        return [
-            '*'
-        ];
-    }
-    
     public function actionIndex()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -66,7 +57,7 @@ class StudentController extends AuthController
         if(!is_null($student)){
             return [
                 'status' => '1',
-                'data' => $student,
+                'data' => $student->formatData(),
                 'message' => 'Aluno(a) carregado(a) com sucesso'
             ];
         }

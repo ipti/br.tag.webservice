@@ -109,15 +109,15 @@ return [
     'GET,HEAD,OPTIONS registration/school' => 'registration/school/index',
     'GET,HEAD,OPTIONS registration/school/<id>' => 'registration/school/view',
 
+    'POST  registration/schedule' => 'registration/schedule/create',
+    'PUT,PATCH,OPTIONS registration/schedule/<id>' => 'registration/schedule/update',
     'GET,HEAD,OPTIONS registration/schedule' => 'registration/schedule/index',
     'GET,HEAD,OPTIONS registration/schedule/<id>' => 'registration/schedule/view',
-    'PUT,PATCH,OPTIONS registration/schedule/<id>' => 'registration/schedule/update',
-    'POST,OPTIONS registration/schedule' => 'registration/schedule/create',
     'DELETE,OPTIONS registration/schedule/<id>' => 'registration/schedule/delete',
     
-    'GET,HEAD,OPTIONS registration/classroom/<schoolInepId>' => 'registration/classroom/index',
+    'GET,HEAD,OPTIONS registration/classroom' => 'registration/classroom/index',
     'PUT,PATCH,OPTIONS registration/classroom/<id>' => 'registration/classroom/update',
-    'GET,HEAD,OPTIONS registration/classroom/get/<id>' => 'registration/classroom/get',
+    'GET,HEAD,OPTIONS registration/classroom/<id>' => 'registration/classroom/view',
 
     'GET,HEAD,OPTIONS registration/students' => 'registration/student/index',
     'GET,HEAD,OPTIONS registration/student/<id>' => 'registration/student/view',
@@ -126,7 +126,11 @@ return [
     
     'GET,HEAD,OPTIONS registration' => 'registration/registration/index',
     'GET,HEAD,OPTIONS registration/<id>' => 'registration/registration/view',
-    'POST,OPTIONS registration' => 'registration/registration/create',
     'PUT,PATCH,OPTIONS registration/<id>' => 'registration/registration/update',
     'PUT,PATCH,OPTIONS registration/status/<id>' => 'registration/registration/status',
+
+    'GET,HEAD,OPTIONS registration/external/searchstudent/<id>' => 'registration/inscription/searchstudent',
+    'GET,HEAD,OPTIONS registration/external/searchschool/<search>' => 'registration/inscription/searchschool',
+    'GET,HEAD,OPTIONS registration/external/school/<id>' => 'registration/inscription/school',
+    'POST,OPTIONS registration/external' => 'registration/inscription/create',
 ];
