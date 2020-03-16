@@ -16,7 +16,7 @@ class ScheduleController extends BaseController
 
         $schedule = [];
         $provider = new ActiveDataProvider([
-            'query' => Schedule::find(),
+            'query' => Schedule::find()->orderBy(['isActive' => SORT_DESC]),
             'pagination' => [
                 'pageSize' => 9,
             ]
@@ -116,7 +116,7 @@ class ScheduleController extends BaseController
         ];
     }
 
-     public function actionDelete($id)
+    public function actionDelete($id)
     {
         $schedule = Schedule::findOne(new ObjectId($id));
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -135,7 +135,6 @@ class ScheduleController extends BaseController
             'message' => 'Erro ao excluir cronograma'
         ];
     }
-
 }
 
 

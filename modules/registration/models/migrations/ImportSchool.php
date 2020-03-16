@@ -14,18 +14,20 @@ class ImportSchool extends Model
     public $address;
     public $cep;
     public $city;
+    public $administrative_dependence;
 
     public function loadModel($school){
-        $this->inepId      = $school->inepId;
-        $this->name        = $school->name;
-        $this->managerName = $school->managerName;
-        $this->address     = $school->address;
-        $this->cep         = $school->cep;
-        $this->city        = $school->city;
+        $this->inepId                    = $school->inepId;
+        $this->name                      = $school->name;
+        $this->managerName               = $school->managerName;
+        $this->address                   = $school->address;
+        $this->cep                       = $school->cep;
+        $this->city                      = $school->city;
+        $this->administrative_dependence = $school->administrative_dependence;
     }
 
 
-    public function find($limit = 500, $offset = 0){
+    public function find($limit = 500, $offset = 0, $year=""){
         return (new \yii\db\Query())
             ->select([
                 'si.inep_id AS inepId',
@@ -33,7 +35,8 @@ class ImportSchool extends Model
                 'si.manager_name AS managerName',
                 'si.cep',
                 'si.address',
-                'ec.name AS city'
+                'ec.name AS city',
+                'si.administrative_dependence'
             ])
             ->from('school_identification si')
             ->innerJoin('edcenso_city ec', 'ec.id=si.edcenso_city_fk')

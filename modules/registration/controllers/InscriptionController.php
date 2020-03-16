@@ -6,6 +6,7 @@ use yii\web\Controller;
 use app\modules\registration\models\Registration;
 use app\modules\registration\models\School;
 use app\modules\registration\models\Student;
+use app\modules\registration\models\Schedule;
 use MongoDB\BSON\ObjectId;
 use yii\data\ActiveDataProvider;
 use Yii;
@@ -34,22 +35,22 @@ class InscriptionController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $data = Yii::$app->request->post();
         $idStudent = "";
-        $studentData = [
-            'Student' => [ 
-                'name' => $data['studentName'],
-                'birthday' => $data['birthday'],
-                'colorRace' => $data['colorRace'],
-                'residenceZone' => $data['residenceZone'],
-                'sex' => $data['sex'],
-                'responsableName' => $data['responsableName'],
-                'fone' => $data['fone'],
-                'schoolInepId' => $data['schoolInepId'],
-                'newStudent' => !empty($data['numRegistration']) ? false : true
-            ]
-        ];
 
         if(empty($data['numRegistration'])){
-    
+            $studentData = [
+                'Student' => [ 
+                    'name' => $data['studentName'],
+                    'birthday' => $data['birthday'],
+                    'colorRace' => $data['colorRace'],
+                    'residenceZone' => $data['residenceZone'],
+                    'sex' => $data['sex'],
+                    'responsableName' => $data['responsableName'],
+                    'fone' => $data['fone'],
+                    'schoolInepId' => $data['schoolInepId'],
+                    'newStudent' => true
+                ]
+            ];
+
             $student = new Student((['scenario' => Registration::SCENARIO_CREATE]));
 
             if ($student->create($studentData)) {
@@ -57,10 +58,7 @@ class InscriptionController extends Controller
             }
         }else{
             $student = Student::findOne(['studentId' => $data['numRegistration']]);
-            $student->scenario = Student::SCENARIO_UPDATE;
-            if($student->_update($studentData)){
-                $idStudent = (string) $student->_id;
-            }
+            $idStudent = (string) $student->_id;
         }
 
         $registration = new Registration((['scenario' => Registration::SCENARIO_CREATE]));
@@ -158,6 +156,37 @@ class InscriptionController extends Controller
             'message' => 'Escola não encontrada'
         ];
         
+    }
+
+    public function actionActive()
+    {
+        $schedule = Schedule::findOne(['isActive' => true]);
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        if (!is_null($schedule)) {
+            $data = $schedule->formatData();
+            $today = date('Y-m-d'); 
+            
+            $internalStartDate = date('Y-m-d', strtotime(strtr($data['internalTransferDateStart'], '/', '-'))); 
+            $internalEndDate = date('Y-m-d', strtotime(strtr($data['internalTransferDateEnd'], '/', '-'))); 
+            $data['internal'] = ($today >= $internalStartDate && $today <= $internalEndDate) ? true : false;
+
+            $newStudentStart = date('Y-m-d', strtotime(strtr($data['newStudentDateStart'], '/', '-'))); 
+            $newStudentEnd = date('Y-m-d', strtotime(strtr($data['newStudentDateEnd'], '/', '-'))); 
+            $data['newStudent'] = ($today >= $newStudentStart && $today <= $newStudentEnd) ? true : false;
+            
+            return [
+                'status' => '1',
+                'data' => $data,
+                'message' => 'Cronograma carregado com sucesso'
+            ];
+        }
+
+        return [
+            'status' => '0',
+            'error' => $schedule->getErrors(),
+            'message' => 'Erro ao excluir cronograma'
+        ];
     }
 }
 ?>

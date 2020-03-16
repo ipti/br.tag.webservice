@@ -94,10 +94,21 @@ class Student extends ActiveRecord
     public function beforeSave($insert){
         switch ($this->scenario) {
             case self::SCENARIO_CREATE:
+                if(!is_null($this->birthday)){
+                    $birthday = new DateTime($this->birthday);
+                    $this->birthday = new UTCDateTime($birthday->getTimeStamp());;
+                }
             break;
             case self::SCENARIO_UPDATE:
                 $birthday = new DateTime($this->birthday);
                 $this->birthday = new UTCDateTime($birthday->getTimeStamp());
+            case self::SCENARIO_MIGRATION:
+                if(!is_null($this->birthday)){
+                    $dateFormat = DateTime::createFromFormat('d/m/Y', $this->birthday);
+                    $birthday = new DateTime($dateFormat->format('Y-m-d H:i:s'));
+                    $this->birthday = new UTCDateTime($birthday->getTimeStamp());
+                }
+            break;
             break;
         }
         return true;
@@ -106,6 +117,8 @@ class Student extends ActiveRecord
     public function beforeValidate(){
         switch ($this->scenario) {
             case self::SCENARIO_CREATE:
+                $birthday = $this->birthday;
+                $this->birthday = date('Y-m-d', strtotime($birthday));
             case self::SCENARIO_UPDATE:
                 $birthday = $this->birthday;
                 $this->birthday = date('Y-m-d', strtotime($birthday));

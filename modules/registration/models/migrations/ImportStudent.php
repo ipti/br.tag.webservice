@@ -50,7 +50,7 @@ class ImportStudent extends Model
         $this->responsableCpf   = $student->responsableCpf;
     }
 
-    public function find($limit = 500, $offset = 0){
+    public function find($limit = 500, $offset = 0, $year=""){
         return (new \yii\db\Query())
             ->select([
                 'si.id as studentId',

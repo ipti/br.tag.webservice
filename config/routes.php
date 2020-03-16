@@ -101,6 +101,7 @@ return [
     'GET,HEAD,OPTIONS v1/attendance/type' => 'v1/attendance/type',
     
     // =========== Registration ============
+    'GET,HEAD,OPTIONS registration/import/<year>' => 'registration/migration/import',
     'GET,HEAD,OPTIONS registration/import' => 'registration/migration/import',
     'GET,HEAD,OPTIONS registration/export' => 'registration/migration/export',
 
@@ -129,6 +130,7 @@ return [
     'PUT,PATCH,OPTIONS registration/<id>' => 'registration/registration/update',
     'PUT,PATCH,OPTIONS registration/status/<id>' => 'registration/registration/status',
 
+    'GET,HEAD,OPTIONS registration/external/schedule/active' => 'registration/inscription/active',
     'GET,HEAD,OPTIONS registration/external/searchstudent/<id>' => 'registration/inscription/searchstudent',
     'GET,HEAD,OPTIONS registration/external/searchschool/<search>' => 'registration/inscription/searchschool',
     'GET,HEAD,OPTIONS registration/external/school/<id>' => 'registration/inscription/school',

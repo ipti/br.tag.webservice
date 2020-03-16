@@ -5,7 +5,7 @@ namespace app\modules\registration\traits;
 trait Migration
 {
 
-    public function run(){
+    public function run($year=""){
         $batchSize = 200;
         $quantity = $this->count();
         $interations = ceil($quantity / $batchSize);
@@ -13,7 +13,7 @@ trait Migration
 
         while ($actualInteration < $interations) {
 
-            $data = $this->find($batchSize, $actualInteration);
+            $data = $this->find($batchSize, $actualInteration, $year);
 
             foreach ($data as $item) {
                 $this->loadModel((object) $item);

@@ -11,7 +11,7 @@ use app\modules\registration\models\migrations\ExportStudent;
 
 class Migration extends Model{
 
-    public function runImport(){
+    public function runImport($year=""){
         set_time_limit(0);
         ini_set('memory_limit', '-1');
         ignore_user_abort();
@@ -20,7 +20,7 @@ class Migration extends Model{
         $resultSchool = $school->run();
         
         $classroom = new ImportClassroom();
-        $resultClassroom = $classroom->run();
+        $resultClassroom = $classroom->run($year);
         
         $student = new ImportStudent();
         $resultStudent = $student->run();

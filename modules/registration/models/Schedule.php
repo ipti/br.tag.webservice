@@ -70,7 +70,16 @@ class Schedule extends ActiveRecord
     public function beforeSave($insert){
         switch ($this->scenario) {
             case self::SCENARIO_CREATE:
+                if($this->isActive){
+                    self::updateAll(['isActive' => false]);
+                }
+
             case self::SCENARIO_UPDATE:
+                
+                if($this->isActive){
+                    self::updateAll(['isActive' => false], ['and', ['!=', '_id', $this->_id]]);
+                }
+
                 $internalTransferDateStart = new DateTime($this->internalTransferDateStart);
                 $this->internalTransferDateStart = new UTCDateTime($internalTransferDateStart->getTimeStamp());
 
@@ -98,13 +107,20 @@ class Schedule extends ActiveRecord
 
     public function _update($data){
         $this->load($data);
+
         if($this->validate()){
             $this->beforeSave($this);
             $collection = Yii::$app->mongodb->getCollection('schedule');
             $update = $this->getAttributes();
-            if($collection->update(['_id' => $this->_id],$update)){
+
+            try {
+                $collection->update(['_id' => $this->_id],$update);
                 return true;
             }
+            catch(Exception $e){
+                return false;
+            }
+    
         }
         return false;
     }

@@ -32,7 +32,8 @@ class School extends ActiveRecord
             'managerName',
             'address', 
             'cep',
-            'city'
+            'city',
+            'administrative_dependence'
         ];
     }
 
@@ -46,7 +47,8 @@ class School extends ActiveRecord
                     'managerName',
                     'address', 
                     'cep',
-                    'city'
+                    'city',
+                    'administrative_dependence'
                 ],
                 'safe', 'on' => self::SCENARIO_MIGRATION
             ]

@@ -8,11 +8,11 @@ use Yii;
 
 class MigrationController extends BaseController
 {
-    public function actionImport()
+    public function actionImport($year="")
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $import = new Migration();
-        return $import->runImport();
+        return $import->runImport($year);
     }
 
     public function actionExport()

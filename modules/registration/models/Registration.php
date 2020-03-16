@@ -128,6 +128,11 @@ class Registration extends ActiveRecord
     public function formatData(){
         $data = $this->getAttributes();
         $data['_id'] = (string) $data['_id'];
+        
+        if(is_object($this->student['birthday'])){
+            $this->student['birthday'] = date('d/m/Y', (string)$this->student['birthday']);
+        }
+        
         $data['student'] = $this->student;
         $data['classroom'] = $this->classroom;
         $data['school'] = $this->classroom->school;
