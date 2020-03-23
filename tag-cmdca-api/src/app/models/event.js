@@ -11,7 +11,11 @@ const EventSchema = new mongoose.Schema({
         require: true,
     },
     date:{
-        type:Date,
+        type:String,
+        require:true,
+    },
+    hour:{
+        type:String,
         require:true,
     },
     createdBy:{

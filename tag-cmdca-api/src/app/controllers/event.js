@@ -47,9 +47,9 @@ router.get('/:eventId', async (req,res)=>{
 
 router.put('/:eventId', async (req,res)=>{
     try{
-        const {name, location, date} = req.body;
+        const {name, location, date, hour} = req.body;
         const event = await Event.findByIdAndUpdate(req.params.eventId,
-            {name, location, date},{new:true});
+            {name, location, date, hour},{new:true});
         return res.send({event});
     }catch{
         return res.status(400).send({error: 'Error updating event'});
