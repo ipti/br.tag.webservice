@@ -9,7 +9,7 @@ router.use(authMiddleware);
 router.get('/', async (req,res)=>{
     try{
         const {page}=req.query;
-        const advisors = await Advisor.paginate({}, {page:parseInt(page), limit: 12});
+        const advisors = await Advisor.paginate({}, {page:parseInt(page), limit: 6});
         return res.send(advisors);
     }catch{
         return res.status(400).send({error: 'Error loading advisors'});
@@ -35,9 +35,9 @@ router.post('/', AzureStorage.any() ,async (req,res)=>{
 router.get('/:advisorId', async (req,res)=>{
     try{
         const advisor = await Advisor.findById(req.params.advisorId);
-        if(!finance)
+        if(!advisor)
             return res.status(404).send({error: 'Advisor doc not found'});
-        return res.send({finance});
+        return res.send({advisor});
     }catch{
         return res.status(400).send({error: 'Error loading advisor'});
     }
@@ -45,9 +45,9 @@ router.get('/:advisorId', async (req,res)=>{
 
 router.put('/:advisorId', async (req,res)=>{
     try{
-        const {name, about, contact, action, image_url} = req.body;
+        const {name, about, contact, action} = req.body;
         const advisor = await Advisor.findByIdAndUpdate(req.params.advisorId,
-            {name, about, contact, action, image_url},{new:true});
+            {name, about, contact, action},{new:true});
         return res.send({advisor});
     }catch{
         return res.status(400).send({error: 'Error updating advisor'});
@@ -56,7 +56,7 @@ router.put('/:advisorId', async (req,res)=>{
 
 router.delete('/:advisorId', async (req,res)=>{
     try{
-        const advisor = await Finance.findById(req.params.advisorId);
+        const advisor = await Advisor.findById(req.params.advisorId);
         if(!advisor)
             return res.status(404).send({error: 'Advisor not found'});
         await Advisor.remove(advisor);
