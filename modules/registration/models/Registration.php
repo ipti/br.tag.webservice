@@ -107,8 +107,12 @@ class Registration extends ActiveRecord
             if($this->beforeSave($this)){
                 $collection = Yii::$app->mongodb->getCollection('registration');
                 $update = $this->getAttributes();
-                if($collection->update(['_id' => $this->_id],$update)){
+                try {
+                    $collection->update(['_id' => $this->_id],$update);
                     return true;
+                }
+                catch(Exception $e){
+                    return false;
                 }
             }
         }
@@ -130,7 +134,7 @@ class Registration extends ActiveRecord
         $data['_id'] = (string) $data['_id'];
         
         if(is_object($this->student['birthday'])){
-            $this->student['birthday'] = date('d/m/Y', (string)$this->student['birthday']);
+            $this->student['birthday'] = date('Y-m-d H:i:s', (string)$this->student['birthday']);
         }
         
         $data['student'] = $this->student;

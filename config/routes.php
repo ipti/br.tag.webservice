@@ -108,6 +108,7 @@ return [
     'POST,OPTIONS registration/login' => 'registration/user/login',
     
     'GET,HEAD,OPTIONS registration/school' => 'registration/school/index',
+    'GET,HEAD,OPTIONS registration/school/list' => 'registration/school/list',
     'GET,HEAD,OPTIONS registration/school/<id>' => 'registration/school/view',
 
     'POST  registration/schedule' => 'registration/schedule/create',

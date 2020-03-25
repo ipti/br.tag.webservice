@@ -85,6 +85,13 @@ class SchoolController extends BaseController
         ];
         
     }
+
+    public function actionList()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return School::find()->limit(5)->all();
+    }
 }
 
 

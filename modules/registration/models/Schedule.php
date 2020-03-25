@@ -131,19 +131,19 @@ class Schedule extends ActiveRecord
         $data['_id'] = (string) $data['_id'];
 
         if(is_object($data['internalTransferDateStart'])){
-            $data['internalTransferDateStart'] = date('d/m/Y', (string)$data['internalTransferDateStart']);
+            $data['internalTransferDateStart'] = date('Y-m-d', (string)$data['internalTransferDateStart']);
         }
 
         if(is_object($data['internalTransferDateEnd'])){
-            $data['internalTransferDateEnd'] = date('d/m/Y', (string) $data['internalTransferDateEnd']);
+            $data['internalTransferDateEnd'] = date('Y-m-d', (string) $data['internalTransferDateEnd']);
         }
         
         if(is_object($data['newStudentDateStart'])){
-            $data['newStudentDateStart'] = date('d/m/Y', (string) $data['newStudentDateStart']);
+            $data['newStudentDateStart'] = date('Y-m-d', (string) $data['newStudentDateStart']);
         }
 
         if(is_object($data['newStudentDateEnd'])){
-            $data['newStudentDateEnd'] = date('d/m/Y', (string) $data['newStudentDateEnd']);
+            $data['newStudentDateEnd'] = date('Y-m-d', (string) $data['newStudentDateEnd']);
         }
 
         return $data;

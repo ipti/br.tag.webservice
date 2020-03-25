@@ -87,8 +87,13 @@ class Classroom extends ActiveRecord
             $this->beforeSave($this);
             $collection = Yii::$app->mongodb->getCollection('classroom');
             $update = $this->getAttributes();
-            if($collection->update(['_id' => $this->_id],$update)){
+
+            try {
+                $collection->update(['_id' => $this->_id],$update);
                 return true;
+            }
+            catch(Exception $e){
+                return false;
             }
         }
         return false;

@@ -154,7 +154,7 @@ class Student extends ActiveRecord
         $data['_id'] = (string) $data['_id'];
         
         if(is_object($data['birthday'])){
-            $data['birthday'] = date('d/m/Y', (string)$data['birthday']);
+            $data['birthday'] = date('Y-m-d H:i:s', (string)$data['birthday']);
         }
 
         return $data;
