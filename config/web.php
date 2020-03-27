@@ -22,7 +22,7 @@ $config = [
         ],
         'mongodb' => [
             'class' => '\yii\mongodb\Connection',
-            'dsn' => 'mongodb://@mongodb-2207-0.cloudclusters.net:10005/council?authSource=admin',
+            'dsn' => 'mongodb://mongodb-qpnr5.mongodb-qpnr5.svc.cluster.local/council?authSource=council',
             'options' => [
                 "username" => "council",
                 "password" => "10*20$30"
