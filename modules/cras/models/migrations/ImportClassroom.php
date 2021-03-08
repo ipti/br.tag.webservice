@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\registration\models\migrations;
+namespace app\modules\cras\models\migrations;
 
 use yii\base\Model;
-use app\modules\registration\models\Classroom;
+use app\modules\cras\models\Classroom;
 
 class ImportClassroom extends Model{
 
-    use \app\modules\registration\traits\Migration;
+    use \app\modules\cras\traits\Migration;
     public $inepId;
     public $schoolInepId;
     public $name;
@@ -22,7 +22,6 @@ class ImportClassroom extends Model{
         $this->name         = $classroom->name;
         $this->year         = $classroom->year;
         $this->modality     = $classroom->modality;
-        $this->vacancies    = 50;
         $this->classroomId  = $classroom->classroomId;
     }
 

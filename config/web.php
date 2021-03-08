@@ -28,6 +28,13 @@ $config = [
                 "password" => "10*20$30"
             ]
         ],
+        'mysql' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=mysql;dbname=br.ong.tag.santaluzia3',
+            'username' => 'root',
+            'password' => '10*20$30',
+            'charset' => 'utf8',
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -72,6 +79,9 @@ $config = [
         ],
         'registration' => [
             'class' => 'app\modules\registration\Module'
+        ],
+        'cras' => [
+            'class' => 'app\modules\cras\Module'
         ],
     ],
     'params' => $params,

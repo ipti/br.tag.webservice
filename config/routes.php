@@ -99,14 +99,13 @@ return [
     'POST v1/attendance' => 'v1/attendance/create',
     'GET,HEAD v1/attendance' => 'v1/attendance/index',
     'GET,HEAD,OPTIONS v1/attendance/type' => 'v1/attendance/type',
-    
+
     // =========== Registration ============
     'GET,HEAD,OPTIONS registration/import/<year>' => 'registration/migration/import',
     'GET,HEAD,OPTIONS registration/import' => 'registration/migration/import',
     'GET,HEAD,OPTIONS registration/export' => 'registration/migration/export',
 
     'POST,OPTIONS registration/login' => 'registration/user/login',
-    
     'GET,HEAD,OPTIONS registration/school' => 'registration/school/index',
     'GET,HEAD,OPTIONS registration/school/list' => 'registration/school/list',
     'GET,HEAD,OPTIONS registration/school/<id>' => 'registration/school/view',
@@ -116,7 +115,6 @@ return [
     'GET,HEAD,OPTIONS registration/schedule' => 'registration/schedule/index',
     'GET,HEAD,OPTIONS registration/schedule/<id>' => 'registration/schedule/view',
     'DELETE,OPTIONS registration/schedule/<id>' => 'registration/schedule/delete',
-    
     'GET,HEAD,OPTIONS registration/classroom' => 'registration/classroom/index',
     'PUT,PATCH,OPTIONS registration/classroom/<id>' => 'registration/classroom/update',
     'GET,HEAD,OPTIONS registration/classroom/<id>' => 'registration/classroom/view',
@@ -125,7 +123,6 @@ return [
     'GET,HEAD,OPTIONS registration/student/<id>' => 'registration/student/view',
     'POST,OPTIONS registration/student' => 'registration/student/create',
     'PUT,PATCH,OPTIONS registration/student/<id>' => 'registration/student/update',
-    
     'GET,HEAD,OPTIONS registration' => 'registration/registration/index',
     'GET,HEAD,OPTIONS registration/<id>' => 'registration/registration/view',
     'PUT,PATCH,OPTIONS registration/<id>' => 'registration/registration/update',
@@ -136,4 +133,26 @@ return [
     'GET,HEAD,OPTIONS registration/external/searchschool/<search>' => 'registration/inscription/searchschool',
     'GET,HEAD,OPTIONS registration/external/school/<id>' => 'registration/inscription/school',
     'POST,OPTIONS registration/external' => 'registration/inscription/create',
+
+    // =========== CRAS ============
+    'GET,HEAD,OPTIONS cras/importstudent/<year>/<stage>/<type>' => 'cras/migration/importstudent',
+    'GET,HEAD,OPTIONS cras/import/<year>' => 'cras/migration/import',
+
+    'POST,OPTIONS cras/login' => 'cras/user/login',
+    'POST,OPTIONS cras/signup' => 'cras/user/signup',
+
+    'GET,HEAD,OPTIONS cras/school' => 'cras/school/index',
+    'GET,HEAD,OPTIONS cras/school/<id>/<year>/classrooms' => 'cras/classroom/index',
+
+    'GET,HEAD,OPTIONS cras/students' => 'cras/student/index',
+    'POST,OPTIONS cras/students/filter' => 'cras/student/search',
+
+    'GET,HEAD,OPTIONS cras/schedule' => 'cras/schedule/index',
+    'POST  cras/schedule' => 'cras/schedule/create',
+    'GET,HEAD,OPTIONS cras/schedule/<id>' => 'cras/schedule/view',
+    'POST  cras/schedule' => 'cras/schedule/create',
+    'PUT,PATCH,OPTIONS cras/schedule/<id>' => 'cras/schedule/update',
+    'GET,HEAD,OPTIONS cras/schedule/registred/year/<year>' => 'cras/schedule/years',
+
+
 ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\registration\models;
+namespace app\modules\cras\models;
 
 use yii\mongodb\ActiveRecord;
 use MongoDB\BSON\ObjectId;
@@ -33,7 +33,8 @@ class Classroom extends ActiveRecord
             'year',
             'vacancies',
             'modality',
-            'classroomId'
+            'classroomId',
+            'schoolYear'
         ];
     }
 
@@ -47,7 +48,8 @@ class Classroom extends ActiveRecord
                     'name',
                     'year',
                     'modality',
-                    'classroomId'
+                    'classroomId',
+                    'schoolYear'
                 ],
                 'safe', 'on' => self::SCENARIO_MIGRATION
             ],
@@ -104,43 +106,6 @@ class Classroom extends ActiveRecord
     public function formatData(){
         $data = $this->getAttributes();
         $data['_id'] = (string) $data['_id'];
-        $data['confirmed'] = $this->registrationConfirmed;
-        $data['requested'] = $this->registrationRequested;
-        $data['remaining'] = $this->registrationRemaining;
-        $data['registrations'] = $this->registrations;
         return $data;
     }
-
-    public function getSchool()
-    {
-        return $this->hasOne(School::className(), ['inepId' => 'schoolInepId']);
-    }
-
-    public function getRegistrationConfirmed(){
-        return Registration::find()->where(['confirmed' => true, 'classroomId' => (string) $this->_id])->count();
-    }
-
-    public function getRegistrationRequested(){
-        return Registration::find()->where(['classroomId' => (string) $this->_id])->count();
-    }
-
-    public function getRegistrationRemaining(){
-        return $this->vacancies - $this->registrationConfirmed;
-    }
-
-    public function getRegistrationRefusedCount()
-    {
-        return Registration::find()->where(['confirmed' => false, 'classroomId' => (string) $this->_id])->count();
-    }
-
-    public function getRegistrations(){
-        $registrations = Registration::find()->where(['classroomId' => (string) $this->_id])->all();
-        $data = [];
-        foreach ($registrations as $registration) {
-            $data[] = $registration->formatData();
-        }
-
-        return $data;
-    }
-
 }
