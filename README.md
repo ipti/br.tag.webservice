@@ -1,206 +1,42 @@
-# br.tag.api
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="120" alt="Nest Logo" /></a>
+</p>
 
-* **Login**
-  
-  Realiza o login (pai):
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  ```
-  @POST
-  ("username"), ("password")
-  /tag/parent/login
-  ```
-  
-  Realiza o login (outros usuários):
+## Description
 
-  ```
-  @POST
-  ("username"), ("password")
-  /tag/users/login
-  ```
+Aplicação simples de TODO list com users e controle de usuários para estudo do NestJs e sua implementação modular.
 
-* **Informação do usuário**
+## Installation
 
-  Retorna as informações do `username`:
+```bash
+$ npm install
+```
 
-  ```
-  @GET
-  /tag/user/info/{username}
-  ```
+## Running the app
 
-* **Estudante**
+```bash
+# development
+$ npm run start
 
-  Retorna os filhos do usuário logado (método para os pais dos alunos) com o `username`:
+# watch mode
+$ npm run start:dev
 
-  ```
-  @GET
-  /tag/children/parent/{username}
-  ```
+# production mode
+$ npm run start:prod
+```
 
-  Retorna os filhos do usuário logado (método para os pais dos alunos) com o `username` (APP):
+## Test
 
-  ```
-  @GET
-  /tag/student/parent/{username}
-  ```
-  
-  Retorna todos os estudantes:
+```bash
+# unit tests
+$ npm run test
 
-  ```
-  @GET
-  /tag/students
-  ```
+# e2e tests
+$ npm run test:e2e
 
-  Retorna o estudante com o `inep_id`:
-
-  ```
-  @GET
-  /tag/student/{inep_id}
-  ```
-  
-  Retorna todos os estudantes da turma com o `classroom_id`:
-
-  ```
-  @GET
-  /tag/student/classroom/{classroom_id}
-  ```
-  
-  Retorna o estudante com o `name`:
-
-  ```
-  @GET
-  /tag/student/name/{name}
-  ```
-  
-  Retorna o estudante com o `id` filtrando pela turma com o `classroom_id`:
-
-  ```
-  @GET
-  /tag/student/{classroom_id}/{id}
-  ```
-
-* **Professor**
-  
-  Retorna todos os professores:
-
-  ```
-  @GET
-  /tag/instructors
-  ```
-  
-  Retorna o professor com o `inep_id`:
-
-  ```
-  @GET
-  /tag/instructor/inep/{inep_id}
-  ```
-  
-  Retorna o professor com o `id`:
-
-  ```
-  @GET
-  /tag/instructor/{id}
-  ```
-
-* **Turmas**
-  
-  Retorna todas as turmas:
-
-  ```
-  @GET
-  /tag/classrooms
-  ```
-  
-  Retorna a turma com o `inep_id`:
-
-  ```
-  @GET
-  /tag/classroom/{inep_id}
-  ```
-  
-  Retorna as turmas do professor com o `instructor_fk` do `year` passado no parâmetro:
-
-  ```
-  @GET
-  /tag/classroom/instructor/{instructor_fk}/{year}
-  ```
-  
-  Retorna as turmas da escola com o `school_inep_fk`:
-
-  ```
-  @GET
-  /tag/classroom/school/{school_inep_fk}
-  ```
-
-* **Disciplinas**
-
-  Retorna todas as disciplinas da turma com o `id`:
-
-  ```
-  @GET
-  /tag/discipline/classroom/{id}
-  ```
-  
-  Retorna todas as disciplinas do professor com o `id`:
-
-  ```
-  @GET
-  /tag/discipline/instructor/{id}
-  ```
-
-* **Escola**
-
-  Retorna todas as escolas:
-
-  ```
-  @GET
-  /tag/schools
-  ```
-
-  Retorna a escola com o `inep_id`:
-
-  ```
-  @GET
-  /tag/school/{inep_id}
-  ```
-
-  Retorna todas as escolas do usuário logado (professor ou secretário) com `user_fk`:
-
-  ```
-  @GET
-  /tag/school/user/{user_fk}
-  ```
-
-* **Grade**
-
-  Retorna todas as grades:
-
-  ```
-  @GET
-  /tag/grades
-  ```
-
-  Retorna a grade do aluno com o `enrollment_fk`:
-
-  ```
-  @GET
-  /tag/grade/{enrollment_fk}
-  ```
-
-* **Frequência**
-  
-  Retorna a frequência do aluno com o `student_fk`, filtrando pela `classroom_fk` e `month`:
-
-  ```
-  @GET
-  /tag/frequency/{student_fk}/{classroom_fk}/{month}
-  ```
-  
-## Desenvolvido com
-
-* [Eclipse Neon](http://www.eclipse.org/neon/) - IDE para desenvolvimento
-* [Maven](https://maven.apache.org/) - Gerenciador de dependência
-* [Glassfish](https://glassfish.java.net/public/alldownloads.html) - Servidor de aplicação
-
-## License
-
-  Esse projeto está licenciado pela MIT License - veja em [LICENSE.md](LICENSE.md) para mais detalhes
+# test coverage
+$ npm run test:cov
+```
